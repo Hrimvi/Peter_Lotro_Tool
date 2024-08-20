@@ -115,7 +115,7 @@ namespace EssenceValueCalculator
         private Dictionary<StatEnum, float> mainStatCalc = new Dictionary<StatEnum, float>();
 
         public List<ComboBox> primaryBoxes = new List<ComboBox>();
-        public List<ComboBox> vitalBoxes = new List<ComboBox>()
+        public List<ComboBox> vitalBoxes = new List<ComboBox>();
 
 
 
