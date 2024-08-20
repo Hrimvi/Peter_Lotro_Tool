@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Peter Schütte\\source\\repos\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj": {}
+    "C:\\Users\\Peter Schütte\\Documents\\GitHub\\Peter_Lotro_Tool\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Peter Schütte\\source\\repos\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj": {
+    "C:\\Users\\Peter Schütte\\Documents\\GitHub\\Peter_Lotro_Tool\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Peter Schütte\\source\\repos\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj",
+        "projectUniqueName": "C:\\Users\\Peter Schütte\\Documents\\GitHub\\Peter_Lotro_Tool\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj",
         "projectName": "EssenceValueCalculator",
-        "projectPath": "C:\\Users\\Peter Schütte\\source\\repos\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj",
+        "projectPath": "C:\\Users\\Peter Schütte\\Documents\\GitHub\\Peter_Lotro_Tool\\EssenceValueCalculator\\EssenceValueCalculator\\EssenceValueCalculator.csproj",
         "packagesPath": "C:\\Users\\Peter Schütte\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Peter Schütte\\source\\repos\\EssenceValueCalculator\\EssenceValueCalculator\\obj\\",
+        "outputPath": "C:\\Users\\Peter Schütte\\Documents\\GitHub\\Peter_Lotro_Tool\\EssenceValueCalculator\\EssenceValueCalculator\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Peter Schütte\\AppData\\Roaming\\NuGet\\NuGet.Config",
