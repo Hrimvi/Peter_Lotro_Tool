@@ -1,7 +1,6 @@
 using System.IO;
 using System.Xml.Serialization;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 namespace EssenceValueCalculator
 {
     public enum EssenceItemLevel
@@ -236,53 +235,54 @@ namespace EssenceValueCalculator
         private float GetEssenceValue()
         {
             statCalc.Clear();
-
-
             essenceValue = 0;
-
             int essenceItemlevel = GetItemLevel();
-
 
             Enum.TryParse(classBox.SelectedItem.ToString().Replace(" ", "_"), out Classes classe);
 
-
             foreach (var kvp in dynamicControls)
             {
-                ComboBox statComboBox = kvp.Key;
-                TextBox valueBox = kvp.Value;
+                Enum.TryParse(kvp.Key.SelectedItem.ToString().Replace(" ", "_"), out StatEnum stat);
+                float.TryParse(kvp.Value.Text, out float statValues);
+                if (statCalc.ContainsKey(stat)) statCalc[stat] += statValues;
+                else statCalc.Add(stat, statValues);
+            }
 
-                Enum.TryParse(statComboBox.SelectedItem.ToString().Replace(" ", "_"), out StatEnum stat1);
+            return ReturnEssenceValueFromDictionary(statCalc, essenceItemlevel, classe);
+        }
+        public float ReturnEssenceValueFromDictionary(Dictionary<StatEnum, float> stats, int essenceItemlevel, Classes playerClass)
+        {
+            foreach (var kvp in stats)
+            {
 
-                int.TryParse(valueBox.Text, out int stats1);
-
-                if (stat1 == StatEnum.Max_Morale || stat1 == StatEnum.Max_Power)
+                if (kvp.Key == StatEnum.Max_Morale || kvp.Key == StatEnum.Max_Power)
                 {
-                    if (stat1 == StatEnum.Max_Power)
+                    if (kvp.Key == StatEnum.Max_Power)
                     {
-                        if (classe == Classes.Beorning) essenceValue += 0;
-                        else essenceValue += stats1 / GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath);
+                        if (playerClass == Classes.Beorning) essenceValue += 0;
+                        else essenceValue += kvp.Value / GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath);
                     }
-                    if (stat1 == StatEnum.Max_Morale)
+                    if (kvp.Key == StatEnum.Max_Morale)
                     {
-                        essenceValue += (stats1 / 4.5f) / GetEssenceStatValue(StatEnum.Vitality, essenceItemlevel, essenceFilePath);
+                        essenceValue += (kvp.Value / 4.5f) / GetEssenceStatValue(StatEnum.Vitality, essenceItemlevel, essenceFilePath);
                     }
                 }
 
-                if (stat1 == StatEnum.Armour)
+                if (kvp.Key == StatEnum.Armour)
                 {
-                    essenceValue += stats1 / GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath);
-                    essenceValue += stats1 / GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath);
+                    essenceValue += kvp.Value / GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath);
+                    essenceValue += kvp.Value / GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath);
                 }
-                else if (stat1 != StatEnum.Basic_EssenceSlot && stat1 != StatEnum.Armour)
+                else if (kvp.Key != StatEnum.Basic_EssenceSlot && kvp.Key != StatEnum.Armour)
                 {
-                    if (!Utility.isMainStat(stat1)) essenceValue += stats1 / GetEssenceStatValue(stat1, essenceItemlevel, essenceFilePath);
-                    else essenceValue += CalculateMainstat(stat1, essenceItemlevel, stats1);
+                    if (!Utility.isMainStat(kvp.Key)) essenceValue += kvp.Value / GetEssenceStatValue(kvp.Key, essenceItemlevel, essenceFilePath);
+                    else essenceValue += CalculateMainstat(kvp.Key, essenceItemlevel, kvp.Value);
                 }
                 else
                 {
-                    if (stat1 == StatEnum.Basic_EssenceSlot)
+                    if (kvp.Key == StatEnum.Basic_EssenceSlot)
                     {
-                        essenceValue += stats1;
+                        essenceValue += kvp.Value;
                     }
                 }
             }
