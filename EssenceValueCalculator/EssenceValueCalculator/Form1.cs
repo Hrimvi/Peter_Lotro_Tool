@@ -110,7 +110,7 @@ namespace EssenceValueCalculator
 
 
 
-        private Dictionary<StatEnum, float> statCalc;
+        private Dictionary<StatEnum, float> statCalc = new Dictionary<StatEnum, float>();
 
         private Dictionary<StatEnum, float> mainStatCalc = new Dictionary<StatEnum, float>();
 
@@ -125,8 +125,14 @@ namespace EssenceValueCalculator
             settings = Utility.LoadSettings(settingsFilePath);
             Utility.PopulateStats(comboBoxStats);
             Utility.PopulateClasses(classBox);
+
+            dynamicControls.Add(comboBoxStats, inputField);
+
             comboBoxStats.DropDownStyle = ComboBoxStyle.DropDownList;
             classBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+
+
             updateTimer = new System.Windows.Forms.Timer();
             updateTimer.Interval = 50; // Intervall auf 1 Sekunde setzen
             updateTimer.Tick += UpdateTimer_Tick;
@@ -162,13 +168,33 @@ namespace EssenceValueCalculator
         }
         public float GetEssenceSocketValues()
         {
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             float essenceValue = 0;
             foreach (ComboBox comboBox in primaryBoxes)
             {
-                if (!Enum.TryParse(comboBox.SelectedItem.ToString().Replace(" ", "_"), out PrimaryEssenceSlot stat))
-                {
-                    // Handle error
-                }
+                Enum.TryParse(comboBox.SelectedItem.ToString().Replace(" ", "_"), out PrimaryEssenceSlot stat);
 
                 if (stat != PrimaryEssenceSlot.None)
                 {
@@ -189,11 +215,7 @@ namespace EssenceValueCalculator
             }
             foreach (ComboBox comboBox in vitalBoxes)
             {
-                if (!Enum.TryParse(comboBox.SelectedItem.ToString().Replace(" ", "_"), out VitalEssenceSlot stat))
-                {
-                    // Handle error
-                }
-
+                Enum.TryParse(comboBox.SelectedItem.ToString().Replace(" ", "_"), out VitalEssenceSlot stat);
                 if (stat != VitalEssenceSlot.None)
                 {
                     switch (stat)
@@ -213,73 +235,29 @@ namespace EssenceValueCalculator
         }
         private float GetEssenceValue()
         {
-            essenceValue = 0;
-            ComboBox statComboBox1 = comboBoxStats;
-            TextBox valueBox1 = inputField;
+            statCalc.Clear();
 
-            if (!Enum.TryParse(statComboBox1.SelectedItem.ToString().Replace(" ", "_"), out StatEnum stat))
-            {
-                // Handle error
-            }
-            if (!int.TryParse(valueBox1.Text, out int stats))
-            {
-                // Handle error
-            }
+
+            essenceValue = 0;
 
             int essenceItemlevel = GetItemLevel();
-            if (!Enum.TryParse(classBox.SelectedItem.ToString().Replace(" ", "_"), out Classes classe))
-            {
-                // Handle error
-            }
 
-            if (stat == StatEnum.Max_Morale || stat == StatEnum.Max_Power)
-            {
-                if (stat == StatEnum.Max_Power)
-                {
-                    if (classe == Classes.Beorning) essenceValue += 0;
-                    else essenceValue += stats / GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath);
-                }
-                if (stat == StatEnum.Max_Morale)
-                {
-                    essenceValue += (stats / 4.5f) / GetEssenceStatValue(StatEnum.Vitality, essenceItemlevel, essenceFilePath);
-                }
-            }
 
-            if (stat == StatEnum.Armour)
-            {
-                essenceValue += stats / GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath);
-                essenceValue += stats / GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath);
-            }
-            else if (stat != StatEnum.Basic_EssenceSlot && stat != StatEnum.Armour)
-            {
-                if (!Utility.isMainStat(stat)) essenceValue += stats / GetEssenceStatValue(stat, essenceItemlevel, essenceFilePath);
-                else essenceValue += CalculateMainstat(stat, essenceItemlevel, stats);
-            }
-            else
-            {
-                if (stat == StatEnum.Basic_EssenceSlot)
-                {
-                    essenceValue += stats;
-                }
-            }
+            Enum.TryParse(classBox.SelectedItem.ToString().Replace(" ", "_"), out Classes classe);
+
 
             foreach (var kvp in dynamicControls)
             {
                 ComboBox statComboBox = kvp.Key;
                 TextBox valueBox = kvp.Value;
 
-                if (!Enum.TryParse(statComboBox.SelectedItem.ToString().Replace(" ", "_"), out StatEnum stat1))
-                {
-                    // Handle error
-                }
-                if (!int.TryParse(valueBox.Text, out int stats1))
-                {
-                    // Handle error
-                }
+                Enum.TryParse(statComboBox.SelectedItem.ToString().Replace(" ", "_"), out StatEnum stat1);
+
+                int.TryParse(valueBox.Text, out int stats1);
 
                 if (stat1 == StatEnum.Max_Morale || stat1 == StatEnum.Max_Power)
                 {
-                    if (stat == StatEnum.Max_Power)
+                    if (stat1 == StatEnum.Max_Power)
                     {
                         if (classe == Classes.Beorning) essenceValue += 0;
                         else essenceValue += stats1 / GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath);
@@ -295,7 +273,7 @@ namespace EssenceValueCalculator
                     essenceValue += stats1 / GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath);
                     essenceValue += stats1 / GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath);
                 }
-                else if (stat1 != StatEnum.Basic_EssenceSlot && stat != StatEnum.Armour)
+                else if (stat1 != StatEnum.Basic_EssenceSlot && stat1 != StatEnum.Armour)
                 {
                     if (!Utility.isMainStat(stat1)) essenceValue += stats1 / GetEssenceStatValue(stat1, essenceItemlevel, essenceFilePath);
                     else essenceValue += CalculateMainstat(stat1, essenceItemlevel, stats1);
@@ -313,10 +291,7 @@ namespace EssenceValueCalculator
         }
         public int GetItemLevel()
         {
-            if (!Enum.TryParse(settings.setting.essenceItemLevel.Replace(" ", "_"), out EssenceItemLevel itemLevel))
-            {
-                // Handle error
-            }
+            Enum.TryParse(settings.setting.essenceItemLevel.Replace(" ", "_"), out EssenceItemLevel itemLevel);
             switch (itemLevel)
             {
                 case EssenceItemLevel.Level_508:
@@ -359,9 +334,7 @@ namespace EssenceValueCalculator
             };
 
             string mainStat = statEnum.ToString().Replace("_", " ");
-#pragma warning disable CS8602 // Dereferenzierung eines möglichen Nullverweises.
             string playerClass = classBox.SelectedItem.ToString().Replace("_", " ");
-#pragma warning restore CS8602 // Dereferenzierung eines möglichen Nullverweises.
 
             var classData = playerStatsPerClass.Classes
                 .FirstOrDefault(c => c.Name.Equals(playerClass, StringComparison.OrdinalIgnoreCase));
@@ -423,6 +396,10 @@ namespace EssenceValueCalculator
         {
             foreach (var kvp in dynamicControls)
             {
+                if (kvp.Key == comboBoxStats) continue; 
+                
+                dynamicControls.Remove(kvp.Key);
+
                 Controls.Remove(kvp.Key);
                 Controls.Remove(kvp.Value);
 
@@ -439,7 +416,6 @@ namespace EssenceValueCalculator
             {
                 comboBox.SelectedIndex = 0;
             }
-            dynamicControls.Clear();
 
             currentYOffset = 0;
 
@@ -450,7 +426,7 @@ namespace EssenceValueCalculator
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            if (dynamicControls.Keys.Count <= 0) return;
+            if (dynamicControls.Keys.Count <= 1) return;
             var lastPair = dynamicControls.Last();
             Controls.Remove(lastPair.Key);
             Controls.Remove(lastPair.Value);
@@ -472,29 +448,6 @@ namespace EssenceValueCalculator
             form2.ShowDialog();
         }
 
-        private void comboBoxStats_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void inputField_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void primaryBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
         public float GetEssenceStatValue(StatEnum stat, int itemlevel, string essenceFilePath)
         {
             if (settings.setting.supValuesUsed == true && (stat == StatEnum.Vitality || stat == StatEnum.Fate))
@@ -513,8 +466,7 @@ namespace EssenceValueCalculator
             else
             {
                 EssenceValues essenceValues = Utility.LoadEssenceValues(essenceFilePath);
-                Essence essence = essenceValues.Essences
-                    .Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
+                Essence essence = essenceValues.Essences.Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
 
                 if (essence != null)
                 {
@@ -538,96 +490,6 @@ namespace EssenceValueCalculator
         }
     }
    
-
-    public static class Utility
-    {
-        public static EssenceValues LoadEssenceValues(string filePath)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(EssenceValues));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                return (EssenceValues)serializer.Deserialize(fs);
-            }
-        }
-
-        public static Settings LoadSettings(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                return new Settings();
-            }
-
-            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                return (Settings)serializer.Deserialize(fs);
-            }
-        }
-        public static Stats LoadClass(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                return new Stats();
-            }
-
-            XmlSerializer serializer = new XmlSerializer(typeof(Stats));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                return (Stats)serializer.Deserialize(fs);
-            }
-        }
-
-        public static bool isMainStat(StatEnum stat)
-        {
-            if (stat == StatEnum.Might || stat == StatEnum.Agility || stat == StatEnum.Will || stat == StatEnum.Max_Power || stat == StatEnum.Max_Morale) return true;
-            else return false;
-        }
-
-        public static void PopulateClasses(ComboBox comboBox)
-        {
-            foreach (Classes classes in Enum.GetValues(typeof(Classes)))
-            {
-                comboBox.Items.Add(classes.ToString().Replace("_", " "));
-            }
-            comboBox.SelectedIndex = 0;
-        }
-        public static void PopulatePrimaryEssences(List<ComboBox> comboBox)
-        {
-            foreach (ComboBox combo in comboBox)
-            {
-                foreach (PrimaryEssenceSlot classes in Enum.GetValues(typeof(PrimaryEssenceSlot)))
-                {
-                    combo.Items.Add(classes.ToString().Replace("_", " "));
-                }
-                combo.SelectedIndex = 0;
-            }
-        }
-        public static void PopulateVitalEssences(List<ComboBox> comboBox)
-        {
-            foreach (ComboBox combo in comboBox)
-            {
-                foreach (VitalEssenceSlot classes in Enum.GetValues(typeof(VitalEssenceSlot)))
-                {
-                    combo.Items.Add(classes.ToString().Replace("_", " "));
-                }
-                combo.SelectedIndex = 0;
-            }
-           
-        }
-        public static void PopulateStats(ComboBox comboBox)
-        {
-            foreach (StatEnum stat in Enum.GetValues(typeof(StatEnum)))
-            {
-                comboBox.Items.Add(stat.ToString().Replace("_", " "));
-            }
-            comboBox.SelectedIndex = 0;
-        }
-
-       
-    }
-
-
-
     [XmlRoot("EssenceValues")]
     public class EssenceValues
     {
@@ -658,43 +520,30 @@ namespace EssenceValueCalculator
     public class Stats
     {
         [XmlElement("Class")]
-#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         public List<Class> Classes { get; set; }
-#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
     }
 
     public class Class
     {
         [XmlAttribute("name")]
-#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         public string Name { get; set; }
-#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
 
         [XmlElement("Mainstat")]
-#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         public List<Mainstat> Mainstats { get; set; }
-#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
     }
 
     public class Mainstat
     {
         [XmlAttribute("name")]
-#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         public string Name { get; set; }
-#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
-
         [XmlElement("Stat")]
-#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         public List<Stat> Stats { get; set; }
-#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
     }
 
     public class Stat
     {
         [XmlAttribute("name")]
-#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         public string Name { get; set; }
-#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
 
         [XmlAttribute("value")]
         public float Value { get; set; }

@@ -53,7 +53,6 @@
             comboBoxStats.Name = "comboBoxStats";
             comboBoxStats.Size = new Size(121, 23);
             comboBoxStats.TabIndex = 0;
-            comboBoxStats.SelectedIndexChanged += comboBoxStats_SelectedIndexChanged;
             // 
             // inputField
             // 
@@ -61,7 +60,6 @@
             inputField.Name = "inputField";
             inputField.Size = new Size(100, 23);
             inputField.TabIndex = 1;
-            inputField.TextChanged += inputField_TextChanged;
             // 
             // addButton
             // 
@@ -127,7 +125,6 @@
             primaryBox1.Name = "primaryBox1";
             primaryBox1.Size = new Size(121, 23);
             primaryBox1.TabIndex = 8;
-            primaryBox1.SelectedIndexChanged += primaryBox1_SelectedIndexChanged;
             // 
             // primaryBox2
             // 
@@ -178,7 +175,6 @@
             primaryEssenceLabel.TabIndex = 14;
             primaryEssenceLabel.Text = "Primary Essences";
             primaryEssenceLabel.TextAlign = ContentAlignment.MiddleCenter;
-            primaryEssenceLabel.Click += label1_Click;
             // 
             // vitalEssenceLabel
             // 
@@ -213,7 +209,6 @@
             Controls.Add(comboBoxStats);
             Name = "Form1";
             Text = "Form1";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
