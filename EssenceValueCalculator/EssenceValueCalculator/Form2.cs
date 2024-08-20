@@ -181,19 +181,55 @@ namespace EssenceValueCalculator
         }
         public static string ShowInputDialog(string prompt)
         {
-            Form inputBox = new Form();
-            Label lblPrompt = new Label() { Left = 20, Top = 20, Text = prompt };
-            TextBox txtInput = new TextBox() { Left = 20, Top = 50, Width = 200 };
-            Button btnOk = new Button() { Text = "OK", Left = 150, Width = 70, Top = 80, DialogResult = DialogResult.OK };
-            Button btnCancel = new Button() { Text = "Cancel", Left = 230, Width = 70, Top = 80, DialogResult = DialogResult.Cancel };
+            Form inputBox = new Form
+            {
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                ClientSize = new Size(300, 150),
+                Text = "Input"
+            };
 
-            btnOk.Click += (sender, e) => { inputBox.Close(); };
-            btnCancel.Click += (sender, e) => { inputBox.DialogResult = DialogResult.Cancel; inputBox.Close(); };
+            Label lblPrompt = new Label
+            {
+                Left = 20,
+                Top = 20,
+                AutoSize = true,
+                Text = prompt
+            };
+
+            TextBox txtInput = new TextBox
+            {
+                Left = 20,
+                Top = lblPrompt.Bottom + 10,
+                Width = 240,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right
+            };
+
+            Button btnOk = new Button
+            {
+                Text = "OK",
+                DialogResult = DialogResult.OK,
+                Left = 130,
+                Width = 70,
+                Top = txtInput.Bottom + 10,
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+            };
+
+            Button btnCancel = new Button
+            {
+                Text = "Cancel",
+                DialogResult = DialogResult.Cancel,
+                Left = 210,
+                Width = 70,
+                Top = txtInput.Bottom + 10,
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+            };
 
             inputBox.Controls.Add(lblPrompt);
             inputBox.Controls.Add(txtInput);
             inputBox.Controls.Add(btnOk);
             inputBox.Controls.Add(btnCancel);
+
             inputBox.AcceptButton = btnOk;
             inputBox.CancelButton = btnCancel;
 

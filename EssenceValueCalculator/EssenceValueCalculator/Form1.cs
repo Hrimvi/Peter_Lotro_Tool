@@ -193,6 +193,8 @@ namespace EssenceValueCalculator
                 StatEnum.Outgoing_Healing,
                 StatEnum.Incoming_Healing,
                 StatEnum.Resistance,
+                StatEnum.Max_Morale,
+                StatEnum.Max_Power
             };
 
             string mainStat = statEnum.ToString().Replace("_", " ");

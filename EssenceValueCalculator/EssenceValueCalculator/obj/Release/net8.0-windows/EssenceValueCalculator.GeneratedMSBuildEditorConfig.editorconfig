@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = EssenceValueCalculator
-build_property.ProjectDir = C:\Users\Peter Schütte\source\repos\EssenceValueCalculator\EssenceValueCalculator\
+build_property.ProjectDir = C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

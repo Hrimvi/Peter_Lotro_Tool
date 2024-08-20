@@ -96,7 +96,7 @@ namespace EssenceValueCalculator
         }
         public static bool isMainStat(StatEnum stat)
         {
-            if (stat == StatEnum.Might || stat == StatEnum.Agility || stat == StatEnum.Will) return true;
+            if (stat == StatEnum.Might || stat == StatEnum.Agility || stat == StatEnum.Will || stat == StatEnum.Vitality || stat == StatEnum.Fate) return true;
             else return false;
         }
 

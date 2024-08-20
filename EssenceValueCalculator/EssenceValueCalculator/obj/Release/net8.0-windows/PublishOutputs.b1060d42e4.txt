@@ -1,0 +1,5 @@
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Release\net8.0-windows\publish\EssenceValueCalculator.exe
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Release\net8.0-windows\publish\EssenceValueCalculator.dll
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Release\net8.0-windows\publish\EssenceValueCalculator.deps.json
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Release\net8.0-windows\publish\EssenceValueCalculator.runtimeconfig.json
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Release\net8.0-windows\publish\EssenceValueCalculator.pdb
