@@ -130,14 +130,30 @@ namespace EssenceValueCalculator
 
                 statConfig?.Configs.Add(newConfig);
                 Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
+
+                var selectedIndex = configEditorSelection.Items.IndexOf(newName);
+                if (selectedIndex != -1)
+                {
+                    configEditorSelection.SelectedIndex = selectedIndex;
+                }
+                if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
+                {
+                    var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
+                    if (selectedConfigIndex != -1)
+                    {
+                        activeStatConfigSelection.SelectedIndex = selectedConfigIndex;
+                    }
+                }
             }
         }
         private void UpdateConfigComboBox(ComboBox comboBox)
         {
             comboBox.Items.Clear();
             comboBox.Items.AddRange(statConfig?.Configs?.Select(c => c.Name).ToArray());
+
         }
         private List<StatElement> GetDefaultStats()
         {
@@ -186,7 +202,7 @@ namespace EssenceValueCalculator
 
         private void deleteConfig_Click(object sender, EventArgs e)
         {
-            var selectedConfigName = activeStatConfigSelection.SelectedItem as string;
+            var selectedConfigName = configEditorSelection.SelectedItem as string;
 
             if (string.IsNullOrEmpty(selectedConfigName))
             {
@@ -211,12 +227,48 @@ namespace EssenceValueCalculator
             if (result == DialogResult.Yes)
             {
                 statConfig?.Configs.Remove(selectedConfig);
-
                 Utility.SaveStatConfigs(statConfigFilePath, statConfig);
 
+                // Aktualisieren der ComboBoxen
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
 
+                // Wenn die gelöschte Konfiguration ausgewählt war, setze die Auswahl auf das erste Element
+                if (configEditorSelection.Items.Count > 0)
+                {
+                    if (configEditorSelection.Items.Contains(selectedConfigName))
+                    {
+                        // Die Konfiguration, die gerade gelöscht wurde, ist immer noch in der ComboBox
+                        // Das bedeutet, dass sie nur aus der Konfigurationliste entfernt wurde,
+                        // nicht aus der ComboBox
+                        configEditorSelection.SelectedIndex = 0; // Setzt die Auswahl auf das erste Element
+                    }
+                    else
+                    {
+                        // Falls die gelöschte Konfiguration nicht mehr in der ComboBox ist
+                        // Setze die Auswahl auf das erste verfügbare Element
+                        configEditorSelection.SelectedIndex = 0;
+                    }
+                }
+
+                // Leeren des Konfigurations-Editors
+                configPanel.Controls.Clear();
+
+                // Wiederherstellen der Auswahl in der aktiven Konfigurations-ComboBox
+                if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
+                {
+                    var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
+                    if (selectedConfigIndex != -1)
+                    {
+                        activeStatConfigSelection.SelectedIndex = selectedConfigIndex;
+                    }
+                }
+                var newSelectedConfig = statConfig?.Configs.FirstOrDefault(c => c.Name.Equals(settings?.setting.usedConfigName, StringComparison.OrdinalIgnoreCase));
+
+                if (newSelectedConfig != null)
+                {
+                    CreateConfigEditorControls(newSelectedConfig.Stats);
+                }
             }
         }
         private void StatValueCheckbox_CheckedChanged(object sender, EventArgs e)

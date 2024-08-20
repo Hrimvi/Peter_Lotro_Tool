@@ -11,7 +11,7 @@ namespace EssenceValueCalculator
         private const string essenceFilePath = "essence_values.xml";
         private const string characterStatDerivationFilePath = "classStatDerivations.xml";
         private const string settingsFilePath = "settings.xml";
-        
+        private const string statConfigFilePath = "statConfigs.xml";
 
         private int currentYOffset = 0;
 
@@ -20,7 +20,7 @@ namespace EssenceValueCalculator
 
         private Settings settings;
         private Stats playerStatsPerClass;
-        
+        private StatConfigs? statConfig;
 
 
 
@@ -82,6 +82,7 @@ namespace EssenceValueCalculator
         private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
             settings = Utility.LoadSettings(settingsFilePath);
+            statConfig = Utility.LoadStatConfigs(statConfigFilePath);
             playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
             float essenceValue = GetEssenceValue();
             essenceValueText.Text = $"Essence-Value: {essenceValue:F2}";
@@ -117,28 +118,44 @@ namespace EssenceValueCalculator
 
             return ReturnEssenceValueFromDictionary(statCalc, essenceItemlevel, classe);
         }
-        public float ReturnEssenceValueFromDictionary(Dictionary<StatEnum, float> stats, int essenceItemlevel, Classes playerClass)
+        public float ReturnEssenceValueFromDictionary(Dictionary<StatEnum, float> stats, int essenceItemLevel, Classes playerClass)
         {
+            float essenceValue = 0; // Stellen Sie sicher, dass `essenceValue` initialisiert wird.
+            string usedConfigName = settings?.setting?.usedConfigName;
+
+            // Finden Sie die aktuelle Konfiguration basierend auf dem Namen
+            var selectedConfig = statConfig?.Configs
+                .FirstOrDefault(c => c.Name.Equals(usedConfigName, StringComparison.OrdinalIgnoreCase));
+
             foreach (var kvp in stats)
             {
-
-
+                // Überprüfen, ob die Stat-Elemente aktiv sind
+                var statElement = selectedConfig?.Stats.FirstOrDefault(s => s.Name.Equals(kvp.Key.ToString().Replace("_", " "), StringComparison.OrdinalIgnoreCase));
+                bool isActive = statElement?.Active ?? false;
+                float valueMultiplier = isActive ? statElement.Value : 1.0f;
+                if (isActive == false) continue;
                 if (kvp.Key == StatEnum.Max_Morale || kvp.Key == StatEnum.Max_Power)
                 {
                     if (kvp.Key == StatEnum.Max_Power)
                     {
-                        if (playerClass == Classes.Beorning) essenceValue += 0;
-                        else essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath, settings);
+                        if (playerClass == Classes.Beorning)
+                        {
+                            essenceValue += 0;
+                        }
+                        else
+                        {
+                            essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                        }
                     }
-                    if (kvp.Key == StatEnum.Max_Morale)
+                    else if (kvp.Key == StatEnum.Max_Morale)
                     {
-                        essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemlevel, essenceFilePath, settings);
+                        essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
                     }
                 }
                 else if (kvp.Key == StatEnum.Armour)
                 {
-                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath, settings);
-                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath, settings);
+                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
                 }
                 else if (kvp.Key == StatEnum.Basic_EssenceSlot)
                 {
@@ -146,12 +163,16 @@ namespace EssenceValueCalculator
                 }
                 else
                 {
-                    if (!Utility.isMainStat(kvp.Key)) essenceValue += kvp.Value / Utility.GetEssenceStatValue(kvp.Key, essenceItemlevel, essenceFilePath, settings);
+                    if (!Utility.isMainStat(kvp.Key))
+                    {
+                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(kvp.Key, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                    }
                 }
             }
+
             return essenceValue;
         }
-       
+
         public Dictionary<StatEnum, float>? CalculateMainstat(StatEnum statEnum, float statValue)
         {
             if (statEnum == StatEnum.Max_Power || statEnum == StatEnum.Max_Morale) return null;
