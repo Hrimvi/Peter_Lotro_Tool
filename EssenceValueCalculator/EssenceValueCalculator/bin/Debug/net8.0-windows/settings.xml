@@ -2,6 +2,6 @@
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Setting>
     <essenceItemLevel>Level_508</essenceItemLevel>
-    <supValuesUsed>false</supValuesUsed>
+    <supValuesUsed>true</supValuesUsed>
   </Setting>
 </Settings>

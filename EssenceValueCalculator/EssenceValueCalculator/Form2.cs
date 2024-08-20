@@ -18,11 +18,11 @@ namespace EssenceValueCalculator
     public partial class Form2 : Form
     {
         private const string settingsFilePath = "settings.xml";
-        private Settings settings;
+        private Settings? settings;
         public Form2()
         {
             InitializeComponent();
-            settings = LoadSettings(settingsFilePath);
+            settings = Utility.LoadSettings(settingsFilePath);
             itemLevelDropBox.DropDownStyle = ComboBoxStyle.DropDownList;
             // Setze den Status der Checkbox
             if (settings != null && settings.setting != null)
@@ -78,35 +78,14 @@ namespace EssenceValueCalculator
 
             settings.setting.supValuesUsed = subEssencesCheckbox.Checked;
 
-            if (Enum.TryParse(itemLevelDropBox.SelectedItem.ToString().Replace(" ", "_"), out EssenceItemLevel level))
+            if (Enum.TryParse(itemLevelDropBox.SelectedItem?.ToString()?.Replace(" ", "_"), out EssenceItemLevel level))
             {
                 settings.setting.SetEssenceItemLevel(level);
             }
 
-            SaveSettings(settings, settingsFilePath);
+            Utility.SaveSettings(settings, settingsFilePath);
         }
-        public void SaveSettings(Settings settings, string filePath)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
-            {
-                serializer.Serialize(fs, settings);
-            }
-        }
-
-        public Settings LoadSettings(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                return new Settings();
-            }
-
-            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                return (Settings)serializer.Deserialize(fs);
-            }
-        }
+       
     }
 
     [XmlRoot("Settings")]
@@ -123,7 +102,7 @@ namespace EssenceValueCalculator
     public class Setting
     {
         [XmlElement("essenceItemLevel")]
-        public string essenceItemLevel { get; set; }
+        public string? essenceItemLevel { get; set; }
 
         [XmlElement("supValuesUsed")]
         public bool supValuesUsed { get; set; }

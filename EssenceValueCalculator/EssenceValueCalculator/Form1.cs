@@ -3,93 +3,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 namespace EssenceValueCalculator
 {
-    public enum EssenceItemLevel
-    {
-        Level_508,
-        Level_514,
-        Level_520,
-        Level_526,
-        Level_532,
-        Level_538
-    }
-    public enum StatEnum
-    {
-
-        Might,
-        Agility,
-        Vitality,
-        Will,
-        Fate,
-        Critical_Rating,
-        Physical_Mastery,
-        Tactical_Mastery,
-        Physical_Mitigation,
-        Tactical_Mitigation,
-        Critical_Defense,
-        Finesse,
-        Block,
-        Parry,
-        Evade,
-        Outgoing_Healing,
-        Incoming_Healing,
-        Resistance,
-        Max_Morale,
-        Max_Power,
-        Armour,
-        Basic_EssenceSlot
-    }
-    public enum Essences
-    {
-        Might,
-        Agility,
-        Vitality,
-        Will,
-        Fate,
-        Critical_Rating,
-        Physical_Mastery,
-        Tactical_Mastery,
-        Physical_Mitigation,
-        Tactical_Mitigation,
-        Critical_Defense,
-        Finesse,
-        Block,
-        Parry,
-        Evade,
-        Outgoing_Healing,
-        Incoming_Healing,
-        Resistance,
-        Sub_Vit,
-        Sub_Fate
-    }
-    public enum PrimaryEssenceSlot
-    {
-        None,
-        Might,
-        Agility,
-        Will
-    }
-
-    public enum VitalEssenceSlot
-    {
-        None,
-        Fate,
-        Vitality
-    }
-    public enum Classes
-    {
-        Beorning,
-        Brawler,
-        Burglar,
-        Captain,
-        Champion,
-        Guardian,
-        Hunter,
-        Lore_Master,
-        Mariner,
-        Minstrel,
-        Rune_Keeper,
-        Warden
-    }
+   
     public partial class Peter_Tool : Form
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
@@ -97,17 +11,20 @@ namespace EssenceValueCalculator
         private const string essenceFilePath = "essence_values.xml";
         private const string characterStatDerivationFilePath = "classStatDerivations.xml";
         private const string settingsFilePath = "settings.xml";
+        private const string statConfigFilePath = "statConfigs.xml";
 
         private int currentYOffset = 0;
 
         private System.Windows.Forms.Timer updateTimer;
-        private Form2 form2;
+        private Form2? form2;
 
         private Settings settings;
         private Stats playerStatsPerClass;
+        private StatConfigs? statConfig;
+
+
+
         private float essenceValue;
-
-
 
         private Dictionary<StatEnum, float> statCalc = new Dictionary<StatEnum, float>();
 
@@ -121,7 +38,11 @@ namespace EssenceValueCalculator
         public Peter_Tool()
         {
             InitializeComponent();
+
             settings = Utility.LoadSettings(settingsFilePath);
+            playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
+            statConfig = Utility.LoadStatConfigs(statConfigFilePath);
+
             Utility.PopulateStats(comboBoxStats);
             Utility.PopulateClasses(classBox);
 
@@ -158,95 +79,41 @@ namespace EssenceValueCalculator
             Utility.PopulateVitalEssences(vitalBoxes);
         }
 
-        private void UpdateTimer_Tick(object sender, EventArgs e)
+        private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
             settings = Utility.LoadSettings(settingsFilePath);
             playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
             float essenceValue = GetEssenceValue();
             essenceValueText.Text = $"Essence-Value: {essenceValue:F2}";
         }
-        public float GetEssenceSocketValues()
-        {
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            float essenceValue = 0;
-            foreach (ComboBox comboBox in primaryBoxes)
-            {
-                Enum.TryParse(comboBox.SelectedItem.ToString().Replace(" ", "_"), out PrimaryEssenceSlot stat);
-
-                if (stat != PrimaryEssenceSlot.None)
-                {
-                    switch (stat)
-                    {
-                        case PrimaryEssenceSlot.Might:
-                            essenceValue += CalculateMainstat(StatEnum.Might, GetItemLevel(), GetEssenceStatValue(StatEnum.Might, GetItemLevel(), essenceFilePath));
-                            break;
-                        case PrimaryEssenceSlot.Agility:
-                            essenceValue += CalculateMainstat(StatEnum.Agility, GetItemLevel(), GetEssenceStatValue(StatEnum.Agility, GetItemLevel(), essenceFilePath));
-                            break;
-                        case PrimaryEssenceSlot.Will:
-                            essenceValue += CalculateMainstat(StatEnum.Will, GetItemLevel(), GetEssenceStatValue(StatEnum.Will, GetItemLevel(), essenceFilePath));
-                            break;
-                    }
-                    
-                }
-            }
-            foreach (ComboBox comboBox in vitalBoxes)
-            {
-                Enum.TryParse(comboBox.SelectedItem.ToString().Replace(" ", "_"), out VitalEssenceSlot stat);
-                if (stat != VitalEssenceSlot.None)
-                {
-                    switch (stat)
-                    {
-                        case VitalEssenceSlot.Fate:
-                            essenceValue += GetBaseEssenceValue(StatEnum.Fate, GetItemLevel(), essenceFilePath) / GetEssenceStatValue(StatEnum.Fate, GetItemLevel(), essenceFilePath);
-                            break;
-                        case VitalEssenceSlot.Vitality:
-                            essenceValue += GetBaseEssenceValue(StatEnum.Vitality, GetItemLevel(), essenceFilePath) / GetEssenceStatValue(StatEnum.Vitality, GetItemLevel(), essenceFilePath); ; 
-                            break;
-                           
-                    }
-                    
-                }
-            }
-            return essenceValue;
-        }
+        
         private float GetEssenceValue()
         {
             statCalc.Clear();
             essenceValue = 0;
-            int essenceItemlevel = GetItemLevel();
+            int essenceItemlevel = Utility.GetEssenceItemLevel(settings);
 
-            Enum.TryParse(classBox.SelectedItem.ToString().Replace(" ", "_"), out Classes classe);
+            Enum.TryParse(classBox.SelectedItem?.ToString()?.Replace(" ", "_"), out Classes classe);
 
+            //Add direct Stats from Userpanel
             foreach (var kvp in dynamicControls)
             {
-                Enum.TryParse(kvp.Key.SelectedItem.ToString().Replace(" ", "_"), out StatEnum stat);
+                Enum.TryParse(kvp.Key.SelectedItem?.ToString()?.Replace(" ", "_"), out StatEnum stat);
                 float.TryParse(kvp.Value.Text, out float statValues);
                 if (statCalc.ContainsKey(stat)) statCalc[stat] += statValues;
                 else statCalc.Add(stat, statValues);
             }
+            statCalc = GetEssenceSocketValues(statCalc);
+            //Mainstat decodation
+            foreach (var kvp in statCalc)
+            {
+                if (Utility.isMainStat(kvp.Key))
+                {
+                    statCalc = Utility.AddDictionaries(statCalc, CalculateMainstat(kvp.Key, kvp.Value));
+                    statCalc.Remove(kvp.Key);
+                }
+            }
+
 
             return ReturnEssenceValueFromDictionary(statCalc, essenceItemlevel, classe);
         }
@@ -255,65 +122,39 @@ namespace EssenceValueCalculator
             foreach (var kvp in stats)
             {
 
+
                 if (kvp.Key == StatEnum.Max_Morale || kvp.Key == StatEnum.Max_Power)
                 {
                     if (kvp.Key == StatEnum.Max_Power)
                     {
                         if (playerClass == Classes.Beorning) essenceValue += 0;
-                        else essenceValue += kvp.Value / GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath);
+                        else essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemlevel, essenceFilePath, settings);
                     }
                     if (kvp.Key == StatEnum.Max_Morale)
                     {
-                        essenceValue += (kvp.Value / 4.5f) / GetEssenceStatValue(StatEnum.Vitality, essenceItemlevel, essenceFilePath);
+                        essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemlevel, essenceFilePath, settings);
                     }
                 }
-
-                if (kvp.Key == StatEnum.Armour)
+                else if (kvp.Key == StatEnum.Armour)
                 {
-                    essenceValue += kvp.Value / GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath);
-                    essenceValue += kvp.Value / GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath);
+                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemlevel, essenceFilePath, settings);
+                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemlevel, essenceFilePath, settings);
                 }
-                else if (kvp.Key != StatEnum.Basic_EssenceSlot && kvp.Key != StatEnum.Armour)
+                else if (kvp.Key == StatEnum.Basic_EssenceSlot)
                 {
-                    if (!Utility.isMainStat(kvp.Key)) essenceValue += kvp.Value / GetEssenceStatValue(kvp.Key, essenceItemlevel, essenceFilePath);
-                    else essenceValue += CalculateMainstat(kvp.Key, essenceItemlevel, kvp.Value);
+                    essenceValue += kvp.Value;
                 }
                 else
                 {
-                    if (kvp.Key == StatEnum.Basic_EssenceSlot)
-                    {
-                        essenceValue += kvp.Value;
-                    }
+                    if (!Utility.isMainStat(kvp.Key)) essenceValue += kvp.Value / Utility.GetEssenceStatValue(kvp.Key, essenceItemlevel, essenceFilePath, settings);
                 }
             }
-            essenceValue += GetEssenceSocketValues();
             return essenceValue;
         }
-        public int GetItemLevel()
+       
+        public Dictionary<StatEnum, float>? CalculateMainstat(StatEnum statEnum, float statValue)
         {
-            Enum.TryParse(settings.setting.essenceItemLevel.Replace(" ", "_"), out EssenceItemLevel itemLevel);
-            switch (itemLevel)
-            {
-                case EssenceItemLevel.Level_508:
-                    return 508;
-                case EssenceItemLevel.Level_514:
-                    return 514;
-                case EssenceItemLevel.Level_520:
-                    return 520;
-                case EssenceItemLevel.Level_526:
-                    return 526;
-                case EssenceItemLevel.Level_532:
-                    return 532;
-                case EssenceItemLevel.Level_538:
-                    return 538;
-                default:
-                    return 0;
-            }
-        }
-        public float CalculateMainstat(StatEnum statEnum, int essenceItemLevel, float statValue)
-        {
-            if (statEnum == StatEnum.Max_Power || statEnum == StatEnum.Max_Morale) return 0;
-            float essenceValue = 0;
+            if (statEnum == StatEnum.Max_Power || statEnum == StatEnum.Max_Morale) return null;
             mainStatCalc.Clear();
 
             var baseStats = new HashSet<StatEnum>
@@ -334,39 +175,79 @@ namespace EssenceValueCalculator
             };
 
             string mainStat = statEnum.ToString().Replace("_", " ");
-            string playerClass = classBox.SelectedItem.ToString().Replace("_", " ");
+            string playerClass = classBox.SelectedItem?.ToString()?.Replace("_", " ");
 
             var classData = playerStatsPerClass.Classes
                 .FirstOrDefault(c => c.Name.Equals(playerClass, StringComparison.OrdinalIgnoreCase));
 
-            if (classData == null)
-            {
-                MessageBox.Show($"Keine Daten für die Klasse '{playerClass}' gefunden.");
-                return 0;
-            }
+            var mainstat = classData?.Mainstats.FirstOrDefault(m => m.Name != null && m.Name.Equals(mainStat, StringComparison.OrdinalIgnoreCase));
 
-            var mainstat = classData.Mainstats
-                .FirstOrDefault(m => m.Name.Equals(statEnum.ToString().Replace("_", " "), StringComparison.OrdinalIgnoreCase));
-
-            if (mainstat == null)
+            if (mainstat != null && mainstat.Stats != null)
             {
-                MessageBox.Show($"Kein Mainstat für '{statEnum}' in der Klasse '{playerClass}' gefunden.");
-                return 0;
-            }
-
-            foreach (var stat in mainstat.Stats)
-            {
-                if (Enum.TryParse(stat.Name.Replace(" ", "_"), out StatEnum statEnumValue))
+                foreach (var stat in mainstat.Stats) 
                 {
-                    mainStatCalc[statEnumValue] = stat.Value * statValue;
+                    if (stat != null)
+                    {
+                        string statName = stat.Name?.Replace(" ", "_");
+                        if (statName != null && Enum.TryParse(statName, out StatEnum statEnumValue))
+                        {
+                            mainStatCalc[statEnumValue] = stat.Value * statValue;
+                        }
+                    }
                 }
             }
 
-            foreach (var kvp in mainStatCalc)
+            return mainStatCalc;
+
+        }
+        public Dictionary<StatEnum, float> GetEssenceSocketValues(Dictionary<StatEnum, float> currentStats)
+        {
+
+            foreach (ComboBox comboBox in primaryBoxes)
             {
-                essenceValue += kvp.Value / GetEssenceStatValue(kvp.Key, essenceItemLevel, essenceFilePath);
+                Enum.TryParse(comboBox.SelectedItem?.ToString()?.Replace(" ", "_"), out PrimaryEssenceSlot stat);
+
+                if (stat != PrimaryEssenceSlot.None)
+                {
+                    switch (stat)
+                    {
+                        case PrimaryEssenceSlot.Might:
+                            if (statCalc.ContainsKey(StatEnum.Might)) statCalc[StatEnum.Might] += Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(settings), essenceFilePath);
+                            else statCalc.Add(StatEnum.Might, Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            break;
+                        case PrimaryEssenceSlot.Agility:
+                            if (statCalc.ContainsKey(StatEnum.Agility)) statCalc[StatEnum.Agility] += Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(settings), essenceFilePath);
+                            else statCalc.Add(StatEnum.Agility, Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            break;
+                        case PrimaryEssenceSlot.Will:
+                            if (statCalc.ContainsKey(StatEnum.Will)) statCalc[StatEnum.Will] += Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(settings), essenceFilePath);
+                            else statCalc.Add(StatEnum.Will, Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            break;
+                    }
+
+                }
             }
-            return essenceValue;
+            foreach (ComboBox comboBox in vitalBoxes)
+            {
+                Enum.TryParse(comboBox.SelectedItem?.ToString()?.Replace(" ", "_"), out VitalEssenceSlot stat);
+                if (stat != VitalEssenceSlot.None)
+                {
+                    switch (stat)
+                    {
+                        case VitalEssenceSlot.Fate:
+                            if (statCalc.ContainsKey(StatEnum.Fate)) statCalc[StatEnum.Fate] += Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(settings), essenceFilePath);
+                            else statCalc.Add(StatEnum.Fate, Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            break;
+                        case VitalEssenceSlot.Vitality:
+                            if (statCalc.ContainsKey(StatEnum.Vitality)) statCalc[StatEnum.Vitality] += Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(settings), essenceFilePath);
+                            else statCalc.Add(StatEnum.Vitality, Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            break;
+
+                    }
+
+                }
+            }
+            return currentStats;
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -448,46 +329,7 @@ namespace EssenceValueCalculator
             form2.ShowDialog();
         }
 
-        public float GetEssenceStatValue(StatEnum stat, int itemlevel, string essenceFilePath)
-        {
-            if (settings.setting.supValuesUsed == true && (stat == StatEnum.Vitality || stat == StatEnum.Fate))
-            {
-                if (stat == StatEnum.Vitality)
-                {
-                    return 304;
-                }
-
-                if (stat == StatEnum.Fate)
-                {
-                    return 256;
-                }
-               
-            }
-            else
-            {
-                EssenceValues essenceValues = Utility.LoadEssenceValues(essenceFilePath);
-                Essence essence = essenceValues.Essences.Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
-
-                if (essence != null)
-                {
-                    return essence.Value;
-                }
-            }
-
-            return 0;
-        }
-        public float GetBaseEssenceValue(StatEnum stat, int itemlevel, string essenceFilePath)
-        {
-            EssenceValues essenceValues = Utility.LoadEssenceValues(essenceFilePath);
-            Essence essence = essenceValues.Essences
-                .Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
-
-            if (essence != null)
-            {
-                return essence.Value;
-            }
-            return 0;
-        }
+        
     }
    
     [XmlRoot("EssenceValues")]
@@ -521,6 +363,11 @@ namespace EssenceValueCalculator
     {
         [XmlElement("Class")]
         public List<Class> Classes { get; set; }
+
+        public Stats()
+        {
+            Classes = new List<Class>();
+        }
     }
 
     public class Class
@@ -530,22 +377,56 @@ namespace EssenceValueCalculator
 
         [XmlElement("Mainstat")]
         public List<Mainstat> Mainstats { get; set; }
+
+        public Class()
+        {
+            Name = string.Empty;
+            Mainstats = new List<Mainstat>();
+        }
     }
 
     public class Mainstat
     {
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [XmlElement("Stat")]
-        public List<Stat> Stats { get; set; }
+        public List<Stat>? Stats { get; set; }
     }
 
     public class Stat
     {
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [XmlAttribute("value")]
         public float Value { get; set; }
     }
+    [XmlRoot("StatConfigs")]
+    public class StatConfigs
+    {
+        [XmlElement("StatConfig")]
+        public List<StatConfig> Configs { get; set; } = new List<StatConfig>();
+    }
+
+    public class StatConfig
+    {
+        [XmlAttribute("Name")]
+        public string? Name { get; set; }
+
+        [XmlElement("Stat")]
+        public List<StatElement> Stats { get; set; } = new List<StatElement>();
+    }
+
+    public class StatElement
+    {
+        [XmlAttribute("name")]
+        public string? Name { get; set; }
+
+        [XmlAttribute("value")]
+        public float Value { get; set; }
+
+        [XmlAttribute("active")]
+        public bool Active { get; set; }
+    }
+
 }
