@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Stats>
+	<Class name="Beorning">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="2"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="1"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="1"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1.5"/>
+			<Stat name="Tactical Mitigation" value="1.5"/>
+		</Mainstat>
+	<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+	<Mainstat name="Fate">
+			<Stat name="Max_Morale" value="2.5"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Brawler">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="2"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="1"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="1"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1.5"/>
+			<Stat name="Tactical Mitigation" value="1.5"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Burglar">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="2"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Captain">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="3"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="2"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="1"/>
+			<Stat name="Tactical Mastery" value="1"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1.5"/>
+			<Stat name="Tactical Mitigation" value="1.5"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Champion">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="3"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="1"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="1"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1.5"/>
+			<Stat name="Tactical Mitigation" value="1.5"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Guardian">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="1"/>
+			<Stat name="Parry" value="2"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="1"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="1"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1.5"/>
+			<Stat name="Tactical Mitigation" value="1.5"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Hunter">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="2"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Lore Master">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="3"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="2"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Mariner">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="3"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Minstrel">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="3"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="1"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Rune Keeper">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="2"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="2"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="0"/>
+			<Stat name="Tactical Mastery" value="3"/>
+			<Stat name="Outgoing Healing" value="0"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="1"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+
+	<Class name="Warden">
+		<Mainstat name="Might">
+			<Stat name="Critical Rating" value="1.5"/>
+			<Stat name="Finesse" value="1.5"/>
+			<Stat name="Physical Mastery" value="2"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="2"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="1"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="0"/>
+			<Stat name="Tactical Mitigation" value="0"/>
+		</Mainstat>
+		<Mainstat name="Agility">
+			<Stat name="Critical Rating" value="1"/>
+			<Stat name="Finesse" value="0"/>
+			<Stat name="Physical Mastery" value="3"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="3"/>
+			<Stat name="Resistance" value="0"/>
+			<Stat name="Block" value="2"/>
+			<Stat name="Parry" value="1"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1"/>
+			<Stat name="Tactical Mitigation" value="1"/>
+		</Mainstat>
+		<Mainstat name="Will">
+			<Stat name="Critical Rating" value="0"/>
+			<Stat name="Finesse" value="1"/>
+			<Stat name="Physical Mastery" value="1"/>
+			<Stat name="Tactical Mastery" value="0"/>
+			<Stat name="Outgoing Healing" value="1"/>
+			<Stat name="Resistance" value="1"/>
+			<Stat name="Block" value="0"/>
+			<Stat name="Parry" value="0"/>
+			<Stat name="Evade" value="0"/>
+			<Stat name="Physical Mitigation" value="1.5"/>
+			<Stat name="Tactical Mitigation" value="1.5"/>
+		</Mainstat>
+		<Mainstat name="Vitality">
+			<Stat name="Max_Morale" value="4.5"/>
+		</Mainstat>
+		<Mainstat name="Fate">
+			<Stat name="Max_Power" value="1"/>
+		</Mainstat>
+	</Class>
+</Stats>
