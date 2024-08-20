@@ -11,7 +11,7 @@ namespace EssenceValueCalculator
         private const string essenceFilePath = "essence_values.xml";
         private const string characterStatDerivationFilePath = "classStatDerivations.xml";
         private const string settingsFilePath = "settings.xml";
-        private const string statConfigFilePath = "statConfigs.xml";
+        
 
         private int currentYOffset = 0;
 
@@ -20,7 +20,7 @@ namespace EssenceValueCalculator
 
         private Settings settings;
         private Stats playerStatsPerClass;
-        private StatConfigs? statConfig;
+        
 
 
 
@@ -41,7 +41,7 @@ namespace EssenceValueCalculator
 
             settings = Utility.LoadSettings(settingsFilePath);
             playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
-            statConfig = Utility.LoadStatConfigs(statConfigFilePath);
+            
 
             Utility.PopulateStats(comboBoxStats);
             Utility.PopulateClasses(classBox);
@@ -401,32 +401,6 @@ namespace EssenceValueCalculator
         [XmlAttribute("value")]
         public float Value { get; set; }
     }
-    [XmlRoot("StatConfigs")]
-    public class StatConfigs
-    {
-        [XmlElement("StatConfig")]
-        public List<StatConfig> Configs { get; set; } = new List<StatConfig>();
-    }
-
-    public class StatConfig
-    {
-        [XmlAttribute("Name")]
-        public string? Name { get; set; }
-
-        [XmlElement("Stat")]
-        public List<StatElement> Stats { get; set; } = new List<StatElement>();
-    }
-
-    public class StatElement
-    {
-        [XmlAttribute("name")]
-        public string? Name { get; set; }
-
-        [XmlAttribute("value")]
-        public float Value { get; set; }
-
-        [XmlAttribute("active")]
-        public bool Active { get; set; }
-    }
+   
 
 }

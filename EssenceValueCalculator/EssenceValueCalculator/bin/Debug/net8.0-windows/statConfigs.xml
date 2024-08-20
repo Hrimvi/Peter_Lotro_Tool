@@ -1,2 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<StatConfigs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<StatConfigs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <StatConfig Name="Physical DPS" />
+	<Stat name="Critical Rating" value="1" active="false" />
+	<Stat name="Physical Mastery" value="1" active="true" />
+	<Stat name="Tactical Mastery" value="1" active="true" />
+	<Stat name="Physical Mitigation" value="1" active="true" />
+	<Stat name="Tactical Mitigation" value="1" active="true" />
+	<Stat name="Critical Defense" value="1" active="true" />
+	<Stat name="Finesse" value="1" active="true" />
+	<Stat name="Block" value="1" active="true" />
+	<Stat name="Parry" value="1" active="true" />
+	<Stat name="Evade" value="1" active="true" />
+	<Stat name="Outgoing Healing" value="1" active="true" />
+	<Stat name="Incoming Healing" value="1" active="true" />
+	<Stat name="Resistance" value="1" active="true" />
+	<Stat name="Max Morale" value="1" active="true" />
+	<Stat name="Max Power" value="1" active="true" />
+  <StatConfig Name="Tactical DPS" />
+	<Stat name="Critical Rating" value="1" active="false" />
+	<Stat name="Physical Mastery" value="1" active="true" />
+	<Stat name="Tactical Mastery" value="1" active="true" />
+	<Stat name="Physical Mitigation" value="1" active="true" />
+	<Stat name="Tactical Mitigation" value="1" active="true" />
+	<Stat name="Critical Defense" value="1" active="true" />
+	<Stat name="Finesse" value="1" active="true" />
+	<Stat name="Block" value="1" active="true" />
+	<Stat name="Parry" value="1" active="true" />
+	<Stat name="Evade" value="1" active="true" />
+	<Stat name="Outgoing Healing" value="1" active="true" />
+	<Stat name="Incoming Healing" value="1" active="true" />
+	<Stat name="Resistance" value="1" active="true" />
+	<Stat name="Max Morale" value="1" active="true" />
+	<Stat name="Max Power" value="1" active="true" />
+  <StatConfig Name="Tank" />
+	<Stat name="Critical Rating" value="1" active="false" />
+	<Stat name="Physical Mastery" value="1" active="true" />
+	<Stat name="Tactical Mastery" value="1" active="true" />
+	<Stat name="Physical Mitigation" value="1" active="true" />
+	<Stat name="Tactical Mitigation" value="1" active="true" />
+	<Stat name="Critical Defense" value="1" active="true" />
+	<Stat name="Finesse" value="1" active="true" />
+	<Stat name="Block" value="1" active="true" />
+	<Stat name="Parry" value="1" active="true" />
+	<Stat name="Evade" value="1" active="true" />
+	<Stat name="Outgoing Healing" value="1" active="true" />
+	<Stat name="Incoming Healing" value="1" active="true" />
+	<Stat name="Resistance" value="1" active="true" />
+	<Stat name="Max Morale" value="1" active="true" />
+	<Stat name="Max Power" value="1" active="true" />
+  <StatConfig Name="Heal">
+    <Stat name="Critical Rating" value="1" active="false" />
+    <Stat name="Physical Mastery" value="1" active="true" />
+    <Stat name="Tactical Mastery" value="1" active="true" />
+    <Stat name="Physical Mitigation" value="1" active="true" />
+    <Stat name="Tactical Mitigation" value="1" active="true" />
+    <Stat name="Critical Defense" value="1" active="true" />
+    <Stat name="Finesse" value="1" active="true" />
+    <Stat name="Block" value="1" active="true" />
+    <Stat name="Parry" value="1" active="true" />
+    <Stat name="Evade" value="1" active="true" />
+    <Stat name="Outgoing Healing" value="1" active="true" />
+    <Stat name="Incoming Healing" value="1" active="true" />
+    <Stat name="Resistance" value="1" active="true" />
+    <Stat name="Max Morale" value="1" active="true" />
+    <Stat name="Max Power" value="1" active="true" />
+  </StatConfig>
+  <StatConfig Name="Support">
+    <Stat name="Critical Rating" value="1" active="true" />
+    <Stat name="Physical Mastery" value="1" active="true" />
+    <Stat name="Tactical Mastery" value="1" active="true" />
+    <Stat name="Physical Mitigation" value="1" active="true" />
+    <Stat name="Tactical Mitigation" value="1" active="true" />
+    <Stat name="Critical Defense" value="1" active="true" />
+    <Stat name="Finesse" value="1" active="true" />
+    <Stat name="Block" value="1" active="true" />
+    <Stat name="Parry" value="1" active="true" />
+    <Stat name="Evade" value="1" active="true" />
+    <Stat name="Outgoing Healing" value="1" active="true" />
+    <Stat name="Incoming Healing" value="1" active="true" />
+    <Stat name="Resistance" value="1" active="true" />
+    <Stat name="Max Morale" value="1" active="true" />
+    <Stat name="Max Power" value="1" active="true" />
+  </StatConfig>
+</StatConfigs>

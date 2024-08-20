@@ -7,23 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EssenceValueCalculator
 {
-   
+
     public partial class Form2 : Form
     {
+        private const string statConfigFilePath = "statConfigs.xml";
         private const string settingsFilePath = "settings.xml";
         private Settings? settings;
+        private StatConfigs? statConfig;
+
         public Form2()
         {
             InitializeComponent();
             settings = Utility.LoadSettings(settingsFilePath);
+
             itemLevelDropBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            configEditorSelection.DropDownStyle = ComboBoxStyle.DropDownList;
+            activeStatConfigSelection.DropDownStyle = ComboBoxStyle.DropDownList;
+
+
             // Setze den Status der Checkbox
             if (settings != null && settings.setting != null)
             {
@@ -39,8 +44,7 @@ namespace EssenceValueCalculator
                 {
                     itemLevelDropBox.SelectedIndex = (int)level;
                 }
-                // Wähle den gespeicherten Item-Level aus
-               
+
             }
             else
             {
@@ -55,7 +59,7 @@ namespace EssenceValueCalculator
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            
+
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -83,10 +87,269 @@ namespace EssenceValueCalculator
                 settings.setting.SetEssenceItemLevel(level);
             }
 
+            var selectedConfigName = activeStatConfigSelection.SelectedItem as string;
+            settings.setting.usedConfigName = selectedConfigName ?? string.Empty;
+
             Utility.SaveSettings(settings, settingsFilePath);
         }
-       
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            statConfig = Utility.LoadStatConfigs(statConfigFilePath);
+            UpdateConfigComboBox(activeStatConfigSelection);
+            UpdateConfigComboBox(configEditorSelection);
+
+            if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
+            {
+                var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
+                if (selectedConfigIndex != -1)
+                {
+                    activeStatConfigSelection.SelectedIndex = selectedConfigIndex;
+                    configEditorSelection.SelectedIndex = selectedConfigIndex;
+                }
+            }
+            var selectedConfig = statConfig?.Configs.FirstOrDefault(c => c.Name.Equals(settings?.setting.usedConfigName, StringComparison.OrdinalIgnoreCase));
+
+            if (selectedConfig != null)
+            {
+                CreateConfigEditorControls(selectedConfig.Stats);
+            }
+        }
+
+        private void createConfig_Click(object sender, EventArgs e)
+        {
+            var defaultStats = GetDefaultStats();
+            string newName = ShowInputDialog("Enter new config name:");
+            if (!string.IsNullOrEmpty(newName))
+            {
+                var newConfig = new StatConfig
+                {
+                    Name = newName,
+                    Stats = defaultStats
+                };
+
+                statConfig?.Configs.Add(newConfig);
+                Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+                UpdateConfigComboBox(activeStatConfigSelection);
+                UpdateConfigComboBox(configEditorSelection);
+            }
+        }
+        private void UpdateConfigComboBox(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+            comboBox.Items.AddRange(statConfig?.Configs?.Select(c => c.Name).ToArray());
+        }
+        private List<StatElement> GetDefaultStats()
+        {
+            var excludedStats = new HashSet<StatEnum>
+    {
+        StatEnum.Might,
+        StatEnum.Agility,
+        StatEnum.Vitality,
+        StatEnum.Will,
+        StatEnum.Fate,
+        StatEnum.Armour,
+        StatEnum.Basic_EssenceSlot
+    };
+
+            return Enum.GetValues(typeof(StatEnum))
+                        .Cast<StatEnum>()
+                        .Where(statEnum => !excludedStats.Contains(statEnum))
+                        .Select(statEnum => new StatElement
+                        {
+                            Name = statEnum.ToString().Replace("_", " "),
+                            Value = 1.00f,
+                            Active = true
+                        })
+                        .ToList();
+        }
+        public static string ShowInputDialog(string prompt)
+        {
+            Form inputBox = new Form();
+            Label lblPrompt = new Label() { Left = 20, Top = 20, Text = prompt };
+            TextBox txtInput = new TextBox() { Left = 20, Top = 50, Width = 200 };
+            Button btnOk = new Button() { Text = "OK", Left = 150, Width = 70, Top = 80, DialogResult = DialogResult.OK };
+            Button btnCancel = new Button() { Text = "Cancel", Left = 230, Width = 70, Top = 80, DialogResult = DialogResult.Cancel };
+
+            btnOk.Click += (sender, e) => { inputBox.Close(); };
+            btnCancel.Click += (sender, e) => { inputBox.DialogResult = DialogResult.Cancel; inputBox.Close(); };
+
+            inputBox.Controls.Add(lblPrompt);
+            inputBox.Controls.Add(txtInput);
+            inputBox.Controls.Add(btnOk);
+            inputBox.Controls.Add(btnCancel);
+            inputBox.AcceptButton = btnOk;
+            inputBox.CancelButton = btnCancel;
+
+            return inputBox.ShowDialog() == DialogResult.OK ? txtInput.Text : null;
+        }
+
+        private void deleteConfig_Click(object sender, EventArgs e)
+        {
+            var selectedConfigName = activeStatConfigSelection.SelectedItem as string;
+
+            if (string.IsNullOrEmpty(selectedConfigName))
+            {
+                MessageBox.Show("No configuration selected for deletion.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var selectedConfig = statConfig?.Configs
+                .FirstOrDefault(c => c.Name.Equals(selectedConfigName, StringComparison.OrdinalIgnoreCase));
+            if (selectedConfig == null)
+            {
+                MessageBox.Show("The selected configuration could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the configuration '{selectedConfig.Name}'?",
+                "Confirm Deletion",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                statConfig?.Configs.Remove(selectedConfig);
+
+                Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+
+                UpdateConfigComboBox(activeStatConfigSelection);
+                UpdateConfigComboBox(configEditorSelection);
+
+            }
+        }
+        private void StatValueCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox?.Tag is StatElement statElement)
+            {
+                statElement.Active = checkBox.Checked;
+                SaveCurrentConfig();
+            }
+        }
+
+        private void CreateConfigEditorControls(List<StatElement> statElements)
+        {
+            configPanel.Controls.Clear();
+
+            int yOffset = 10;
+
+            foreach (var stat in statElements)
+            {
+                // Checkbox
+                CheckBox checkBox = new CheckBox
+                {
+                    Text = "",
+                    Checked = stat.Active,
+                    Width = 15,
+                    Tag = stat
+                };
+                checkBox.Location = new Point(5, yOffset);
+                checkBox.CheckedChanged += StatValueCheckbox_CheckedChanged;
+
+                // Label
+                Label label = new Label
+                {
+                    Text = stat.Name,
+                    Location = new Point(25, yOffset),
+                    Width = 150,
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+
+                // TextBox
+                TextBox textBox = new TextBox
+                {
+                    Text = stat.Value.ToString("0.00"),
+                    Location = new Point(260, yOffset),
+                    Width = 50
+                };
+                textBox.TextChanged += StatValueTextBox_TextChanged;
+                textBox.Tag = stat;
+
+                configPanel.Controls.Add(checkBox);
+                configPanel.Controls.Add(label);
+                configPanel.Controls.Add(textBox);
+
+                yOffset += 30;
+            }
+        }
+        private void StatValueTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox?.Tag is StatElement statElement)
+            {
+                if (float.TryParse(textBox.Text, out float value))
+                {
+                    statElement.Value = value;
+                    SaveCurrentConfig();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid number.");
+                    textBox.Text = statElement.Value.ToString("0.00"); // Wiederherstellen des alten Wertes
+                }
+            }
+        }
+        private void SaveCurrentConfig()
+        {
+            var selectedConfigName = configEditorSelection.SelectedItem as string;
+            if (string.IsNullOrEmpty(selectedConfigName)) return;
+
+            var selectedConfig = statConfig?.Configs
+                .FirstOrDefault(c => c.Name.Equals(selectedConfigName, StringComparison.OrdinalIgnoreCase));
+
+            if (selectedConfig != null)
+            {
+                selectedConfig.Stats = configPanel.Controls
+                    .OfType<Control>()
+                    .Where(c => c is CheckBox || c is TextBox)
+                    .GroupBy(c => c.Tag)
+                    .Select(g =>
+                    {
+                        var statElement = g.Key as StatElement;
+                        if (statElement == null) return null;
+
+                        var checkBox = g.OfType<CheckBox>().FirstOrDefault();
+                        if (checkBox != null)
+                        {
+                            statElement.Active = checkBox.Checked;
+                        }
+
+                        var textBox = g.OfType<TextBox>().FirstOrDefault();
+                        if (textBox != null && float.TryParse(textBox.Text, out float value))
+                        {
+                            statElement.Value = value;
+                        }
+
+                        return statElement;
+                    })
+                    .Where(s => s != null)
+                    .ToList();
+
+                Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+            }
+        }
+        private void LoadSelectedConfig()
+        {
+            var selectedConfigName = configEditorSelection.SelectedItem as string;
+            if (string.IsNullOrEmpty(selectedConfigName)) return;
+
+            var selectedConfig = statConfig?.Configs
+                .FirstOrDefault(c => c.Name.Equals(selectedConfigName, StringComparison.OrdinalIgnoreCase));
+
+            if (selectedConfig != null)
+            {
+                CreateConfigEditorControls(selectedConfig.Stats);
+            }
+        }
+
+        private void configEditorSelection_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            LoadSelectedConfig();
+        }
     }
+
 
     [XmlRoot("Settings")]
     public class Settings
@@ -106,9 +369,40 @@ namespace EssenceValueCalculator
 
         [XmlElement("supValuesUsed")]
         public bool supValuesUsed { get; set; }
+
+        [XmlElement("usedConfigName")]
+        public string usedConfigName { get; set; }
+
         public void SetEssenceItemLevel(EssenceItemLevel level)
         {
             essenceItemLevel = level.ToString();
         }
+    }
+    [XmlRoot("StatConfigs")]
+    public class StatConfigs
+    {
+        [XmlElement("StatConfig")]
+        public List<StatConfig> Configs { get; set; } = new List<StatConfig>();
+    }
+
+    public class StatConfig
+    {
+        [XmlAttribute("Name")]
+        public string? Name { get; set; }
+
+        [XmlElement("Stat")]
+        public List<StatElement> Stats { get; set; } = new List<StatElement>();
+    }
+
+    public class StatElement
+    {
+        [XmlAttribute("name")]
+        public string? Name { get; set; }
+
+        [XmlAttribute("value")]
+        public float Value { get; set; }
+
+        [XmlAttribute("active")]
+        public bool Active { get; set; }
     }
 }

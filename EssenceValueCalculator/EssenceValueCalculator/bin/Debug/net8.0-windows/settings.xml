@@ -3,5 +3,6 @@
   <Setting>
     <essenceItemLevel>Level_508</essenceItemLevel>
     <supValuesUsed>true</supValuesUsed>
+    <usedConfigName>Physical DPS</usedConfigName>
   </Setting>
 </Settings>
