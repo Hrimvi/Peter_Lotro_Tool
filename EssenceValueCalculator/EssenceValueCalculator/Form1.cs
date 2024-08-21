@@ -180,9 +180,12 @@ namespace EssenceValueCalculator
             newComboBox.Location = new Point(comboBoxStats.Location.X, comboBoxStats.Location.Y + currentYOffset + 30);
             newComboBox.Size = comboBoxStats.Size;
             newComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            newComboBox.Font = new Font("Arial Rounded MT Bold", 10);
+
             TextBox newTextBox = new TextBox();
             newTextBox.Location = new Point(inputField.Location.X, inputField.Location.Y + currentYOffset + 30);
             newTextBox.Size = inputField.Size;
+            newTextBox.Font = new Font("Arial Rounded MT Bold", 10);
 
             Controls.Add(newComboBox);
             Controls.Add(newTextBox);

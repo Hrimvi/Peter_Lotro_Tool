@@ -21,6 +21,25 @@ namespace EssenceValueCalculator
                 var statElement = selectedConfig?.Stats.FirstOrDefault(s => s.Name.Equals(kvp.Key.ToString().Replace("_", " "), StringComparison.OrdinalIgnoreCase));
                 bool isActive = statElement?.Active ?? false;
                 float valueMultiplier = isActive ? statElement.Value : 1.0f;
+                
+                if (kvp.Key == StatEnum.Basic_EssenceSlot || kvp.Key == StatEnum.Armour)
+                {
+                    if (kvp.Key == StatEnum.Armour)
+                    {
+                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                    }
+                    else if (kvp.Key == StatEnum.Basic_EssenceSlot)
+                    {
+                        essenceValue += kvp.Value;
+                    }
+
+                    continue;
+                }
+                
+
+
+
                 if (isActive == false) continue;
                 if (kvp.Key == StatEnum.Max_Morale || kvp.Key == StatEnum.Max_Power)
                 {
@@ -39,15 +58,6 @@ namespace EssenceValueCalculator
                     {
                         essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
                     }
-                }
-                else if (kvp.Key == StatEnum.Armour)
-                {
-                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
-                    essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
-                }
-                else if (kvp.Key == StatEnum.Basic_EssenceSlot)
-                {
-                    essenceValue += kvp.Value;
                 }
                 else
                 {
