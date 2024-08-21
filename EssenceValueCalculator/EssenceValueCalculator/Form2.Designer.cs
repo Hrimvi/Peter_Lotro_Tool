@@ -1,6 +1,6 @@
 ﻿namespace EssenceValueCalculator
 {
-    partial class Form2
+    partial class SettingsForm
     {
         /// <summary>
         /// Required designer variable.

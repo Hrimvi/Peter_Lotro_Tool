@@ -12,14 +12,14 @@ using System.Xml.Serialization;
 namespace EssenceValueCalculator
 {
 
-    public partial class Form2 : Form
+    public partial class SettingsForm : Form
     {
         private const string statConfigFilePath = "statConfigs.xml";
         private const string settingsFilePath = "settings.xml";
         private Settings? settings;
         private StatConfigs? statConfig;
 
-        public Form2()
+        public SettingsForm()
         {
             InitializeComponent();
             settings = Utility.LoadSettings(settingsFilePath);

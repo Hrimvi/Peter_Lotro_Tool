@@ -16,11 +16,11 @@ namespace EssenceValueCalculator
         private TabControl tabControl;
         private ContextMenuStrip tabContextMenu;
         private ToolStripMenuItem closeTabMenuItem;
-
         public MainMenu()
         {
             InitializeComponent();
             InitializeTabs();
+            AddInitialTab();
         }
 
         private void InitializeTabs()
@@ -35,7 +35,6 @@ namespace EssenceValueCalculator
             tabContextMenu.Items.Add(closeTabMenuItem);
 
             tabControl.MouseUp += TabControl_MouseUp;
-            // Button zum Hinzufügen von Tabs
             var addTabButton = new Button
             {
                 Text = "New Tab",
@@ -45,7 +44,10 @@ namespace EssenceValueCalculator
             addTabButton.Click += AddNewTab;
             this.Controls.Add(addTabButton);
         }
-
+        private void AddInitialTab()
+        {
+            AddNewTab(null, EventArgs.Empty);
+        }
         private void AddNewTab(object sender, EventArgs e)
         {
             var newTabPage = new TabPage("New Tab");
@@ -69,7 +71,7 @@ namespace EssenceValueCalculator
                     formToLoad = new EV_Tool();
                     break;
                 case "Settings":
-                    formToLoad = new Form2();
+                    formToLoad = new SettingsForm();
                     break;
             }
 
