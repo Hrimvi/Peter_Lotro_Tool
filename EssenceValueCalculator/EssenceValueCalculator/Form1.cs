@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace EssenceValueCalculator
 {
    
-    public partial class Peter_Tool : Form
+    public partial class EV_Tool : Form
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
 
@@ -23,9 +23,6 @@ namespace EssenceValueCalculator
         private StatConfigs? statConfig;
 
 
-
-        private float essenceValue;
-
         private Dictionary<StatEnum, float> statCalc = new Dictionary<StatEnum, float>();
 
         private Dictionary<StatEnum, float> mainStatCalc = new Dictionary<StatEnum, float>();
@@ -33,11 +30,12 @@ namespace EssenceValueCalculator
         public List<ComboBox> primaryBoxes = new List<ComboBox>();
         public List<ComboBox> vitalBoxes = new List<ComboBox>();
 
+        
 
-
-        public Peter_Tool()
+        public EV_Tool()
         {
             InitializeComponent();
+            
 
             settings = Utility.LoadSettings(settingsFilePath);
             playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
@@ -78,7 +76,7 @@ namespace EssenceValueCalculator
 
             Utility.PopulateVitalEssences(vitalBoxes);
         }
-
+       
         private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
             settings = Utility.LoadSettings(settingsFilePath);
@@ -91,7 +89,6 @@ namespace EssenceValueCalculator
         private float GetEssenceValue()
         {
             statCalc.Clear();
-            essenceValue = 0;
             int essenceItemlevel = Utility.GetEssenceItemLevel(settings);
 
             Enum.TryParse(classBox.SelectedItem?.ToString()?.Replace(" ", "_"), out Classes classe);

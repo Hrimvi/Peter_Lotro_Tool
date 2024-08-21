@@ -17,8 +17,6 @@ namespace EssenceValueCalculator
                 SaveStatConfigs(filePath, defaultConfig);
                 return defaultConfig;
             }
-
-            // Wenn die Datei existiert, deserialisiere sie
             XmlSerializer serializer = new XmlSerializer(typeof(StatConfigs));
             using (FileStream fs = new FileStream(filePath, FileMode.Open))
             {

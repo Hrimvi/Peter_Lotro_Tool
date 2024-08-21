@@ -20,7 +20,6 @@ C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Debug\net8.0-windows\EssenceValueCalculator.runtimeconfig.json
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Debug\net8.0-windows\EssenceValueCalculator.dll
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\bin\Debug\net8.0-windows\EssenceValueCalculator.pdb
-C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.Peter_Tool.resources
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.Form2.resources
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.csproj.GenerateResource.cache
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.GeneratedMSBuildEditorConfig.editorconfig
@@ -33,3 +32,5 @@ C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.pdb
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.genruntimeconfig.cache
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\ref\EssenceValueCalculator.dll
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.MainMenu.resources
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.EV_Tool.resources

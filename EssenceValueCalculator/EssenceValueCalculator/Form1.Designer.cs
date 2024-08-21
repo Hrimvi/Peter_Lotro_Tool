@@ -1,6 +1,6 @@
 ﻿namespace EssenceValueCalculator
 {
-    partial class Peter_Tool
+    partial class EV_Tool
     {
         /// <summary>
         ///  Required designer variable.
@@ -186,7 +186,7 @@
             vitalEssenceLabel.Text = "Vital Essences";
             vitalEssenceLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // Form1
+            // Peter_Tool
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -207,8 +207,8 @@
             Controls.Add(addButton);
             Controls.Add(inputField);
             Controls.Add(comboBoxStats);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "Peter_Tool";
+            Text = "Peter_Lotro_Tool";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -265,32 +265,23 @@ namespace EssenceValueCalculator
                 statConfig?.Configs.Remove(selectedConfig);
                 Utility.SaveStatConfigs(statConfigFilePath, statConfig);
 
-                // Aktualisieren der ComboBoxen
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
 
-                // Wenn die gelöschte Konfiguration ausgewählt war, setze die Auswahl auf das erste Element
                 if (configEditorSelection.Items.Count > 0)
                 {
                     if (configEditorSelection.Items.Contains(selectedConfigName))
                     {
-                        // Die Konfiguration, die gerade gelöscht wurde, ist immer noch in der ComboBox
-                        // Das bedeutet, dass sie nur aus der Konfigurationliste entfernt wurde,
-                        // nicht aus der ComboBox
-                        configEditorSelection.SelectedIndex = 0; // Setzt die Auswahl auf das erste Element
+                        configEditorSelection.SelectedIndex = 0; 
                     }
                     else
                     {
-                        // Falls die gelöschte Konfiguration nicht mehr in der ComboBox ist
-                        // Setze die Auswahl auf das erste verfügbare Element
                         configEditorSelection.SelectedIndex = 0;
                     }
                 }
 
-                // Leeren des Konfigurations-Editors
                 configPanel.Controls.Clear();
 
-                // Wiederherstellen der Auswahl in der aktiven Konfigurations-ComboBox
                 if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
                 {
                     var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
