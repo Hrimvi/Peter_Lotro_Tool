@@ -50,6 +50,7 @@ namespace EssenceValueCalculator
         {
             var newTabPage = new TabPage("New Tab");
             tabControl.TabPages.Add(newTabPage);
+            tabControl.SelectedTab = newTabPage;
 
             var startScreen = new StartScreen();
             startScreen.FunctionSelected += (s, functionName) => LoadFunction(newTabPage, functionName);

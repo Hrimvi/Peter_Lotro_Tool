@@ -37,7 +37,6 @@
             ClientSize = new Size(800, 450);
             Name = "MainMenu";
             Text = "MainMenu";
-            Load += MainMenu_Load;
             ResumeLayout(false);
         }
 
