@@ -16,6 +16,9 @@ namespace EssenceValueCalculator
         private TabControl tabControl;
         private ContextMenuStrip tabContextMenu;
         private ToolStripMenuItem closeTabMenuItem;
+        private ToolStrip toolStrip;
+        private ToolStripDropDownButton optionsDropDown;
+
         public MainMenu()
         {
             InitializeComponent();
@@ -28,26 +31,29 @@ namespace EssenceValueCalculator
             tabControl = new TabControl { Dock = DockStyle.Fill };
             this.Controls.Add(tabControl);
 
-
             tabContextMenu = new ContextMenuStrip();
             closeTabMenuItem = new ToolStripMenuItem("Close Tab");
             closeTabMenuItem.Click += CloseTabMenuItem_Click;
             tabContextMenu.Items.Add(closeTabMenuItem);
 
             tabControl.MouseUp += TabControl_MouseUp;
-            var addTabButton = new Button
-            {
-                Text = "New Tab",
-                Dock = DockStyle.Top,
-                Height = 30
-            };
-            addTabButton.Click += AddNewTab;
-            this.Controls.Add(addTabButton);
+
+            toolStrip = new ToolStrip();
+            optionsDropDown = new ToolStripDropDownButton("Options");
+            optionsDropDown.DropDownItems.Add("New Tab", null, NewTabMenuItem_Click);
+            optionsDropDown.DropDownItems.Add("Close App", null, CloseAppMenuItem_Click);
+
+
+            toolStrip.Items.Add(optionsDropDown);
+
+            this.Controls.Add(toolStrip);
         }
+
         private void AddInitialTab()
         {
             AddNewTab(null, EventArgs.Empty);
         }
+
         private void AddNewTab(object sender, EventArgs e)
         {
             var newTabPage = new TabPage("New Tab");
@@ -68,7 +74,7 @@ namespace EssenceValueCalculator
             switch (functionName)
             {
                 case "EV Calculator":
-                    formToLoad = new EV_Tool();
+                    formToLoad = new Peter_Lotro_Tool();
                     break;
                 case "Settings":
                     formToLoad = new SettingsForm();
@@ -90,6 +96,7 @@ namespace EssenceValueCalculator
         private void MainMenu_Load(object sender, EventArgs e)
         {
         }
+
         private void TabControl_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -113,7 +120,15 @@ namespace EssenceValueCalculator
                 tabControl.TabPages.Remove(tabControl.SelectedTab);
             }
         }
+
+        private void NewTabMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewTab(sender, e);
+        }
+
+        private void CloseAppMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
-
-
 }

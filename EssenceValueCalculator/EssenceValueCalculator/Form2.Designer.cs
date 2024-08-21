@@ -42,9 +42,10 @@
             // subEssencesCheckbox
             // 
             subEssencesCheckbox.AutoSize = true;
+            subEssencesCheckbox.Font = new Font("Arial Rounded MT Bold", 9.75F);
             subEssencesCheckbox.Location = new Point(37, 80);
             subEssencesCheckbox.Name = "subEssencesCheckbox";
-            subEssencesCheckbox.Size = new Size(251, 19);
+            subEssencesCheckbox.Size = new Size(308, 19);
             subEssencesCheckbox.TabIndex = 0;
             subEssencesCheckbox.Text = "Use Supplemental Essences for Calculation";
             subEssencesCheckbox.UseVisualStyleBackColor = true;
@@ -52,6 +53,7 @@
             // 
             // itemLevelDropBox
             // 
+            itemLevelDropBox.Font = new Font("Arial Rounded MT Bold", 9.75F);
             itemLevelDropBox.FormattingEnabled = true;
             itemLevelDropBox.Location = new Point(167, 105);
             itemLevelDropBox.Name = "itemLevelDropBox";
@@ -61,23 +63,26 @@
             // EssenceItemlevelLabel
             // 
             EssenceItemlevelLabel.AutoSize = true;
+            EssenceItemlevelLabel.Font = new Font("Arial Rounded MT Bold", 9.75F);
             EssenceItemlevelLabel.Location = new Point(37, 108);
             EssenceItemlevelLabel.Name = "EssenceItemlevelLabel";
-            EssenceItemlevelLabel.Size = new Size(104, 15);
+            EssenceItemlevelLabel.Size = new Size(130, 15);
             EssenceItemlevelLabel.TabIndex = 2;
             EssenceItemlevelLabel.Text = "Essence-Itemlevel:";
             // 
             // activeStatConfigLabel
             // 
             activeStatConfigLabel.AutoSize = true;
+            activeStatConfigLabel.Font = new Font("Arial Rounded MT Bold", 9.75F);
             activeStatConfigLabel.Location = new Point(37, 143);
             activeStatConfigLabel.Name = "activeStatConfigLabel";
-            activeStatConfigLabel.Size = new Size(107, 15);
+            activeStatConfigLabel.Size = new Size(128, 15);
             activeStatConfigLabel.TabIndex = 4;
             activeStatConfigLabel.Text = "Active Stat-Config:";
             // 
             // activeStatConfigSelection
             // 
+            activeStatConfigSelection.Font = new Font("Arial Rounded MT Bold", 9.75F);
             activeStatConfigSelection.FormattingEnabled = true;
             activeStatConfigSelection.Location = new Point(167, 140);
             activeStatConfigSelection.Name = "activeStatConfigSelection";
@@ -88,6 +93,7 @@
             // configPanel
             // 
             configPanel.AutoScroll = true;
+            configPanel.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             configPanel.Location = new Point(418, 80);
             configPanel.Name = "configPanel";
             configPanel.Size = new Size(370, 292);
@@ -95,6 +101,7 @@
             // 
             // configEditorSelection
             // 
+            configEditorSelection.Font = new Font("Arial Rounded MT Bold", 9.75F);
             configEditorSelection.FormattingEnabled = true;
             configEditorSelection.Location = new Point(418, 35);
             configEditorSelection.Name = "configEditorSelection";
@@ -104,6 +111,7 @@
             // 
             // createConfig
             // 
+            createConfig.Font = new Font("Arial Rounded MT Bold", 9.75F);
             createConfig.Location = new Point(622, 35);
             createConfig.Name = "createConfig";
             createConfig.Size = new Size(75, 23);
@@ -114,6 +122,7 @@
             // 
             // deleteConfig
             // 
+            deleteConfig.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             deleteConfig.Location = new Point(703, 35);
             deleteConfig.Name = "deleteConfig";
             deleteConfig.Size = new Size(85, 23);
@@ -122,7 +131,7 @@
             deleteConfig.UseVisualStyleBackColor = true;
             deleteConfig.Click += deleteConfig_Click;
             // 
-            // Form2
+            // SettingsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -136,7 +145,7 @@
             Controls.Add(EssenceItemlevelLabel);
             Controls.Add(itemLevelDropBox);
             Controls.Add(subEssencesCheckbox);
-            Name = "Form2";
+            Name = "SettingsForm";
             Text = "Form2";
             Load += Form2_Load;
             ResumeLayout(false);

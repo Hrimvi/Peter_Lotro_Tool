@@ -35,8 +35,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Name = "MainMenu";
-            Text = "MainMenu";
+            Name = "Peter_Tool v1.1";
+            Text = "Peter_Tool v1.1";
             ResumeLayout(false);
         }
 

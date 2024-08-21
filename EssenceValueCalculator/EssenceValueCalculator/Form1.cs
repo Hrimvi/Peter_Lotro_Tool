@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace EssenceValueCalculator
 {
 
-    public partial class EV_Tool : Form
+    public partial class Peter_Lotro_Tool : Form
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
 
@@ -32,7 +32,7 @@ namespace EssenceValueCalculator
 
 
 
-        public EV_Tool()
+        public Peter_Lotro_Tool()
         {
             InitializeComponent();
 

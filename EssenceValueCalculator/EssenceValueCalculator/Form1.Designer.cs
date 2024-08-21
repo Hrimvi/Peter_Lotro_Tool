@@ -1,6 +1,6 @@
 ﻿namespace EssenceValueCalculator
 {
-    partial class EV_Tool
+    partial class Peter_Lotro_Tool
     {
         /// <summary>
         ///  Required designer variable.
@@ -47,6 +47,7 @@
             // 
             // comboBoxStats
             // 
+            comboBoxStats.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxStats.FormattingEnabled = true;
             comboBoxStats.Location = new Point(69, 123);
             comboBoxStats.Name = "comboBoxStats";
@@ -55,6 +56,7 @@
             // 
             // inputField
             // 
+            inputField.Font = new Font("Arial Rounded MT Bold", 9.75F);
             inputField.Location = new Point(217, 123);
             inputField.Name = "inputField";
             inputField.Size = new Size(100, 23);
@@ -62,7 +64,8 @@
             // 
             // addButton
             // 
-            addButton.Location = new Point(69, 386);
+            addButton.Font = new Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addButton.Location = new Point(69, 339);
             addButton.Name = "addButton";
             addButton.Size = new Size(121, 23);
             addButton.TabIndex = 2;
@@ -72,7 +75,8 @@
             // 
             // removeButton
             // 
-            removeButton.Location = new Point(196, 386);
+            removeButton.Font = new Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            removeButton.Location = new Point(201, 339);
             removeButton.Name = "removeButton";
             removeButton.Size = new Size(121, 23);
             removeButton.TabIndex = 3;
@@ -82,7 +86,8 @@
             // 
             // resetButton
             // 
-            resetButton.Location = new Point(323, 386);
+            resetButton.Font = new Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            resetButton.Location = new Point(328, 339);
             resetButton.Name = "resetButton";
             resetButton.Size = new Size(121, 23);
             resetButton.TabIndex = 4;
@@ -93,14 +98,16 @@
             // essenceValueText
             // 
             essenceValueText.AutoSize = true;
+            essenceValueText.Font = new Font("Arial Rounded MT Bold", 11F);
             essenceValueText.Location = new Point(471, 70);
             essenceValueText.Name = "essenceValueText";
-            essenceValueText.Size = new Size(84, 15);
+            essenceValueText.Size = new Size(121, 17);
             essenceValueText.TabIndex = 5;
             essenceValueText.Text = "Essence-Value:";
             // 
             // classBox
             // 
+            classBox.Font = new Font("Arial Rounded MT Bold", 9.75F);
             classBox.FormattingEnabled = true;
             classBox.Location = new Point(69, 32);
             classBox.Name = "classBox";
@@ -109,6 +116,7 @@
             // 
             // primaryBox1
             // 
+            primaryBox1.Font = new Font("Arial Rounded MT Bold", 9.75F);
             primaryBox1.FormattingEnabled = true;
             primaryBox1.Location = new Point(471, 281);
             primaryBox1.Name = "primaryBox1";
@@ -117,6 +125,7 @@
             // 
             // primaryBox2
             // 
+            primaryBox2.Font = new Font("Arial Rounded MT Bold", 9.75F);
             primaryBox2.FormattingEnabled = true;
             primaryBox2.Location = new Point(471, 310);
             primaryBox2.Name = "primaryBox2";
@@ -125,6 +134,7 @@
             // 
             // primaryBox3
             // 
+            primaryBox3.Font = new Font("Arial Rounded MT Bold", 9.75F);
             primaryBox3.FormattingEnabled = true;
             primaryBox3.Location = new Point(471, 339);
             primaryBox3.Name = "primaryBox3";
@@ -133,6 +143,7 @@
             // 
             // vitalBox1
             // 
+            vitalBox1.Font = new Font("Arial Rounded MT Bold", 9.75F);
             vitalBox1.FormattingEnabled = true;
             vitalBox1.Location = new Point(635, 281);
             vitalBox1.Name = "vitalBox1";
@@ -141,6 +152,7 @@
             // 
             // vitalBox2
             // 
+            vitalBox2.Font = new Font("Arial Rounded MT Bold", 9.75F);
             vitalBox2.FormattingEnabled = true;
             vitalBox2.Location = new Point(635, 310);
             vitalBox2.Name = "vitalBox2";
@@ -149,6 +161,7 @@
             // 
             // vitalBox3
             // 
+            vitalBox3.Font = new Font("Arial Rounded MT Bold", 9.75F);
             vitalBox3.FormattingEnabled = true;
             vitalBox3.Location = new Point(635, 339);
             vitalBox3.Name = "vitalBox3";
@@ -158,9 +171,10 @@
             // primaryEssenceLabel
             // 
             primaryEssenceLabel.AutoSize = true;
-            primaryEssenceLabel.Location = new Point(471, 263);
+            primaryEssenceLabel.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            primaryEssenceLabel.Location = new Point(471, 260);
             primaryEssenceLabel.Name = "primaryEssenceLabel";
-            primaryEssenceLabel.Size = new Size(97, 15);
+            primaryEssenceLabel.Size = new Size(124, 15);
             primaryEssenceLabel.TabIndex = 14;
             primaryEssenceLabel.Text = "Primary Essences";
             primaryEssenceLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -168,14 +182,15 @@
             // vitalEssenceLabel
             // 
             vitalEssenceLabel.AutoSize = true;
+            vitalEssenceLabel.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             vitalEssenceLabel.Location = new Point(635, 263);
             vitalEssenceLabel.Name = "vitalEssenceLabel";
-            vitalEssenceLabel.Size = new Size(79, 15);
+            vitalEssenceLabel.Size = new Size(102, 15);
             vitalEssenceLabel.TabIndex = 15;
             vitalEssenceLabel.Text = "Vital Essences";
             vitalEssenceLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // EV_Tool
+            // Peter_Lotro_Tool
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -195,7 +210,7 @@
             Controls.Add(addButton);
             Controls.Add(inputField);
             Controls.Add(comboBoxStats);
-            Name = "EV_Tool";
+            Name = "Peter_Lotro_Tool";
             Text = "Peter_Lotro_Tool";
             Load += EV_Tool_Load;
             ResumeLayout(false);
