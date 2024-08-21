@@ -14,92 +14,103 @@ namespace EssenceValueCalculator
     public partial class MainMenu : Form
     {
         private TabControl tabControl;
-        private EV_Tool evTool;
-        private Form2? form2;
+        private ContextMenuStrip tabContextMenu;
+        private ToolStripMenuItem closeTabMenuItem;
+
         public MainMenu()
         {
             InitializeComponent();
             InitializeTabs();
         }
 
-        private void MainMenu_Load(object sender, EventArgs e)
-        {
-
-        }
         private void InitializeTabs()
         {
-            // TabControl initialisieren
-            tabControl = new TabControl();
-            tabControl.Dock = DockStyle.Fill;
+            tabControl = new TabControl { Dock = DockStyle.Fill };
             this.Controls.Add(tabControl);
 
-            // Tab für EV-Rechner erstellen
-            var evTabPage = new TabPage("EV Calculator");
-            tabControl.TabPages.Add(evTabPage);
 
-            // Tab für Einstellungen erstellen
-            var settingsTabPage = new TabPage("Settings");
-            tabControl.TabPages.Add(settingsTabPage);
+            tabContextMenu = new ContextMenuStrip();
+            closeTabMenuItem = new ToolStripMenuItem("Close Tab");
+            closeTabMenuItem.Click += CloseTabMenuItem_Click;
+            tabContextMenu.Items.Add(closeTabMenuItem);
 
-            // Andere Tabs hinzufügen (weitere Funktionen)
-            var otherTabPage = new TabPage("Other Function");
-            tabControl.TabPages.Add(otherTabPage);
-
-            // Hier kannst du spezifische UserControls oder Funktionen in die Tabs einfügen
-            evTabPage.Controls.Add(InitializeEvCalculatorPanel());
-            settingsTabPage.Controls.Add(InitializeSettingsPanel());
-            otherTabPage.Controls.Add(InitializeOtherFunctionPanel());
-
-            evTool = new EV_Tool();
-            evTool.TopLevel = false; // Muss False sein, um es in ein anderes Control einzubetten
-            evTool.FormBorderStyle = FormBorderStyle.None;
-            evTool.Dock = DockStyle.Fill;
-            evTabPage.Controls.Add(evTool);
-            evTool.Show();
-
-            // Erstelle ein neues Form2 Objekt und bette es in den Tab ein
-            form2 = new Form2();
-            form2.TopLevel = false; // Muss False sein, um es in ein anderes Control einzubetten
-            form2.FormBorderStyle = FormBorderStyle.None;
-            form2.Dock = DockStyle.Fill;
-            settingsTabPage.Controls.Add(form2);
-            form2.Show();
-        }
-        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl.SelectedTab.Text == "EV Calculator")
+            tabControl.MouseUp += TabControl_MouseUp;
+            // Button zum Hinzufügen von Tabs
+            var addTabButton = new Button
             {
-                // Berechne oder lade die EV Daten neu
-            }
-            else if (tabControl.SelectedTab.Text == "Settings")
+                Text = "New Tab",
+                Dock = DockStyle.Top,
+                Height = 30
+            };
+            addTabButton.Click += AddNewTab;
+            this.Controls.Add(addTabButton);
+        }
+
+        private void AddNewTab(object sender, EventArgs e)
+        {
+            var newTabPage = new TabPage("New Tab");
+            tabControl.TabPages.Add(newTabPage);
+
+            var startScreen = new StartScreen();
+            startScreen.FunctionSelected += (s, functionName) => LoadFunction(newTabPage, functionName);
+            newTabPage.Controls.Add(startScreen);
+        }
+
+        private void LoadFunction(TabPage tabPage, string functionName)
+        {
+            tabPage.Controls.Clear();
+
+            Form formToLoad = null;
+
+            switch (functionName)
             {
-                // Lade oder speichere Einstellungen
+                case "EV Calculator":
+                    formToLoad = new EV_Tool();
+                    break;
+                case "Settings":
+                    formToLoad = new Form2();
+                    break;
+            }
+
+            if (formToLoad != null)
+            {
+                formToLoad.TopLevel = false;
+                formToLoad.FormBorderStyle = FormBorderStyle.None;
+                formToLoad.Dock = DockStyle.Fill;
+                tabPage.Controls.Add(formToLoad);
+                formToLoad.Show();
+
+                tabPage.Text = functionName;
             }
         }
-        private Panel InitializeEvCalculatorPanel()
+
+        private void MainMenu_Load(object sender, EventArgs e)
         {
-            // Erstelle und konfiguriere hier dein Panel für den EV-Rechner
-            var panel = new Panel();
-            // Füge deine Steuerelemente und Logik hinzu
-            return panel;
+        }
+        private void TabControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                for (int i = 0; i < tabControl.TabPages.Count; i++)
+                {
+                    if (tabControl.GetTabRect(i).Contains(e.Location))
+                    {
+                        tabControl.SelectedIndex = i;
+                        tabContextMenu.Show(tabControl, e.Location);
+                        break;
+                    }
+                }
+            }
         }
 
-        private Panel InitializeSettingsPanel()
+        private void CloseTabMenuItem_Click(object sender, EventArgs e)
         {
-            // Erstelle und konfiguriere hier dein Panel für die Einstellungen
-            var panel = new Panel();
-            // Füge deine Steuerelemente und Logik hinzu
-            return panel;
-        }
-
-        private Panel InitializeOtherFunctionPanel()
-        {
-            // Erstelle und konfiguriere hier dein Panel für weitere Funktionen
-            var panel = new Panel();
-            // Füge deine Steuerelemente und Logik hinzu
-            return panel;
+            if (tabControl.SelectedTab != null)
+            {
+                tabControl.TabPages.Remove(tabControl.SelectedTab);
+            }
         }
     }
 
-   
+
 }

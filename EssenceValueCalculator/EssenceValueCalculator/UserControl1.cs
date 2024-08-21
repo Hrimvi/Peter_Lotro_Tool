@@ -18,7 +18,6 @@ namespace EssenceValueCalculator
         {
             InitializeComponent();
 
-            // Beispielbutton für den EV Calculator
             var evButton = new Button
             {
                 Text = "EV Calculator",
@@ -27,16 +26,14 @@ namespace EssenceValueCalculator
             };
             evButton.Click += (sender, e) => FunctionSelected?.Invoke(this, "EV Calculator");
 
-            // Weitere Buttons für andere Funktionen hinzufügen
             var otherButton = new Button
             {
-                Text = "Other Function",
+                Text = "Settings",
                 Dock = DockStyle.Top,
                 Height = 50
             };
-            otherButton.Click += (sender, e) => FunctionSelected?.Invoke(this, "Other Function");
+            otherButton.Click += (sender, e) => FunctionSelected?.Invoke(this, "Settings");
 
-            // Buttons zum StartScreen hinzufügen
             this.Controls.Add(otherButton);
             this.Controls.Add(evButton);
         }

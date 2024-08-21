@@ -31,7 +31,6 @@
             subEssencesCheckbox = new CheckBox();
             itemLevelDropBox = new ComboBox();
             EssenceItemlevelLabel = new Label();
-            backToMainWindow = new Button();
             activeStatConfigLabel = new Label();
             activeStatConfigSelection = new ComboBox();
             configPanel = new Panel();
@@ -68,16 +67,6 @@
             EssenceItemlevelLabel.TabIndex = 2;
             EssenceItemlevelLabel.Text = "Essence-Itemlevel:";
             // 
-            // backToMainWindow
-            // 
-            backToMainWindow.Location = new Point(12, 12);
-            backToMainWindow.Name = "backToMainWindow";
-            backToMainWindow.Size = new Size(141, 23);
-            backToMainWindow.TabIndex = 3;
-            backToMainWindow.Text = "Back To Main Window";
-            backToMainWindow.UseVisualStyleBackColor = true;
-            backToMainWindow.Click += backToMainWindow_Click;
-            // 
             // activeStatConfigLabel
             // 
             activeStatConfigLabel.AutoSize = true;
@@ -94,6 +83,7 @@
             activeStatConfigSelection.Name = "activeStatConfigSelection";
             activeStatConfigSelection.Size = new Size(121, 23);
             activeStatConfigSelection.TabIndex = 5;
+            activeStatConfigSelection.SelectedIndexChanged += activeStatConfigSelection_SelectedIndexChanged;
             // 
             // configPanel
             // 
@@ -143,7 +133,6 @@
             Controls.Add(configPanel);
             Controls.Add(activeStatConfigSelection);
             Controls.Add(activeStatConfigLabel);
-            Controls.Add(backToMainWindow);
             Controls.Add(EssenceItemlevelLabel);
             Controls.Add(itemLevelDropBox);
             Controls.Add(subEssencesCheckbox);
@@ -159,7 +148,6 @@
         private CheckBox subEssencesCheckbox;
         private ComboBox itemLevelDropBox;
         private Label EssenceItemlevelLabel;
-        private Button backToMainWindow;
         private Label activeStatConfigLabel;
         private ComboBox activeStatConfigSelection;
         private Panel configPanel;

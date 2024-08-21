@@ -28,13 +28,10 @@ namespace EssenceValueCalculator
             configEditorSelection.DropDownStyle = ComboBoxStyle.DropDownList;
             activeStatConfigSelection.DropDownStyle = ComboBoxStyle.DropDownList;
 
-
-            // Setze den Status der Checkbox
             if (settings != null && settings.setting != null)
             {
                 subEssencesCheckbox.Checked = settings.setting.supValuesUsed;
 
-                // Fülle die ComboBox mit den Item-Level-Werten
                 foreach (EssenceItemLevel itemLevel in Enum.GetValues(typeof(EssenceItemLevel)))
                 {
                     itemLevelDropBox.Items.Add(itemLevel.ToString().Replace("_", " "));
@@ -48,28 +45,17 @@ namespace EssenceValueCalculator
             }
             else
             {
-                // Füge Item-Level-Werte hinzu und setze den Standardwert
                 foreach (EssenceItemLevel itemLevel in Enum.GetValues(typeof(EssenceItemLevel)))
                 {
                     itemLevelDropBox.Items.Add(itemLevel.ToString().Replace("_", " "));
                 }
-                itemLevelDropBox.SelectedIndex = 0; // Standardwert
+                itemLevelDropBox.SelectedIndex = 0;
             }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
-        }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
             SaveSettings();
-        }
-        private void backToMainWindow_Click(object sender, EventArgs e)
-        {
-            SaveSettings();
-            Hide();
         }
 
         private void SaveSettings()
@@ -272,7 +258,7 @@ namespace EssenceValueCalculator
                 {
                     if (configEditorSelection.Items.Contains(selectedConfigName))
                     {
-                        configEditorSelection.SelectedIndex = 0; 
+                        configEditorSelection.SelectedIndex = 0;
                     }
                     else
                     {
@@ -426,6 +412,11 @@ namespace EssenceValueCalculator
         private void configEditorSelection_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             LoadSelectedConfig();
+        }
+
+        private void activeStatConfigSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SaveSettings();
         }
     }
 

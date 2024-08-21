@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 namespace EssenceValueCalculator
 {
-   
+
     public partial class EV_Tool : Form
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
@@ -30,16 +30,16 @@ namespace EssenceValueCalculator
         public List<ComboBox> primaryBoxes = new List<ComboBox>();
         public List<ComboBox> vitalBoxes = new List<ComboBox>();
 
-        
+
 
         public EV_Tool()
         {
             InitializeComponent();
-            
+
 
             settings = Utility.LoadSettings(settingsFilePath);
             playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
-            
+
 
             Utility.PopulateStats(comboBoxStats);
             Utility.PopulateClasses(classBox);
@@ -76,7 +76,7 @@ namespace EssenceValueCalculator
 
             Utility.PopulateVitalEssences(vitalBoxes);
         }
-       
+
         private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
             settings = Utility.LoadSettings(settingsFilePath);
@@ -85,7 +85,7 @@ namespace EssenceValueCalculator
             float essenceValue = GetEssenceValue();
             essenceValueText.Text = $"Essence-Value: {essenceValue:F2}";
         }
-        
+
         private float GetEssenceValue()
         {
             statCalc.Clear();
@@ -204,7 +204,7 @@ namespace EssenceValueCalculator
 
             if (mainstat != null && mainstat.Stats != null)
             {
-                foreach (var stat in mainstat.Stats) 
+                foreach (var stat in mainstat.Stats)
                 {
                     if (stat != null)
                     {
@@ -297,8 +297,8 @@ namespace EssenceValueCalculator
         {
             foreach (var kvp in dynamicControls)
             {
-                if (kvp.Key == comboBoxStats) continue; 
-                
+                if (kvp.Key == comboBoxStats) continue;
+
                 dynamicControls.Remove(kvp.Key);
 
                 Controls.Remove(kvp.Key);
@@ -339,19 +339,12 @@ namespace EssenceValueCalculator
             currentYOffset -= 30;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void EV_Tool_Load(object sender, EventArgs e)
         {
-            if (form2 == null)
-            {
-                form2 = new Form2();
-            }
 
-            form2.ShowDialog();
         }
-
-        
     }
-   
+
     [XmlRoot("EssenceValues")]
     public class EssenceValues
     {

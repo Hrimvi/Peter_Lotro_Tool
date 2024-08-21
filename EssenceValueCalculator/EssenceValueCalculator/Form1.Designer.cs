@@ -34,7 +34,6 @@
             removeButton = new Button();
             resetButton = new Button();
             essenceValueText = new Label();
-            settingsButton = new Button();
             classBox = new ComboBox();
             primaryBox1 = new ComboBox();
             primaryBox2 = new ComboBox();
@@ -96,19 +95,9 @@
             essenceValueText.AutoSize = true;
             essenceValueText.Location = new Point(471, 70);
             essenceValueText.Name = "essenceValueText";
-            essenceValueText.Size = new Size(79, 15);
+            essenceValueText.Size = new Size(84, 15);
             essenceValueText.TabIndex = 5;
-            essenceValueText.Text = "EssenceValue:";
-            // 
-            // settingsButton
-            // 
-            settingsButton.Location = new Point(681, 32);
-            settingsButton.Name = "settingsButton";
-            settingsButton.Size = new Size(75, 23);
-            settingsButton.TabIndex = 6;
-            settingsButton.Text = "Settings";
-            settingsButton.UseVisualStyleBackColor = true;
-            settingsButton.Click += button1_Click;
+            essenceValueText.Text = "Essence-Value:";
             // 
             // classBox
             // 
@@ -186,7 +175,7 @@
             vitalEssenceLabel.Text = "Vital Essences";
             vitalEssenceLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // Peter_Tool
+            // EV_Tool
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -200,15 +189,15 @@
             Controls.Add(primaryBox2);
             Controls.Add(primaryBox1);
             Controls.Add(classBox);
-            Controls.Add(settingsButton);
             Controls.Add(essenceValueText);
             Controls.Add(resetButton);
             Controls.Add(removeButton);
             Controls.Add(addButton);
             Controls.Add(inputField);
             Controls.Add(comboBoxStats);
-            Name = "Peter_Tool";
+            Name = "EV_Tool";
             Text = "Peter_Lotro_Tool";
+            Load += EV_Tool_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -221,7 +210,6 @@
         private Button removeButton;
         private Button resetButton;
         private Label essenceValueText;
-        private Button settingsButton;
         private ComboBox classBox;
         private ComboBox primaryBox1;
         private ComboBox primaryBox2;
