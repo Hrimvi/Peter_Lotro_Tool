@@ -26,6 +26,14 @@ namespace EssenceValueCalculator
             };
             evButton.Click += (sender, e) => FunctionSelected?.Invoke(this, "EV Calculator");
 
+            var itemExplorerButton = new Button
+            {
+                Text = "Item Explorer",
+                Dock = DockStyle.Top,
+                Height = 50
+            };
+            itemExplorerButton.Click += (sender, e) => FunctionSelected?.Invoke(this, "Item Explorer");
+
             var otherButton = new Button
             {
                 Text = "Settings",
@@ -34,8 +42,10 @@ namespace EssenceValueCalculator
             };
             otherButton.Click += (sender, e) => FunctionSelected?.Invoke(this, "Settings");
 
-            this.Controls.Add(otherButton);
             this.Controls.Add(evButton);
+            this.Controls.Add(itemExplorerButton);
+            this.Controls.Add(otherButton);
+            
         }
     }
 }

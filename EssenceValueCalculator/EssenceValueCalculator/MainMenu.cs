@@ -76,6 +76,9 @@ namespace EssenceValueCalculator
                 case "EV Calculator":
                     formToLoad = new Peter_Lotro_Tool();
                     break;
+                case "Item Explorer":
+                    formToLoad = new Item_Explorer();
+                    break;
                 case "Settings":
                     formToLoad = new SettingsForm();
                     break;

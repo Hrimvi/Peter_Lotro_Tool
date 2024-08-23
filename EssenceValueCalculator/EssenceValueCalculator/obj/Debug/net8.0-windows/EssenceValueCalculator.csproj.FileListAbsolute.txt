@@ -35,3 +35,4 @@ C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.StartScreen.resources
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.SettingsForm.resources
 C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.Peter_Lotro_Tool.resources
+C:\Users\Peter Schütte\Documents\GitHub\Peter_Lotro_Tool\EssenceValueCalculator\EssenceValueCalculator\obj\Debug\net8.0-windows\EssenceValueCalculator.Item_Explorer.resources
