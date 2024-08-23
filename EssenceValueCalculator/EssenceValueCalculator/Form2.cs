@@ -14,8 +14,8 @@ namespace EssenceValueCalculator
 
     public partial class SettingsForm : Form
     {
-        private const string statConfigFilePath = "statConfigs.xml";
-        private const string settingsFilePath = "settings.xml";
+        private const string statConfigFilePath = "xmls/statConfigs.xml";
+        private const string settingsFilePath = "xmls/settings.xml";
         private Settings? settings;
         private StatConfigs? statConfig;
 
@@ -417,6 +417,11 @@ namespace EssenceValueCalculator
         private void activeStatConfigSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
             SaveSettings();
+        }
+
+        private void configPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

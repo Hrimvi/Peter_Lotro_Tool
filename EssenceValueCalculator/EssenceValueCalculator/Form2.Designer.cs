@@ -43,7 +43,7 @@
             // 
             subEssencesCheckbox.AutoSize = true;
             subEssencesCheckbox.Font = new Font("Arial Rounded MT Bold", 9.75F);
-            subEssencesCheckbox.Location = new System.Drawing.Point(37, 80);
+            subEssencesCheckbox.Location = new Point(37, 80);
             subEssencesCheckbox.Name = "subEssencesCheckbox";
             subEssencesCheckbox.Size = new Size(308, 19);
             subEssencesCheckbox.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             itemLevelDropBox.Font = new Font("Arial Rounded MT Bold", 9.75F);
             itemLevelDropBox.FormattingEnabled = true;
-            itemLevelDropBox.Location = new System.Drawing.Point(167, 105);
+            itemLevelDropBox.Location = new Point(167, 105);
             itemLevelDropBox.Name = "itemLevelDropBox";
             itemLevelDropBox.Size = new Size(121, 23);
             itemLevelDropBox.TabIndex = 1;
@@ -64,7 +64,7 @@
             // 
             EssenceItemlevelLabel.AutoSize = true;
             EssenceItemlevelLabel.Font = new Font("Arial Rounded MT Bold", 9.75F);
-            EssenceItemlevelLabel.Location = new System.Drawing.Point(37, 108);
+            EssenceItemlevelLabel.Location = new Point(37, 108);
             EssenceItemlevelLabel.Name = "EssenceItemlevelLabel";
             EssenceItemlevelLabel.Size = new Size(130, 15);
             EssenceItemlevelLabel.TabIndex = 2;
@@ -74,7 +74,7 @@
             // 
             activeStatConfigLabel.AutoSize = true;
             activeStatConfigLabel.Font = new Font("Arial Rounded MT Bold", 9.75F);
-            activeStatConfigLabel.Location = new System.Drawing.Point(37, 143);
+            activeStatConfigLabel.Location = new Point(37, 143);
             activeStatConfigLabel.Name = "activeStatConfigLabel";
             activeStatConfigLabel.Size = new Size(128, 15);
             activeStatConfigLabel.TabIndex = 4;
@@ -84,7 +84,7 @@
             // 
             activeStatConfigSelection.Font = new Font("Arial Rounded MT Bold", 9.75F);
             activeStatConfigSelection.FormattingEnabled = true;
-            activeStatConfigSelection.Location = new System.Drawing.Point(167, 140);
+            activeStatConfigSelection.Location = new Point(167, 140);
             activeStatConfigSelection.Name = "activeStatConfigSelection";
             activeStatConfigSelection.Size = new Size(121, 23);
             activeStatConfigSelection.TabIndex = 5;
@@ -94,16 +94,17 @@
             // 
             configPanel.AutoScroll = true;
             configPanel.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            configPanel.Location = new System.Drawing.Point(418, 80);
+            configPanel.Location = new Point(418, 80);
             configPanel.Name = "configPanel";
             configPanel.Size = new Size(370, 292);
             configPanel.TabIndex = 6;
+            configPanel.Paint += configPanel_Paint;
             // 
             // configEditorSelection
             // 
             configEditorSelection.Font = new Font("Arial Rounded MT Bold", 9.75F);
             configEditorSelection.FormattingEnabled = true;
-            configEditorSelection.Location = new System.Drawing.Point(418, 35);
+            configEditorSelection.Location = new Point(418, 35);
             configEditorSelection.Name = "configEditorSelection";
             configEditorSelection.Size = new Size(198, 23);
             configEditorSelection.TabIndex = 7;
@@ -112,7 +113,7 @@
             // createConfig
             // 
             createConfig.Font = new Font("Arial Rounded MT Bold", 9.75F);
-            createConfig.Location = new System.Drawing.Point(622, 35);
+            createConfig.Location = new Point(622, 35);
             createConfig.Name = "createConfig";
             createConfig.Size = new Size(75, 23);
             createConfig.TabIndex = 8;
@@ -123,7 +124,7 @@
             // deleteConfig
             // 
             deleteConfig.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            deleteConfig.Location = new System.Drawing.Point(703, 35);
+            deleteConfig.Location = new Point(703, 35);
             deleteConfig.Name = "deleteConfig";
             deleteConfig.Size = new Size(85, 23);
             deleteConfig.TabIndex = 9;

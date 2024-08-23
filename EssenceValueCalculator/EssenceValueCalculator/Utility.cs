@@ -54,7 +54,7 @@ namespace EssenceValueCalculator
                 if (result != null)
                 {
                     result.ItemList = result.ItemList
-                        .Where(item => !string.IsNullOrEmpty(item.Slot) && item.EquipmentCategory != 32 && item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE" && item.Slot != "MAIN_HAND_AURA")
+                        .Where(item => (!string.IsNullOrEmpty(item.equipSlot) && item.equipSlot != "MAIN_HAND_AURA" ) && item.EquipmentCategory != 32 && (item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE" ))
                         .ToList();
                 }
 
@@ -284,10 +284,7 @@ namespace EssenceValueCalculator
         }
         public static async Task<Image> OverlayIconsAsync(List<Image> icons)
         {
-            return await Task.Run(() =>
-            {
-                return OverlayIcons(icons);
-            });
+            return await Task.Run(() => OverlayIcons(icons));
         }
     }
 }

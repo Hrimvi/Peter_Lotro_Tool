@@ -141,10 +141,10 @@ namespace EssenceValueCalculator
         public string Icon { get; set; }
 
         [XmlAttribute("level")]
-        public int Level { get; set; }
+        public int itemLevel { get; set; }
 
         [XmlAttribute("slot")]
-        public string Slot { get; set; }
+        public string equipSlot { get; set; }
 
         [XmlAttribute("category")]
         public string Category { get; set; }
@@ -199,6 +199,9 @@ namespace EssenceValueCalculator
 
         [XmlAttribute("stackMax")]
         public int StackMax { get; set; }
+
+        [XmlAttribute("minLevel")]
+        public int minLevel { get; set; }
 
         [XmlElement("stats")]
         public ItemStats Stats { get; set; }

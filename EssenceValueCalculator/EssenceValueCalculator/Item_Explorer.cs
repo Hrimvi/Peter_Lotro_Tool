@@ -37,11 +37,11 @@ namespace EssenceValueCalculator
         }
         private async Task LoadItems()
         {
-            const int batchSize = 10; // Anzahl der maximalen gleichzeitigen Aufgaben
-            var count = 0;
-
+            var allTasks = new List<Task>();
             foreach (Item item in itemDb.ItemList)
             {
+                if (item.minLevel != null) if (item.minLevel < 120) continue;
+
                 iconImages.Clear();
                 iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.Icon, "-");
                 iconIdSaves.Reverse();
@@ -53,39 +53,48 @@ namespace EssenceValueCalculator
                     if (id != 0)
                     {
                         string path = $"{iconFolder}/{id}.png";
-                        imageTasks.Add(LoadImageAsync(path));
+                        imageTasks.Add(LoadImageAsync(path, id));
                     }
                 }
 
-                // Verarbeite die Bilder in Batches
-                await BatchProcessAsync(imageTasks, batchSize);
+                var loadedImages = await Task.WhenAll(imageTasks);
+
+                iconImages.AddRange(loadedImages);
 
                 Image fullIcon = await Utility.OverlayIconsAsync(iconImages);
 
-                itemDatabaseGrid.Invoke(new Action(() => itemDatabaseGrid.Rows.Add(fullIcon, item.Name)));
+                string armourType;
+                if (item.ArmourType == null) armourType = "";
+                else armourType = item.ArmourType;
+
+                int itemLevel;
+                if (item.itemLevel == null) itemLevel = 0;
+                else itemLevel = item.itemLevel;
+                itemDatabaseGrid.Invoke(new Action(() => itemDatabaseGrid.Rows.Add(fullIcon, item.Name, armourType, itemLevel)));
                 numberText.Invoke(new Action(() => numberText.Text = $"Loaded: {count}"));
                 count++;
             }
         }
+        private Dictionary<int, Image> imageCache = new Dictionary<int, Image>();
 
-        private async Task BatchProcessAsync(List<Task<Image>> tasks, int batchSize)
+        private Task<Image> LoadImageAsync(string path, int id)
         {
-            var taskIndex = 0;
-            while (taskIndex < tasks.Count)
+            if (imageCache.TryGetValue(id, out Image cachedImage))
             {
-                var batchTasks = tasks.Skip(taskIndex).Take(batchSize).ToList();
-                var loadedImages = await Task.WhenAll(batchTasks);
-                iconImages.AddRange(loadedImages);
-                taskIndex += batchSize;
+                return Task.FromResult(cachedImage);
             }
-        }
-        private Task<Image> LoadImageAsync(string path)
-        {
+
             return Task.Run(() =>
             {
-                return Image.FromFile(path);
+                var image = Image.FromFile(path);
+                imageCache[id] = image;
+                return image;
             });
         }
 
+        private void itemDatabaseGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

@@ -30,9 +30,11 @@
         {
             selectedItemPanel = new Panel();
             itemDatabaseGrid = new DataGridView();
+            numberText = new Label();
             icons = new DataGridViewImageColumn();
             itemName = new DataGridViewTextBoxColumn();
-            numberText = new Label();
+            ArmourType = new DataGridViewTextBoxColumn();
+            ItemLevel = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)itemDatabaseGrid).BeginInit();
             SuspendLayout();
             // 
@@ -45,22 +47,20 @@
             // 
             // itemDatabaseGrid
             // 
+            itemDatabaseGrid.AllowUserToAddRows = false;
+            itemDatabaseGrid.AllowUserToDeleteRows = false;
+            itemDatabaseGrid.AllowUserToOrderColumns = true;
+            itemDatabaseGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            itemDatabaseGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             itemDatabaseGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            itemDatabaseGrid.Columns.AddRange(new DataGridViewColumn[] { icons, itemName });
+            itemDatabaseGrid.Columns.AddRange(new DataGridViewColumn[] { icons, itemName, ArmourType, ItemLevel });
             itemDatabaseGrid.Location = new Point(12, 69);
             itemDatabaseGrid.Name = "itemDatabaseGrid";
+            itemDatabaseGrid.ReadOnly = true;
+            itemDatabaseGrid.RowHeadersVisible = false;
             itemDatabaseGrid.Size = new Size(511, 273);
             itemDatabaseGrid.TabIndex = 1;
-            // 
-            // icons
-            // 
-            icons.HeaderText = "Icon";
-            icons.Name = "icons";
-            // 
-            // itemName
-            // 
-            itemName.HeaderText = "itemName";
-            itemName.Name = "itemName";
+            itemDatabaseGrid.CellContentClick += itemDatabaseGrid_CellContentClick;
             // 
             // numberText
             // 
@@ -70,6 +70,33 @@
             numberText.Size = new Size(38, 15);
             numberText.TabIndex = 2;
             numberText.Text = "label1";
+            // 
+            // icons
+            // 
+            icons.HeaderText = "Icon";
+            icons.Name = "icons";
+            icons.ReadOnly = true;
+            icons.Width = 36;
+            // 
+            // itemName
+            // 
+            itemName.HeaderText = "itemName";
+            itemName.Name = "itemName";
+            itemName.ReadOnly = true;
+            itemName.Width = 88;
+            // 
+            // ArmourType
+            // 
+            ArmourType.HeaderText = "Armour Type";
+            ArmourType.Name = "ArmourType";
+            ArmourType.ReadOnly = true;
+            // 
+            // ItemLevel
+            // 
+            ItemLevel.HeaderText = "Item Level";
+            ItemLevel.Name = "ItemLevel";
+            ItemLevel.ReadOnly = true;
+            ItemLevel.Width = 86;
             // 
             // Item_Explorer
             // 
@@ -90,8 +117,10 @@
 
         private Panel selectedItemPanel;
         private DataGridView itemDatabaseGrid;
+        private Label numberText;
         private DataGridViewImageColumn icons;
         private DataGridViewTextBoxColumn itemName;
-        private Label numberText;
+        private DataGridViewTextBoxColumn ArmourType;
+        private DataGridViewTextBoxColumn ItemLevel;
     }
 }
