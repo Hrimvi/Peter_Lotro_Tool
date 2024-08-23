@@ -17,7 +17,6 @@ namespace EssenceValueCalculator
     }
     public enum StatEnum
     {
-
         Might,
         Agility,
         Vitality,

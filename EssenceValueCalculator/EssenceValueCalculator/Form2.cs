@@ -310,14 +310,14 @@ namespace EssenceValueCalculator
                     Width = 15,
                     Tag = stat
                 };
-                checkBox.Location = new Point(5, yOffset);
+                checkBox.Location = new System.Drawing.Point(5, yOffset);
                 checkBox.CheckedChanged += StatValueCheckbox_CheckedChanged;
 
                 // Label
                 Label label = new Label
                 {
                     Text = stat.Name,
-                    Location = new Point(25, yOffset),
+                    Location = new System.Drawing.Point(25, yOffset),
                     Width = 150,
                     TextAlign = ContentAlignment.MiddleLeft
                 };
@@ -326,7 +326,7 @@ namespace EssenceValueCalculator
                 TextBox textBox = new TextBox
                 {
                     Text = stat.Value.ToString("0.00"),
-                    Location = new Point(260, yOffset),
+                    Location = new System.Drawing.Point(260, yOffset),
                     Width = 50
                 };
                 textBox.TextChanged += StatValueTextBox_TextChanged;
@@ -421,58 +421,5 @@ namespace EssenceValueCalculator
     }
 
 
-    [XmlRoot("Settings")]
-    public class Settings
-    {
-        [XmlElement("Setting")]
-        public Setting setting { get; set; }
 
-        public Settings()
-        {
-            setting = new Setting();
-        }
-    }
-    public class Setting
-    {
-        [XmlElement("essenceItemLevel")]
-        public string? essenceItemLevel { get; set; }
-
-        [XmlElement("supValuesUsed")]
-        public bool supValuesUsed { get; set; }
-
-        [XmlElement("usedConfigName")]
-        public string usedConfigName { get; set; }
-
-        public void SetEssenceItemLevel(EssenceItemLevel level)
-        {
-            essenceItemLevel = level.ToString();
-        }
-    }
-    [XmlRoot("StatConfigs")]
-    public class StatConfigs
-    {
-        [XmlElement("StatConfig")]
-        public List<StatConfig> Configs { get; set; } = new List<StatConfig>();
-    }
-
-    public class StatConfig
-    {
-        [XmlAttribute("Name")]
-        public string? Name { get; set; }
-
-        [XmlElement("Stat")]
-        public List<StatElement> Stats { get; set; } = new List<StatElement>();
-    }
-
-    public class StatElement
-    {
-        [XmlAttribute("name")]
-        public string? Name { get; set; }
-
-        [XmlAttribute("value")]
-        public float Value { get; set; }
-
-        [XmlAttribute("active")]
-        public bool Active { get; set; }
-    }
 }

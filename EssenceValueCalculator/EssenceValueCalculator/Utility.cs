@@ -24,6 +24,43 @@ namespace EssenceValueCalculator
                 return result ?? new StatConfigs();
             }
         }
+        public static Progressions LoadProgressions(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                Progressions defaultConfig = new Progressions();
+                return defaultConfig;
+            }
+            XmlSerializer serializer = new XmlSerializer(typeof(Progressions));
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            {
+                var result = serializer.Deserialize(fs) as Progressions;
+                return result ?? new Progressions();
+            }
+        }
+        public static Items LoadItems(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                Items defaultConfig = new Items();
+                return defaultConfig;
+            }
+            XmlSerializer serializer = new XmlSerializer(typeof(Items));
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            {
+
+                Items result = serializer.Deserialize(fs) as Items;
+
+                if (result != null)
+                {
+                    result.ItemList = result.ItemList
+                        .Where(item => !string.IsNullOrEmpty(item.Slot) && item.EquipmentCategory != 32 && item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE" && item.Slot != "MAIN_HAND_AURA")
+                        .ToList();
+                }
+
+                return result ?? new Items();
+            }
+        }
         public static void SaveStatConfigs(string filePath, StatConfigs statConfigs)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(StatConfigs));
@@ -214,5 +251,43 @@ namespace EssenceValueCalculator
             return 0;
         }
 
+        public static List<int> GetIconIDsFromString(List<int> iconList, string iconIdText, string splitCharacter)
+        {
+            iconList.Clear();
+
+            string[] icons = iconIdText.Split(splitCharacter);
+            foreach (string icon in icons)
+            {
+                int iconId = int.Parse(icon);
+                iconList.Add(iconId);
+            }
+
+            return iconList;
+        }
+        public static Image OverlayIcons(List<Image> images)
+        {
+            Image baseImage = images[0];
+            Bitmap combinedImage = new Bitmap(baseImage.Width, baseImage.Height);
+
+            using (Graphics g = Graphics.FromImage(combinedImage))
+            {
+                g.DrawImage(baseImage, 0, 0);
+
+                for (int i = 1; i < images.Count; i++)
+                {
+                    Image overlayImage = images[i];
+                    g.DrawImage(overlayImage, 0, 0);
+                }
+            }
+
+            return combinedImage;
+        }
+        public static async Task<Image> OverlayIconsAsync(List<Image> icons)
+        {
+            return await Task.Run(() =>
+            {
+                return OverlayIcons(icons);
+            });
+        }
     }
 }

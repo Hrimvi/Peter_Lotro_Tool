@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EssenceValueCalculator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2ef50acfe2a019a28c6e01fff22e043ae1cfe79")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a77fb45f28c9e021c705e75343b5b0284484468e")]
 [assembly: System.Reflection.AssemblyProductAttribute("EssenceValueCalculator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EssenceValueCalculator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

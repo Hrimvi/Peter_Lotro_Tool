@@ -8,10 +8,10 @@ namespace EssenceValueCalculator
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
 
-        private const string essenceFilePath = "essence_values.xml";
-        private const string characterStatDerivationFilePath = "classStatDerivations.xml";
-        private const string settingsFilePath = "settings.xml";
-        private const string statConfigFilePath = "statConfigs.xml";
+        private const string essenceFilePath = "xmls/essence_values.xml";
+        private const string characterStatDerivationFilePath = "xmls/classStatDerivations.xml";
+        private const string settingsFilePath = "xmls/settings.xml";
+        private const string statConfigFilePath = "xmls/statConfigs.xml";
 
         private int currentYOffset = 0;
 
@@ -177,13 +177,13 @@ namespace EssenceValueCalculator
             }
             ComboBox newComboBox = new ComboBox();
             Utility.PopulateStats(newComboBox);
-            newComboBox.Location = new Point(comboBoxStats.Location.X, comboBoxStats.Location.Y + currentYOffset + 30);
+            newComboBox.Location = new System.Drawing.Point(comboBoxStats.Location.X, comboBoxStats.Location.Y + currentYOffset + 30);
             newComboBox.Size = comboBoxStats.Size;
             newComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             newComboBox.Font = new Font("Arial Rounded MT Bold", 10);
 
             TextBox newTextBox = new TextBox();
-            newTextBox.Location = new Point(inputField.Location.X, inputField.Location.Y + currentYOffset + 30);
+            newTextBox.Location = new System.Drawing.Point(inputField.Location.X, inputField.Location.Y + currentYOffset + 30);
             newTextBox.Size = inputField.Size;
             newTextBox.Font = new Font("Arial Rounded MT Bold", 10);
 

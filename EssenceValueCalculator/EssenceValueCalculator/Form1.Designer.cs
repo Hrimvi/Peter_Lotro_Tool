@@ -49,7 +49,7 @@
             // 
             comboBoxStats.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxStats.FormattingEnabled = true;
-            comboBoxStats.Location = new Point(69, 123);
+            comboBoxStats.Location = new System.Drawing.Point(69, 123);
             comboBoxStats.Name = "comboBoxStats";
             comboBoxStats.Size = new Size(121, 23);
             comboBoxStats.TabIndex = 0;
@@ -57,7 +57,7 @@
             // inputField
             // 
             inputField.Font = new Font("Arial Rounded MT Bold", 9.75F);
-            inputField.Location = new Point(217, 123);
+            inputField.Location = new System.Drawing.Point(217, 123);
             inputField.Name = "inputField";
             inputField.Size = new Size(100, 23);
             inputField.TabIndex = 1;
@@ -65,7 +65,7 @@
             // addButton
             // 
             addButton.Font = new Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            addButton.Location = new Point(69, 339);
+            addButton.Location = new System.Drawing.Point(69, 339);
             addButton.Name = "addButton";
             addButton.Size = new Size(121, 23);
             addButton.TabIndex = 2;
@@ -76,7 +76,7 @@
             // removeButton
             // 
             removeButton.Font = new Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            removeButton.Location = new Point(201, 339);
+            removeButton.Location = new System.Drawing.Point(201, 339);
             removeButton.Name = "removeButton";
             removeButton.Size = new Size(121, 23);
             removeButton.TabIndex = 3;
@@ -87,7 +87,7 @@
             // resetButton
             // 
             resetButton.Font = new Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            resetButton.Location = new Point(328, 339);
+            resetButton.Location = new System.Drawing.Point(328, 339);
             resetButton.Name = "resetButton";
             resetButton.Size = new Size(121, 23);
             resetButton.TabIndex = 4;
@@ -99,7 +99,7 @@
             // 
             essenceValueText.AutoSize = true;
             essenceValueText.Font = new Font("Arial Rounded MT Bold", 11F);
-            essenceValueText.Location = new Point(471, 70);
+            essenceValueText.Location = new System.Drawing.Point(471, 70);
             essenceValueText.Name = "essenceValueText";
             essenceValueText.Size = new Size(121, 17);
             essenceValueText.TabIndex = 5;
@@ -109,7 +109,7 @@
             // 
             classBox.Font = new Font("Arial Rounded MT Bold", 9.75F);
             classBox.FormattingEnabled = true;
-            classBox.Location = new Point(69, 32);
+            classBox.Location = new System.Drawing.Point(69, 32);
             classBox.Name = "classBox";
             classBox.Size = new Size(121, 23);
             classBox.TabIndex = 7;
@@ -118,7 +118,7 @@
             // 
             primaryBox1.Font = new Font("Arial Rounded MT Bold", 9.75F);
             primaryBox1.FormattingEnabled = true;
-            primaryBox1.Location = new Point(471, 281);
+            primaryBox1.Location = new System.Drawing.Point(471, 281);
             primaryBox1.Name = "primaryBox1";
             primaryBox1.Size = new Size(121, 23);
             primaryBox1.TabIndex = 8;
@@ -127,7 +127,7 @@
             // 
             primaryBox2.Font = new Font("Arial Rounded MT Bold", 9.75F);
             primaryBox2.FormattingEnabled = true;
-            primaryBox2.Location = new Point(471, 310);
+            primaryBox2.Location = new System.Drawing.Point(471, 310);
             primaryBox2.Name = "primaryBox2";
             primaryBox2.Size = new Size(121, 23);
             primaryBox2.TabIndex = 9;
@@ -136,7 +136,7 @@
             // 
             primaryBox3.Font = new Font("Arial Rounded MT Bold", 9.75F);
             primaryBox3.FormattingEnabled = true;
-            primaryBox3.Location = new Point(471, 339);
+            primaryBox3.Location = new System.Drawing.Point(471, 339);
             primaryBox3.Name = "primaryBox3";
             primaryBox3.Size = new Size(121, 23);
             primaryBox3.TabIndex = 10;
@@ -145,7 +145,7 @@
             // 
             vitalBox1.Font = new Font("Arial Rounded MT Bold", 9.75F);
             vitalBox1.FormattingEnabled = true;
-            vitalBox1.Location = new Point(635, 281);
+            vitalBox1.Location = new System.Drawing.    Point(635, 281);
             vitalBox1.Name = "vitalBox1";
             vitalBox1.Size = new Size(121, 23);
             vitalBox1.TabIndex = 11;
@@ -154,7 +154,7 @@
             // 
             vitalBox2.Font = new Font("Arial Rounded MT Bold", 9.75F);
             vitalBox2.FormattingEnabled = true;
-            vitalBox2.Location = new Point(635, 310);
+            vitalBox2.Location =         new System.Drawing.Point(635, 310);
             vitalBox2.Name = "vitalBox2";
             vitalBox2.Size = new Size(121, 23);
             vitalBox2.TabIndex = 12;
@@ -163,7 +163,7 @@
             // 
             vitalBox3.Font = new Font("Arial Rounded MT Bold", 9.75F);
             vitalBox3.FormattingEnabled = true;
-            vitalBox3.Location = new Point(635, 339);
+            vitalBox3.Location = new System.Drawing.Point(635, 339);
             vitalBox3.Name = "vitalBox3";
             vitalBox3.Size = new Size(121, 23);
             vitalBox3.TabIndex = 13;
@@ -172,7 +172,7 @@
             // 
             primaryEssenceLabel.AutoSize = true;
             primaryEssenceLabel.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            primaryEssenceLabel.Location = new Point(471, 260);
+            primaryEssenceLabel.Location = new System.Drawing.Point(471, 260);
             primaryEssenceLabel.Name = "primaryEssenceLabel";
             primaryEssenceLabel.Size = new Size(124, 15);
             primaryEssenceLabel.TabIndex = 14;
@@ -183,7 +183,7 @@
             // 
             vitalEssenceLabel.AutoSize = true;
             vitalEssenceLabel.Font = new Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            vitalEssenceLabel.Location = new Point(635, 263);
+            vitalEssenceLabel.Location = new System.Drawing.Point(635, 263);
             vitalEssenceLabel.Name = "vitalEssenceLabel";
             vitalEssenceLabel.Size = new Size(102, 15);
             vitalEssenceLabel.TabIndex = 15;
