@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,15 +26,65 @@ namespace EssenceValueCalculator
         private List<Image> iconImages = new List<Image>();
 
         private int count = 1;
+        private TextBox searchTextBox;
         public Item_Explorer()
         {
             InitializeComponent();
-            itemDb = Utility.LoadItems(itemsFilePath);
-            itemProgressions = Utility.LoadProgressions(progressionFilePath);
+            InitializeAsync();
 
+        }
+        private async void InitializeAsync()
+        {
+            itemDb = await Utility.LoadItemsAsync(itemsFilePath);
+            itemProgressions = await Utility.LoadProgressionsAsync(progressionFilePath);
 
-            LoadItems();
+            searchTextBox = new TextBox();
+            searchTextBox.Width = 200;
+            searchTextBox.Location = new Point(10, 10); // Adjust location as needed
+            searchTextBox.TextChanged += SearchTextBox_TextChanged;
+            this.Controls.Add(searchTextBox);
 
+            await LoadItems();
+        }
+        private async void SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = searchTextBox.Text.ToLower();
+            int batchSize = 10;
+
+            var visibilityResults = new ConcurrentDictionary<int, bool>();
+            var rows = itemDatabaseGrid.Rows.Cast<DataGridViewRow>().ToList();
+            var batches = rows.Select((row, index) => new { row, index })
+                              .GroupBy(x => x.index / batchSize)
+                              .Select(g => g.Select(x => x.row).ToList())
+                              .ToList();
+
+            await Task.Run(() =>
+            {
+                Parallel.ForEach(batches, batch =>
+                {
+                    foreach (var row in batch)
+                    {
+                        if (row.Cells["itemName"].Value != null)
+                        {
+                            string itemName = row.Cells["itemName"].Value.ToString().ToLower();
+                            bool isVisible = itemName.Contains(searchText);
+                            visibilityResults[row.Index] = isVisible;
+                        }
+                    }
+                });
+            });
+
+            itemDatabaseGrid.SuspendLayout();
+
+            itemDatabaseGrid.Invoke(new Action(() =>
+            {
+                foreach (var result in visibilityResults)
+                {
+                    itemDatabaseGrid.Rows[result.Key].Visible = result.Value;
+                }
+
+                itemDatabaseGrid.ResumeLayout();
+            }));
         }
         private async Task LoadItems()
         {

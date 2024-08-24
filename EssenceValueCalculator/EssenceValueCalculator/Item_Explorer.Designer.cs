@@ -30,11 +30,12 @@
         {
             selectedItemPanel = new Panel();
             itemDatabaseGrid = new DataGridView();
-            numberText = new Label();
             icons = new DataGridViewImageColumn();
             itemName = new DataGridViewTextBoxColumn();
             ArmourType = new DataGridViewTextBoxColumn();
             ItemLevel = new DataGridViewTextBoxColumn();
+            numberText = new Label();
+            textBox1 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)itemDatabaseGrid).BeginInit();
             SuspendLayout();
             // 
@@ -48,9 +49,7 @@
             // itemDatabaseGrid
             // 
             itemDatabaseGrid.AllowUserToAddRows = false;
-            itemDatabaseGrid.AllowUserToDeleteRows = false;
             itemDatabaseGrid.AllowUserToOrderColumns = true;
-            itemDatabaseGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             itemDatabaseGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             itemDatabaseGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             itemDatabaseGrid.Columns.AddRange(new DataGridViewColumn[] { icons, itemName, ArmourType, ItemLevel });
@@ -61,15 +60,6 @@
             itemDatabaseGrid.Size = new Size(511, 273);
             itemDatabaseGrid.TabIndex = 1;
             itemDatabaseGrid.CellContentClick += itemDatabaseGrid_CellContentClick;
-            // 
-            // numberText
-            // 
-            numberText.AutoSize = true;
-            numberText.Location = new Point(78, 374);
-            numberText.Name = "numberText";
-            numberText.Size = new Size(38, 15);
-            numberText.TabIndex = 2;
-            numberText.Text = "label1";
             // 
             // icons
             // 
@@ -98,11 +88,28 @@
             ItemLevel.ReadOnly = true;
             ItemLevel.Width = 86;
             // 
+            // numberText
+            // 
+            numberText.AutoSize = true;
+            numberText.Location = new Point(78, 374);
+            numberText.Name = "numberText";
+            numberText.Size = new Size(38, 15);
+            numberText.TabIndex = 2;
+            numberText.Text = "label1";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(127, 40);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(396, 23);
+            textBox1.TabIndex = 3;
+            // 
             // Item_Explorer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(textBox1);
             Controls.Add(numberText);
             Controls.Add(itemDatabaseGrid);
             Controls.Add(selectedItemPanel);
@@ -122,5 +129,6 @@
         private DataGridViewTextBoxColumn itemName;
         private DataGridViewTextBoxColumn ArmourType;
         private DataGridViewTextBoxColumn ItemLevel;
+        private TextBox textBox1;
     }
 }

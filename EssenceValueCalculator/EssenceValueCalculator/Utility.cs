@@ -24,37 +24,37 @@ namespace EssenceValueCalculator
                 return result ?? new StatConfigs();
             }
         }
-        public static Progressions LoadProgressions(string filePath)
+        public static async Task<Progressions> LoadProgressionsAsync(string filePath)
         {
             if (!File.Exists(filePath))
             {
-                Progressions defaultConfig = new Progressions();
-                return defaultConfig;
+                return new Progressions();
             }
             XmlSerializer serializer = new XmlSerializer(typeof(Progressions));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
             {
-                var result = serializer.Deserialize(fs) as Progressions;
+                var result = await Task.Run(() => serializer.Deserialize(fs) as Progressions);
                 return result ?? new Progressions();
             }
         }
-        public static Items LoadItems(string filePath)
+
+        public static async Task<Items> LoadItemsAsync(string filePath)
         {
             if (!File.Exists(filePath))
             {
-                Items defaultConfig = new Items();
-                return defaultConfig;
+                return new Items();
             }
             XmlSerializer serializer = new XmlSerializer(typeof(Items));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
             {
-
-                Items result = serializer.Deserialize(fs) as Items;
+                var result = await Task.Run(() => serializer.Deserialize(fs) as Items);
 
                 if (result != null)
                 {
                     result.ItemList = result.ItemList
-                        .Where(item => (!string.IsNullOrEmpty(item.equipSlot) && item.equipSlot != "MAIN_HAND_AURA" ) && item.EquipmentCategory != 32 && (item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE" ))
+                        .Where(item => (!string.IsNullOrEmpty(item.equipSlot) && item.equipSlot != "MAIN_HAND_AURA")
+                                       && item.EquipmentCategory != 32
+                                       && (item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE"))
                         .ToList();
                 }
 
