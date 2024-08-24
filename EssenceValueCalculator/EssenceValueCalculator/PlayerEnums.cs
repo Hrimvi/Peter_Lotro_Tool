@@ -27,7 +27,7 @@ namespace EssenceValueCalculator
         Tactical_Mastery,
         Physical_Mitigation,
         Tactical_Mitigation,
-        Critical_Defense,
+        Critical_Defence,
         Finesse,
         Block,
         Parry,
@@ -35,10 +35,11 @@ namespace EssenceValueCalculator
         Outgoing_Healing,
         Incoming_Healing,
         Resistance,
-        Max_Morale,
-        Max_Power,
+        Morale,
+        Power,
         Armour,
-        Basic_EssenceSlot
+        Basic_EssenceSlot,
+        TBD
     }
     public enum Essences
     {

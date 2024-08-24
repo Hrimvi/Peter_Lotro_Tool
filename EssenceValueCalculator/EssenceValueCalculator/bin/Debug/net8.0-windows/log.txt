@@ -1,0 +1,73 @@
+Log-Datei erstellt am 24.08.2024 10:19:34
+24.08.2024 10:19:34: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:19:34: Extracted Item Name: 506
+24.08.2024 10:19:34: Item nicht gefunden.
+24.08.2024 10:24:20: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:24:20: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:24:20: Item details updated for Man-at-Arms Cloak at level 510.
+24.08.2024 10:24:38: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:24:38: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:24:38: Item details updated for Man-at-Arms Cloak at level 520.
+24.08.2024 10:24:39: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:24:39: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:24:39: Item details updated for Man-at-Arms Cloak at level 520.
+24.08.2024 10:24:39: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:24:39: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:24:39: Item details updated for Man-at-Arms Cloak at level 520.
+24.08.2024 10:26:12: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:26:12: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:26:12: Item details updated for Footman's Cloak at level 530.
+24.08.2024 10:26:24: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:26:24: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:26:24: Item details updated for Keen Umbari Bracelet at level 530.
+24.08.2024 10:26:27: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:26:27: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:26:27: Item details updated for Keen Umbari Bracelet at level 524.
+24.08.2024 10:26:54: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:26:54: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:26:54: Item details updated for Keen Umbari Bracelet at level 700.
+24.08.2024 10:27:00: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:27:00: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:27:00: Item details updated for Keen Umbari Bracelet at level 10000.
+24.08.2024 10:27:06: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:27:06: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:27:06: Item details updated for Keen Umbari Bracelet at level 600.
+24.08.2024 10:28:41: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:28:41: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:28:41: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:28:41: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:28:41: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:28:41: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:28:41: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:28:41: Item details updated for Esquire's Cloak at level 1000.
+24.08.2024 10:31:40: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:31:40: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:31:40: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:31:40: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:31:40: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:31:40: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:31:40: Kein Punkt gefunden größer als itemLevel (1000). Extrapoliere mit dem letzten bekannten Punkt.
+24.08.2024 10:31:40: Item details updated for Esquire's Cloak at level 1000.
+24.08.2024 10:32:23: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:32:23: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:32:23: Item details updated for Esquire's Cloak at level 1000.
+24.08.2024 10:34:40: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:34:40: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:34:40: Item details updated for Esquire's Cloak at level 100.
+24.08.2024 10:34:50: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:34:50: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:34:50: Item details updated for Esquire's Cloak at level 506.
+24.08.2024 10:34:54: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:34:54: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:34:54: Item details updated for Esquire's Cloak at level 508.
+24.08.2024 10:34:59: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:34:59: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:34:59: Item details updated for Esquire's Cloak at level 510.
+24.08.2024 10:39:30: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:39:30: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:39:30: Item details updated for Esquire's Cloak at level 1000.
+24.08.2024 10:40:36: Ungültiger Stat-String: SKILL_ADDITIONALTHREAT_HUNTER_ALLRANGESKILLSMOD
+24.08.2024 10:40:37: Ungültiger Stat-String: SKILL_ADDITIONALTHREAT_HUNTER_ALLRANGESKILLSMOD
+24.08.2024 10:40:40: ScaleButton_Click wurde aufgerufen.
+24.08.2024 10:40:40: Item gefunden, aktualisiere die Stats.
+24.08.2024 10:40:40: Item details updated for Captain-General's Cloak at level 1000.

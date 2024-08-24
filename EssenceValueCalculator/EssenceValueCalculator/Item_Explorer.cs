@@ -27,6 +27,11 @@ namespace EssenceValueCalculator
 
         private int count = 1;
         private TextBox searchTextBox;
+
+        private TextBox levelInputTextBox;
+        private Button scaleButton;
+
+        private Item currentSelected;
         public Item_Explorer()
         {
             InitializeComponent();
@@ -40,10 +45,11 @@ namespace EssenceValueCalculator
 
             searchTextBox = new TextBox();
             searchTextBox.Width = 200;
-            searchTextBox.Location = new Point(10, 10); // Adjust location as needed
+            searchTextBox.Location = new Point(10, 10);
             searchTextBox.TextChanged += SearchTextBox_TextChanged;
             this.Controls.Add(searchTextBox);
-
+            levelInputTextBox = null;
+            scaleButton = null;
             await LoadItems();
         }
         private async void SearchTextBox_TextChanged(object sender, EventArgs e)
@@ -143,9 +149,216 @@ namespace EssenceValueCalculator
             });
         }
 
-        private void itemDatabaseGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void itemDatabaseGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0)
+            {
+                var selectedName = itemDatabaseGrid.Rows[e.RowIndex].Cells["itemName"].Value.ToString();
+                var selectedItem = itemDb.ItemList.FirstOrDefault(item => item.Name == selectedName);
+                
+                if (selectedItem != null)
+                {
+                    currentSelected = selectedItem;
+                    await DisplayItemDetailsAsync(selectedItem);
 
+                    if (levelInputTextBox == null || scaleButton == null)
+                    {
+                        levelInputTextBox = new TextBox
+                        {
+                            Width = 100,
+                            Location = new Point(selectedItemPanel.Left, selectedItemPanel.Bottom + 10)
+                        };
+                        levelInputTextBox.KeyPress += LevelInputTextBox_KeyPress;
+
+                        scaleButton = new Button
+                        {
+                            Text = "Scale Item",
+                            Location = new Point(selectedItemPanel.Left + 100, selectedItemPanel.Bottom + 10),
+                            Width = 100
+                        };
+                        scaleButton.Click += ScaleButton_Click;
+
+                        this.Controls.Add(levelInputTextBox);
+                        this.Controls.Add(scaleButton);
+                    }
+                    else
+                    {
+                        levelInputTextBox.Visible = true;
+                        scaleButton.Visible = true;
+
+                        levelInputTextBox.Location = new Point(selectedItemPanel.Left, selectedItemPanel.Bottom + 10);
+                        scaleButton.Location = new Point(selectedItemPanel.Left + 100, selectedItemPanel.Bottom + 10);
+                    }
+                }
+            }
         }
+        private async void ScaleButton_Click(object sender, EventArgs e)
+        {
+            Utility.Log("ScaleButton_Click wurde aufgerufen.");
+
+            if (int.TryParse(levelInputTextBox.Text, out int newLevel) && currentSelected != null)
+            {
+                var selectedItem = currentSelected;
+                selectedItem.itemLevel = newLevel;
+
+                Utility.Log("Item gefunden, aktualisiere die Stats.");
+                try
+                {
+                    await DisplayItemDetailsAsync(selectedItem);
+                    Utility.Log($"Item details updated for {selectedItem.Name} at level {newLevel}.");
+                }
+                catch (Exception ex)
+                {
+                    Utility.Log($"Fehler beim Aktualisieren der Item-Details: {ex.Message}");
+                }
+            }
+            else
+            {
+                Utility.Log("Ungültige Eingabe für Item Level oder kein Item ausgewählt.");
+            }
+        }
+        private void HideLevelControls()
+        {
+            if (levelInputTextBox != null && scaleButton != null)
+            {
+                levelInputTextBox.Visible = false;
+                scaleButton.Visible = false;
+            }
+        }
+        private async Task DisplayItemDetailsAsync(Item item)
+        {
+            selectedItemPanel.Controls.Clear();
+
+            Panel nameAndIconPanel = new Panel
+            {
+                Location = new Point(10, 10),
+                Size = new Size(400, 60)
+            };
+
+            PictureBox iconPictureBox = new PictureBox
+            {
+                Size = new Size(50, 50),
+                Location = new Point(0, 5),
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
+
+            iconImages.Clear();
+            iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.Icon, "-");
+            iconIdSaves.Reverse();
+
+            var imageTasks = new List<Task<Image>>();
+            foreach (int id in iconIdSaves)
+            {
+                if (id != 0)
+                {
+                    string path = $"{iconFolder}/{id}.png";
+                    imageTasks.Add(LoadImageAsync(path, id));
+                }
+            }
+
+            var loadedImages = await Task.WhenAll(imageTasks);
+            iconImages.AddRange(loadedImages);
+
+            iconPictureBox.Image = await Utility.OverlayIconsAsync(iconImages);
+
+            nameAndIconPanel.Controls.Add(iconPictureBox);
+
+            Label nameLabel = new Label
+            {
+                Text = $"{item.Name}",
+                Location = new Point(iconPictureBox.Right + 10, 10),
+                AutoSize = true
+            };
+            nameAndIconPanel.Controls.Add(nameLabel);
+
+            selectedItemPanel.Controls.Add(nameAndIconPanel);
+
+
+            Label levelLabel = new Label
+            {
+                Text = $"Item Level: {item.itemLevel}",
+                Location = new Point(10, nameAndIconPanel.Bottom + 10),
+                AutoSize = true
+            };
+            selectedItemPanel.Controls.Add(levelLabel);
+
+            if (item.Dps != null && item.Dps > 0)
+            {
+                Label dpsLabel = new Label
+                {
+                    Text = $"DPS: {item.Dps}",
+                    Location = new Point(10, (selectedItemPanel.Controls.OfType<Label>().LastOrDefault()?.Bottom ?? nameAndIconPanel.Bottom) + 10),
+                    AutoSize = true
+                };
+                selectedItemPanel.Controls.Add(dpsLabel);
+            }
+
+            if (item.Stats != null && item.Stats.StatList != null && item.Stats.StatList.Any())
+            {
+                Label statsLabel = new Label
+                {
+                    Text = "Stats:",
+                    Location = new Point(10, (selectedItemPanel.Controls.OfType<Label>().LastOrDefault()?.Bottom ?? (selectedItemPanel.Controls.OfType<PictureBox>().LastOrDefault()?.Bottom ?? nameAndIconPanel.Bottom)) + 10),
+                    AutoSize = true
+                };
+                selectedItemPanel.Controls.Add(statsLabel);
+
+                int statsY = statsLabel.Bottom + 10;
+                var Stats = ConvertStatsToDictionary(item.Stats.StatList, item.itemLevel);
+                foreach (var stat in Stats)
+                {
+                    Label statLabel = new Label
+                    {
+                        Text = $"{stat.Key.ToString().Replace("_", " ")}: {stat.Value}",
+                        Location = new Point(10, statsY),
+                        AutoSize = true
+                    };
+                    selectedItemPanel.Controls.Add(statLabel);
+                    statsY += 20;
+                    
+                }
+            }
+        }
+        
+
+        private Dictionary<StatEnum, float> ConvertStatsToDictionary(List<ItemStat> itemStats, int itemLevel)
+        {
+            var statCalc = new Dictionary<StatEnum, float>();
+
+            foreach (var stat in itemStats)
+            {
+                try
+                {
+                    var statEnum = ParseStatEnum(stat.Name);
+                    statCalc[statEnum] = (float)Math.Round(Utility.GetStatsFromProgressions(itemProgressions, stat.Scaling, itemLevel), 2); 
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return statCalc;
+        }
+        private void LevelInputTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private StatEnum ParseStatEnum(string statString)
+        {
+            statString = statString.Trim().ToUpper().Replace(" ", "_");
+
+            if (Enum.TryParse<StatEnum>(statString, ignoreCase: true, out StatEnum result))
+            {
+                return result;
+            }
+            Utility.Log($"Ungültiger Stat-String: {statString}");
+            return StatEnum.TBD;
+        }
+       
+       
     }
 }

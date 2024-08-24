@@ -41,9 +41,9 @@ namespace EssenceValueCalculator
 
 
                 if (isActive == false) continue;
-                if (kvp.Key == StatEnum.Max_Morale || kvp.Key == StatEnum.Max_Power)
+                if (kvp.Key == StatEnum.Morale || kvp.Key == StatEnum.Power)
                 {
-                    if (kvp.Key == StatEnum.Max_Power)
+                    if (kvp.Key == StatEnum.Power)
                     {
                         if (playerClass == Classes.Beorning)
                         {
@@ -54,7 +54,7 @@ namespace EssenceValueCalculator
                             essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
                         }
                     }
-                    else if (kvp.Key == StatEnum.Max_Morale)
+                    else if (kvp.Key == StatEnum.Morale)
                     {
                         essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
                     }
@@ -73,7 +73,7 @@ namespace EssenceValueCalculator
 
         public static Dictionary<StatEnum, float>? CalculateMainstat(Dictionary<StatEnum, float> mainStatCalc,StatEnum statEnum, float statValue, Classes classe, Stats characterStatDerivations)
         {
-            if (statEnum == StatEnum.Max_Power || statEnum == StatEnum.Max_Morale) return null;
+            if (statEnum == StatEnum.Power || statEnum == StatEnum.Morale) return null;
             mainStatCalc.Clear();
             var baseStats = new HashSet<StatEnum>
             {
@@ -82,7 +82,7 @@ namespace EssenceValueCalculator
                 StatEnum.Tactical_Mastery,
                 StatEnum.Physical_Mitigation,
                 StatEnum.Tactical_Mitigation,
-                StatEnum.Critical_Defense,
+                StatEnum.Critical_Defence,
                 StatEnum.Finesse,
                 StatEnum.Block,
                 StatEnum.Parry,
@@ -90,8 +90,8 @@ namespace EssenceValueCalculator
                 StatEnum.Outgoing_Healing,
                 StatEnum.Incoming_Healing,
                 StatEnum.Resistance,
-                StatEnum.Max_Morale,
-                StatEnum.Max_Power
+                StatEnum.Morale,
+                StatEnum.Power
             };
 
             string mainStat = statEnum.ToString().Replace("_", " ");

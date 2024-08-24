@@ -59,7 +59,7 @@
             itemDatabaseGrid.RowHeadersVisible = false;
             itemDatabaseGrid.Size = new Size(511, 273);
             itemDatabaseGrid.TabIndex = 1;
-            itemDatabaseGrid.CellContentClick += itemDatabaseGrid_CellContentClick;
+            itemDatabaseGrid.CellContentClick += itemDatabaseGrid_CellClick;
             // 
             // icons
             // 

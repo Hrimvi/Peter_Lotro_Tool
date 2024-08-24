@@ -9,6 +9,33 @@ namespace EssenceValueCalculator
 {
     public static class Utility
     {
+        private const string logFilePath = "log.txt";
+        public static void Log(string message)
+        {
+            try
+            {
+                // Überprüfen, ob die Log-Datei existiert und gegebenenfalls erstellen
+                FileInfo logFile = new FileInfo(logFilePath);
+                if (!logFile.Exists)
+                {
+                    // Erstellen der Datei, wenn sie nicht existiert
+                    using (FileStream fs = logFile.Create())
+                    {
+                        // Optional: Initialisierung oder Schreiben von Header-Informationen
+                        byte[] info = new UTF8Encoding(true).GetBytes("Log-Datei erstellt am " + DateTime.Now + Environment.NewLine);
+                        fs.Write(info, 0, info.Length);
+                    }
+                }
+
+                // Hinzufügen der Log-Nachricht zur Datei
+                File.AppendAllText(logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
+            }
+            catch (Exception ex)
+            {
+                // Fehlerbehandlung: Zeige eine MessageBox an, wenn ein Fehler beim Schreiben auftritt
+                MessageBox.Show($"Fehler beim Schreiben in die Log-Datei: {ex.Message}");
+            }
+        }
         public static StatConfigs LoadStatConfigs(string filePath)
         {
             if (!File.Exists(filePath))
@@ -170,6 +197,7 @@ namespace EssenceValueCalculator
         {
             foreach (StatEnum stat in Enum.GetValues(typeof(StatEnum)))
             {
+                if (stat == StatEnum.TBD) continue;
                 comboBox.Items.Add(stat.ToString().Replace("_", " "));
             }
             comboBox.SelectedIndex = 0;
@@ -285,6 +313,69 @@ namespace EssenceValueCalculator
         public static async Task<Image> OverlayIconsAsync(List<Image> icons)
         {
             return await Task.Run(() => OverlayIcons(icons));
+        }
+        public static float GetStatsFromProgressions(Progressions itemProgressions,long progressionID, int itemLevel)
+        {
+            // Finde die Progression anhand der ID
+            var linearProgression = itemProgressions.LinearInterpolationProgressions
+                                  .FirstOrDefault(p => p.Identifier == progressionID);
+            var arrayProgression = itemProgressions.ArrayProgressions
+                               .FirstOrDefault(p => p.Identifier == progressionID);
+
+            if (linearProgression != null)
+            {
+                return GetValueFromLinearInterpolation(linearProgression, itemLevel);
+            }
+
+            if (arrayProgression != null)
+            {
+                return GetValueFromArrayProgression(arrayProgression, itemLevel);
+            }
+
+            return 0;
+        }
+
+        private static float GetValueFromLinearInterpolation(LinearInterpolationProgression progression, int itemLevel)
+        {
+            var points = progression.Points.OrderBy(p => p.X).ToList();
+
+            var point1 = points.LastOrDefault(p => p.X <= itemLevel);
+            var point2 = points.FirstOrDefault(p => p.X > itemLevel);
+            if (point1 == null)
+            {
+                if (points.Count > 1)
+                {
+                    point1 = points.First();
+                    point2 = points[1];
+                }
+                else
+                {
+                 
+                    return (float)points.First().Y;
+                }
+            }
+
+            if (point2 == null)
+            {
+                point2 = points.Last();
+                point1 = points[points.Count - 2]; 
+            }
+
+            float slope = (float)(point2.Y - point1.Y) / (point2.X - point1.X);
+            float interpolatedValue = (float)(point1.Y + slope * (itemLevel - point1.X));
+
+            return (float)Math.Round(interpolatedValue, 2);
+        }
+
+        private static float GetValueFromArrayProgression(ArrayProgression progression, int itemLevel)
+        {
+            var points = progression.Points.OrderBy(p => p.Count).ToList();
+
+            var point = points.LastOrDefault(p => p.Count <= itemLevel);
+
+            if (point == null) return (float)points.First().Y;
+
+            return (float)Math.Round(point.Y, 2);
         }
     }
 }
