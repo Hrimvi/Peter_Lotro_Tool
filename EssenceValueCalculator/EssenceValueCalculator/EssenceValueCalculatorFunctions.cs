@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,7 +57,7 @@ namespace EssenceValueCalculator
                     }
                     else if (kvp.Key == StatEnum.Morale)
                     {
-                        essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, settings) * valueMultiplier;
+                        essenceValue += kvp.Value / (4.5f * Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, settings)) * valueMultiplier;
                     }
                 }
                 else

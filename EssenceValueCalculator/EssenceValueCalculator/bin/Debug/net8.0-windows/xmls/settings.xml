@@ -2,7 +2,7 @@
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Setting>
     <essenceItemLevel>Level_538</essenceItemLevel>
-    <supValuesUsed>true</supValuesUsed>
-    <usedConfigName>Physical DPS</usedConfigName>
+    <supValuesUsed>false</supValuesUsed>
+    <usedConfigName>test config</usedConfigName>
   </Setting>
 </Settings>

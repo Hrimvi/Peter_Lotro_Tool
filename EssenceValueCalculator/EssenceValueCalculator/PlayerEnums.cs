@@ -41,29 +41,6 @@ namespace EssenceValueCalculator
         Basic_EssenceSlot,
         TBD
     }
-    public enum Essences
-    {
-        Might,
-        Agility,
-        Vitality,
-        Will,
-        Fate,
-        Critical_Rating,
-        Physical_Mastery,
-        Tactical_Mastery,
-        Physical_Mitigation,
-        Tactical_Mitigation,
-        Critical_Defence,
-        Finesse,
-        Block,
-        Parry,
-        Evade,
-        Outgoing_Healing,
-        Incoming_Healing,
-        Resistance,
-        Sub_Vit,
-        Sub_Fate
-    }
     public enum PrimaryEssenceSlot
     {
         None,

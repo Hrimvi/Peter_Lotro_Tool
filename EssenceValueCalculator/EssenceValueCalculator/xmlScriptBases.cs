@@ -132,13 +132,13 @@ namespace EssenceValueCalculator
     public class Item
     {
         [XmlAttribute("key")]
-        public long Key { get; set; }
+        public long itemID { get; set; }
 
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string itemName { get; set; }
 
         [XmlAttribute("icon")]
-        public string Icon { get; set; }
+        public string itemIcon { get; set; }
 
         [XmlAttribute("level")]
         public int itemLevel { get; set; }
@@ -206,6 +206,9 @@ namespace EssenceValueCalculator
         [XmlElement("stats")]
         public ItemStats Stats { get; set; }
 
+        [XmlAttribute("type")]
+        public int itemType { get; set; }
+
     }
 
     public class ItemStats
@@ -216,6 +219,7 @@ namespace EssenceValueCalculator
 
     public class ItemStat
     {
+        public StatEnum stat;
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -224,7 +228,69 @@ namespace EssenceValueCalculator
 
         [XmlAttribute("ranged")]
         public string rangedScaling { get; set; }
+
+        [XmlAttribute("constant")]
+        public float percentage { get; set; }
+
+        
     }
+
+
     #endregion
+    [XmlRoot("EssenceValues")]
+    public class EssenceValues
+    {
+        [XmlElement("Essence")]
+        public List<Item> Essences { get; set; }
+
+        public EssenceValues()
+        {
+            Essences = new List<Item>();
+        }
+    }
+
+    [XmlRoot("Stats")]
+    public class Stats
+    {
+        [XmlElement("Class")]
+        public List<Class> Classes { get; set; }
+
+        public Stats()
+        {
+            Classes = new List<Class>();
+        }
+    }
+
+    public class Class
+    {
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+
+        [XmlElement("Mainstat")]
+        public List<Mainstat> Mainstats { get; set; }
+
+        public Class()
+        {
+            Name = string.Empty;
+            Mainstats = new List<Mainstat>();
+        }
+    }
+
+    public class Mainstat
+    {
+        [XmlAttribute("name")]
+        public string? Name { get; set; }
+        [XmlElement("Stat")]
+        public List<Stat>? Stats { get; set; }
+    }
+
+    public class Stat
+    {
+        [XmlAttribute("name")]
+        public string? Name { get; set; }
+
+        [XmlAttribute("value")]
+        public float Value { get; set; }
+    }
 
 }

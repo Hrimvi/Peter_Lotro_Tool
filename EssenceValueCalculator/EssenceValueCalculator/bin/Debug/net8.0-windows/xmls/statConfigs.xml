@@ -68,4 +68,21 @@
     <Stat name="Max Morale" value="1" active="true" />
     <Stat name="Max Power" value="1" active="false" />
   </StatConfig>
+  <StatConfig Name="test config">
+    <Stat name="Critical Rating" value="1" active="true" />
+    <Stat name="Physical Mastery" value="1" active="true" />
+    <Stat name="Tactical Mastery" value="1" active="true" />
+    <Stat name="Physical Mitigation" value="1" active="true" />
+    <Stat name="Tactical Mitigation" value="1" active="true" />
+    <Stat name="Critical Defence" value="1" active="true" />
+    <Stat name="Finesse" value="1" active="true" />
+    <Stat name="Block" value="1" active="true" />
+    <Stat name="Parry" value="1" active="true" />
+    <Stat name="Evade" value="1" active="true" />
+    <Stat name="Outgoing Healing" value="1" active="true" />
+    <Stat name="Incoming Healing" value="1" active="true" />
+    <Stat name="Resistance" value="1" active="true" />
+    <Stat name="Morale" value="1" active="true" />
+    <Stat name="Power" value="1" active="true" />
+  </StatConfig>
 </StatConfigs>

@@ -28,10 +28,6 @@ namespace EssenceValueCalculator
         {
             InitializeComponent();
 
-
-           
-
-
             Utility.PopulateStats(comboBoxStats);
             Utility.PopulateClasses(classBox);
 
@@ -70,7 +66,6 @@ namespace EssenceValueCalculator
 
         private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
-            
             float essenceValue = GetEssenceValue();
             essenceValueText.Text = $"Essence-Value: {essenceValue:F2}";
         }
@@ -82,7 +77,6 @@ namespace EssenceValueCalculator
 
             Enum.TryParse(classBox.SelectedItem?.ToString()?.Replace(" ", "_"), out Classes classe);
 
-            //Add direct Stats from Userpanel
             foreach (var kvp in dynamicControls)
             {
                 Enum.TryParse(kvp.Key.SelectedItem?.ToString()?.Replace(" ", "_"), out StatEnum stat);
@@ -91,7 +85,6 @@ namespace EssenceValueCalculator
                 else statCalc.Add(stat, statValues);
             }
             statCalc = GetEssenceSocketValues(statCalc);
-            //Mainstat decodation
             foreach (var kvp in statCalc)
             {
                 if (Utility.isMainStat(kvp.Key))
@@ -109,9 +102,11 @@ namespace EssenceValueCalculator
        
         public Dictionary<StatEnum, float> GetEssenceSocketValues(Dictionary<StatEnum, float> currentStats)
         {
-
+            int essenceItemLevel = Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings);
+            Utility.Log(essenceItemLevel.ToString());
             foreach (ComboBox comboBox in primaryBoxes)
             {
+              
                 Enum.TryParse(comboBox.SelectedItem?.ToString()?.Replace(" ", "_"), out PrimaryEssenceSlot stat);
 
                 if (stat != PrimaryEssenceSlot.None)
@@ -119,16 +114,16 @@ namespace EssenceValueCalculator
                     switch (stat)
                     {
                         case PrimaryEssenceSlot.Might:
-                            if (statCalc.ContainsKey(StatEnum.Might)) statCalc[StatEnum.Might] += Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings));
-                            else statCalc.Add(StatEnum.Might, Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings)));
+                            if (statCalc.ContainsKey(StatEnum.Might)) statCalc[StatEnum.Might] += Utility.GetEssenceStatValue(StatEnum.Might, essenceItemLevel, ApplicationData.Instance.Settings);
+                            else statCalc.Add(StatEnum.Might, Utility.GetEssenceStatValue(StatEnum.Might, essenceItemLevel, ApplicationData.Instance.Settings));
                             break;
                         case PrimaryEssenceSlot.Agility:
-                            if (statCalc.ContainsKey(StatEnum.Agility)) statCalc[StatEnum.Agility] += Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings));
-                            else statCalc.Add(StatEnum.Agility, Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings)));
+                            if (statCalc.ContainsKey(StatEnum.Agility)) statCalc[StatEnum.Agility] += Utility.GetEssenceStatValue(StatEnum.Agility, essenceItemLevel, ApplicationData.Instance.Settings);
+                            else statCalc.Add(StatEnum.Agility, Utility.GetEssenceStatValue(StatEnum.Agility, essenceItemLevel, ApplicationData.Instance.Settings));
                             break;
                         case PrimaryEssenceSlot.Will:
-                            if (statCalc.ContainsKey(StatEnum.Will)) statCalc[StatEnum.Will] += Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings));
-                            else statCalc.Add(StatEnum.Will, Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings)));
+                            if (statCalc.ContainsKey(StatEnum.Will)) statCalc[StatEnum.Will] += Utility.GetEssenceStatValue(StatEnum.Will, essenceItemLevel, ApplicationData.Instance.Settings);
+                            else statCalc.Add(StatEnum.Will, Utility.GetEssenceStatValue(StatEnum.Will, essenceItemLevel, ApplicationData.Instance.Settings));
                             break;
                     }
 
@@ -142,12 +137,12 @@ namespace EssenceValueCalculator
                     switch (stat)
                     {
                         case VitalEssenceSlot.Fate:
-                            if (statCalc.ContainsKey(StatEnum.Fate)) statCalc[StatEnum.Fate] += Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings));
-                            else statCalc.Add(StatEnum.Fate, Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings)));
+                            if (statCalc.ContainsKey(StatEnum.Fate)) statCalc[StatEnum.Fate] += Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemLevel, ApplicationData.Instance.Settings);
+                            else statCalc.Add(StatEnum.Fate, Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemLevel, ApplicationData.Instance.Settings));
                             break;
                         case VitalEssenceSlot.Vitality:
-                            if (statCalc.ContainsKey(StatEnum.Vitality)) statCalc[StatEnum.Vitality] += Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings));
-                            else statCalc.Add(StatEnum.Vitality, Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(ApplicationData.Instance.Settings)));
+                            if (statCalc.ContainsKey(StatEnum.Vitality)) statCalc[StatEnum.Vitality] += Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, ApplicationData.Instance.Settings);
+                            else statCalc.Add(StatEnum.Vitality, Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, ApplicationData.Instance.Settings));
                             break;
 
                     }
@@ -235,75 +230,7 @@ namespace EssenceValueCalculator
         }
     }
 
-    [XmlRoot("EssenceValues")]
-    public class EssenceValues
-    {
-        [XmlElement("Essence")]
-        public List<Essence> Essences { get; set; }
 
-        public EssenceValues()
-        {
-            Essences = new List<Essence>();
-        }
-    }
-
-    public class Essence
-    {
-        public Essences essence { get; set; }
-        [XmlElement("Stat")]
-        public StatEnum Stat { get; set; }
-
-        [XmlElement("ItemLevel")]
-        public int ItemLevel { get; set; }
-
-        [XmlElement("Value")]
-        public float Value { get; set; }
-    }
-
-
-    [XmlRoot("Stats")]
-    public class Stats
-    {
-        [XmlElement("Class")]
-        public List<Class> Classes { get; set; }
-
-        public Stats()
-        {
-            Classes = new List<Class>();
-        }
-    }
-
-    public class Class
-    {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
-
-        [XmlElement("Mainstat")]
-        public List<Mainstat> Mainstats { get; set; }
-
-        public Class()
-        {
-            Name = string.Empty;
-            Mainstats = new List<Mainstat>();
-        }
-    }
-
-    public class Mainstat
-    {
-        [XmlAttribute("name")]
-        public string? Name { get; set; }
-        [XmlElement("Stat")]
-        public List<Stat>? Stats { get; set; }
-    }
-
-    public class Stat
-    {
-        [XmlAttribute("name")]
-        public string? Name { get; set; }
-
-        [XmlAttribute("value")]
-        public float Value { get; set; }
-    }
    
 
 }

@@ -41,10 +41,10 @@
 			<Stat name="Tactical Mitigation" value="1.5"/>
 		</Mainstat>
 	<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 	<Mainstat name="Fate">
-			<Stat name="Max_Morale" value="2.5"/>
+			<Stat name="Morale" value="2.5"/>
 		</Mainstat>
 	</Class>
 
@@ -89,10 +89,10 @@
 			<Stat name="Tactical Mitigation" value="1.5"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -137,10 +137,10 @@
 			<Stat name="Tactical Mitigation" value="0"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -185,10 +185,10 @@
 			<Stat name="Tactical Mitigation" value="1.5"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -233,10 +233,10 @@
 			<Stat name="Tactical Mitigation" value="1.5"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -281,10 +281,10 @@
 			<Stat name="Tactical Mitigation" value="1.5"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -329,10 +329,10 @@
 			<Stat name="Tactical Mitigation" value="0"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -377,10 +377,10 @@
 			<Stat name="Tactical Mitigation" value="1"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -425,10 +425,10 @@
 			<Stat name="Tactical Mitigation" value="0"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -473,10 +473,10 @@
 			<Stat name="Tactical Mitigation" value="1"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -521,10 +521,10 @@
 			<Stat name="Tactical Mitigation" value="1"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 
@@ -569,10 +569,10 @@
 			<Stat name="Tactical Mitigation" value="1.5"/>
 		</Mainstat>
 		<Mainstat name="Vitality">
-			<Stat name="Max_Morale" value="4.5"/>
+			<Stat name="Morale" value="4.5"/>
 		</Mainstat>
 		<Mainstat name="Fate">
-			<Stat name="Max_Power" value="1"/>
+			<Stat name="Power" value="1"/>
 		</Mainstat>
 	</Class>
 </Stats>

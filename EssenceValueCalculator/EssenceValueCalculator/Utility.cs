@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace EssenceValueCalculator
 {
@@ -15,25 +17,19 @@ namespace EssenceValueCalculator
         {
             try
             {
-                // Überprüfen, ob die Log-Datei existiert und gegebenenfalls erstellen
                 FileInfo logFile = new FileInfo(ApplicationData.logFilePath);
                 if (!logFile.Exists)
                 {
-                    // Erstellen der Datei, wenn sie nicht existiert
                     using (FileStream fs = logFile.Create())
                     {
-                        // Optional: Initialisierung oder Schreiben von Header-Informationen
                         byte[] info = new UTF8Encoding(true).GetBytes("Log-Datei erstellt am " + DateTime.Now + Environment.NewLine);
                         fs.Write(info, 0, info.Length);
                     }
                 }
-
-                // Hinzufügen der Log-Nachricht zur Datei
                 File.AppendAllText(ApplicationData.logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
             }
             catch (Exception ex)
             {
-                // Fehlerbehandlung: Zeige eine MessageBox an, wenn ein Fehler beim Schreiben auftritt
                 MessageBox.Show($"Fehler beim Schreiben in die Log-Datei: {ex.Message}");
             }
         }
@@ -80,10 +76,21 @@ namespace EssenceValueCalculator
                 if (result != null)
                 {
                     result.ItemList = result.ItemList
-                        .Where(item => (!string.IsNullOrEmpty(item.equipSlot) && item.equipSlot != "MAIN_HAND_AURA")
+                        .Where(item => ((!string.IsNullOrEmpty(item.equipSlot) ||item.Category == "ESSENCE")&& item.equipSlot != "MAIN_HAND_AURA")
                                        && item.EquipmentCategory != 32
                                        && (item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE"))
                         .ToList();
+
+                    foreach (var item in result.ItemList)
+                    {
+                        if (item.Stats != null && item.Stats.StatList != null)
+                        {
+                            foreach (var stat in item.Stats.StatList)
+                            {
+                                stat.stat = ParseStatEnum(stat.Name);
+                            }
+                        }
+                    }
                 }
 
                 return result ?? new Items();
@@ -97,14 +104,32 @@ namespace EssenceValueCalculator
                 serializer.Serialize(fs, statConfigs);
             }
         }
-        public static EssenceValues LoadEssenceValues()
+        public static async Task<List<Item>> LoadEssenceValuesAsync()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(EssenceValues));
-            using (FileStream fs = new FileStream(ApplicationData.essenceFilePath, FileMode.Open))
+            var essenceList = new List<Item>();
+
+            if (ApplicationData.Instance.itemDb.ItemList != null && ApplicationData.Instance.itemDb.ItemList.Any())
             {
-                var result = (EssenceValues)serializer.Deserialize(fs);
-                return result ?? new EssenceValues();
+                var categories = ApplicationData.Instance.itemDb.ItemList
+                        .Select(item => item.Category?.Trim())
+                        .Distinct()
+                        .ToList();
+
+
+                
+                essenceList = ApplicationData.Instance.itemDb.ItemList.Where(item => item.Category != null && item.Category == "ESSENCE").ToList();
+                if (!essenceList.Any())
+                {
+                    Log("Es wurden keine Items mit der Kategorie 'ESSENCE' gefunden.");
+                }
             }
+            else
+            {
+
+                Log("itemDb.ItemList ist null oder leer");
+            }
+
+            return essenceList;
         }
 
         public static Settings LoadSettings()
@@ -242,38 +267,42 @@ namespace EssenceValueCalculator
         {
             if (settings.setting.supValuesUsed == true && (stat == StatEnum.Vitality || stat == StatEnum.Fate))
             {
-                if (stat == StatEnum.Vitality)
-                {
-                    return 304;
-                }
+                List<Item> essence = ApplicationData.Instance.essenceValues
+                    .Where(e => e.itemType == 1 && e.itemLevel == 508)
+                    .ToList();
 
-                if (stat == StatEnum.Fate)
+                if (essence != null && essence.Any())
                 {
-                    return 256;
-                }
+                    List<ItemStat> statsWithStatAndType = essence
+                        .SelectMany(e => e.Stats.StatList)
+                        .Where(s => s.stat == stat)
+                        .ToList();
 
+                    if (statsWithStatAndType.Any())
+                    {
+                        ItemStat statValue = statsWithStatAndType.FirstOrDefault();
+
+                        if (statValue != null)
+                        {
+                            return GetStatsFromProgressions(ApplicationData.Instance.itemProgressions, statValue.Scaling, itemlevel);
+                        }
+                    }
+                }
             }
             else
             {
-                Essence essence = ApplicationData.Instance.essenceValues.Essences.Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
-
+                List<Item> essence = ApplicationData.Instance.essenceValues.Where(e => e.itemLevel == itemlevel).ToList();
                 if (essence != null)
                 {
-                    return essence.Value;
+                    ItemStat statValue = essence.SelectMany(e => e.Stats.StatList).FirstOrDefault(s => s.stat == stat);
+
+                    if (statValue != null)
+                    {
+                        return GetStatsFromProgressions(ApplicationData.Instance.itemProgressions, statValue.Scaling, itemlevel);
+                    }
                 }
             }
 
-            return 0;
-        }
-        public static float GetBaseEssenceValue(StatEnum stat, int itemlevel)
-        {
-            Essence essence = ApplicationData.Instance.essenceValues.Essences
-                .Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
-
-            if (essence != null)
-            {
-                return essence.Value;
-            }
             return 0;
         }
 
@@ -319,12 +348,13 @@ namespace EssenceValueCalculator
                                   .FirstOrDefault(p => p.Identifier == progressionID);
             var arrayProgression = itemProgressions.ArrayProgressions
                                .FirstOrDefault(p => p.Identifier == progressionID);
-
+            
+            if (linearProgression == null) Log("linear is null");
             if (linearProgression != null)
             {
                 return GetValueFromLinearInterpolation(linearProgression, itemLevel);
             }
-
+            if (arrayProgression == null) Log("arrayprogression is null");
             if (arrayProgression != null)
             {
                 return GetValueFromArrayProgression(arrayProgression, itemLevel);
@@ -384,7 +414,7 @@ namespace EssenceValueCalculator
             {
                 return result;
             }
-            Log($"Ungültiger Stat-String: {statString}");
+            //Log($"Ungültiger Stat-String: {statString}");
             return StatEnum.TBD;
         }
     }

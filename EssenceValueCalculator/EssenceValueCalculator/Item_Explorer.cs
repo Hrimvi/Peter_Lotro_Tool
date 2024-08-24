@@ -95,7 +95,7 @@ namespace EssenceValueCalculator
                 if (item.minLevel != null) if (item.minLevel < 120) continue;
 
                 iconImages.Clear();
-                iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.Icon, "-");
+                iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.itemIcon, "-");
                 iconIdSaves.Reverse();
 
                 var imageTasks = new List<Task<Image>>();
@@ -122,7 +122,7 @@ namespace EssenceValueCalculator
                 int itemLevel;
                 if (item.itemLevel == null) itemLevel = 0;
                 else itemLevel = item.itemLevel;
-                itemDatabaseGrid.Invoke(new Action(() => itemDatabaseGrid.Rows.Add(fullIcon, item.Name, armourType, itemLevel)));
+                itemDatabaseGrid.Invoke(new Action(() => itemDatabaseGrid.Rows.Add(fullIcon, item.itemName, armourType, itemLevel)));
                 numberText.Invoke(new Action(() => numberText.Text = $"Loaded: {count}"));
                 count++;
             }
@@ -149,7 +149,7 @@ namespace EssenceValueCalculator
             if (e.RowIndex >= 0)
             {
                 var selectedName = itemDatabaseGrid.Rows[e.RowIndex].Cells["itemName"].Value.ToString();
-                var selectedItem = ApplicationData.Instance.itemDb.ItemList.FirstOrDefault(item => item.Name == selectedName);
+                var selectedItem = ApplicationData.Instance.itemDb.ItemList.FirstOrDefault(item => item.itemName == selectedName);
 
                 if (selectedItem != null)
                 {
@@ -200,7 +200,7 @@ namespace EssenceValueCalculator
                 try
                 {
                     await DisplayItemDetailsAsync(selectedItem);
-                    Utility.Log($"Item details updated for {selectedItem.Name} at level {newLevel}.");
+                    Utility.Log($"Item details updated for {selectedItem.itemName} at level {newLevel}.");
                 }
                 catch (Exception ex)
                 {
@@ -238,7 +238,7 @@ namespace EssenceValueCalculator
             };
 
             iconImages.Clear();
-            iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.Icon, "-");
+            iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.itemIcon, "-");
             iconIdSaves.Reverse();
 
             var imageTasks = new List<Task<Image>>();
@@ -260,7 +260,7 @@ namespace EssenceValueCalculator
 
             Label nameLabel = new Label
             {
-                Text = $"{item.Name}",
+                Text = $"{item.itemName}",
                 Location = new Point(iconPictureBox.Right + 10, 10),
                 AutoSize = true
             };
@@ -321,7 +321,7 @@ namespace EssenceValueCalculator
                 }
                 catch (ArgumentException ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Utility.Log(ex.ToString());
                 }
             }
 

@@ -34,9 +34,9 @@ namespace EssenceValueCalculator
             ApplicationData.Instance.Settings = Utility.LoadSettings();
             ApplicationData.Instance.StatConfig = Utility.LoadStatConfigs();
             ApplicationData.Instance.PlayerStatsPerClass = Utility.LoadClass();
-            ApplicationData.Instance.itemDb = await Utility.LoadItemsAsync();
             ApplicationData.Instance.itemProgressions = await Utility.LoadProgressionsAsync();
-            ApplicationData.Instance.essenceValues = Utility.LoadEssenceValues();
+            ApplicationData.Instance.itemDb = await Utility.LoadItemsAsync();
+            ApplicationData.Instance.essenceValues = await Utility.LoadEssenceValuesAsync();
             InitializeTabs();
             AddInitialTab();
         }
@@ -185,7 +185,7 @@ namespace EssenceValueCalculator
 
         public Progressions itemProgressions { get; set; }
 
-        public EssenceValues essenceValues { get; set; }
+        public List<Item> essenceValues { get; set; }
 
 
         public const string logFilePath = "log.txt";
@@ -224,6 +224,27 @@ namespace EssenceValueCalculator
             StatEnum.Basic_EssenceSlot
 
         };
+
+        public static HashSet<StatEnum> statsToValue = new HashSet<StatEnum> {
+
+
+            StatEnum.Critical_Rating,
+            StatEnum.Physical_Mastery,
+            StatEnum.Tactical_Mastery,
+            StatEnum.Physical_Mitigation,
+            StatEnum.Tactical_Mitigation,
+            StatEnum.Critical_Defence,
+            StatEnum.Finesse,
+            StatEnum.Block,
+            StatEnum.Parry,
+            StatEnum.Evade,
+            StatEnum.Outgoing_Healing,
+            StatEnum.Incoming_Healing,
+            StatEnum.Resistance,
+            StatEnum.Morale,
+            StatEnum.Power
+        };
+
         private ApplicationData() { }
     }
 }
