@@ -9,7 +9,15 @@ namespace EssenceValueCalculator
 {
     public static class Utility
     {
-        private const string logFilePath = "log.txt";
+        public const string logFilePath = "log.txt";
+        public const string essenceFilePath = "xmls/essence_values.xml";
+        public const string characterStatDerivationFilePath = "xmls/classStatDerivations.xml";
+        public const string settingsFilePath = "xmls/settings.xml";
+        public const string statConfigFilePath = "xmls/statConfigs.xml";
+        public const string progressionFilePath = "xmls/progressions.xml";
+        public const string itemsFilePath = "xmls/items.xml";
+        public const string iconFolder = "items";
+
         public static void Log(string message)
         {
             try
@@ -36,43 +44,43 @@ namespace EssenceValueCalculator
                 MessageBox.Show($"Fehler beim Schreiben in die Log-Datei: {ex.Message}");
             }
         }
-        public static StatConfigs LoadStatConfigs(string filePath)
+        public static StatConfigs LoadStatConfigs()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(statConfigFilePath))
             {
                 StatConfigs defaultConfig = new StatConfigs();
-                SaveStatConfigs(filePath, defaultConfig);
+                SaveStatConfigs(defaultConfig);
                 return defaultConfig;
             }
             XmlSerializer serializer = new XmlSerializer(typeof(StatConfigs));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(statConfigFilePath, FileMode.Open))
             {
                 var result = serializer.Deserialize(fs) as StatConfigs;
                 return result ?? new StatConfigs();
             }
         }
-        public static async Task<Progressions> LoadProgressionsAsync(string filePath)
+        public static async Task<Progressions> LoadProgressionsAsync()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(progressionFilePath))
             {
                 return new Progressions();
             }
             XmlSerializer serializer = new XmlSerializer(typeof(Progressions));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+            using (FileStream fs = new FileStream(progressionFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
             {
                 var result = await Task.Run(() => serializer.Deserialize(fs) as Progressions);
                 return result ?? new Progressions();
             }
         }
 
-        public static async Task<Items> LoadItemsAsync(string filePath)
+        public static async Task<Items> LoadItemsAsync()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(itemsFilePath))
             {
                 return new Items();
             }
             XmlSerializer serializer = new XmlSerializer(typeof(Items));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+            using (FileStream fs = new FileStream(itemsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
             {
                 var result = await Task.Run(() => serializer.Deserialize(fs) as Items);
 
@@ -88,48 +96,48 @@ namespace EssenceValueCalculator
                 return result ?? new Items();
             }
         }
-        public static void SaveStatConfigs(string filePath, StatConfigs statConfigs)
+        public static void SaveStatConfigs(StatConfigs statConfigs)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(StatConfigs));
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            using (FileStream fs = new FileStream(statConfigFilePath, FileMode.Create))
             {
                 serializer.Serialize(fs, statConfigs);
             }
         }
-        public static EssenceValues LoadEssenceValues(string filePath)
+        public static EssenceValues LoadEssenceValues()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(EssenceValues));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(essenceFilePath, FileMode.Open))
             {
                 var result = (EssenceValues)serializer.Deserialize(fs);
                 return result ?? new EssenceValues();
             }
         }
 
-        public static Settings LoadSettings(string filePath)
+        public static Settings LoadSettings()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(settingsFilePath))
             {
                 return new Settings();
             }
 
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(settingsFilePath, FileMode.Open))
             {
                 var result = (Settings)serializer.Deserialize(fs);
                 return result ?? new Settings();
             }
         }
 
-        public static Stats LoadClass(string filePath)
+        public static Stats LoadClass()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(characterStatDerivationFilePath))
             {
                 return new Stats();
             }
 
             XmlSerializer serializer = new XmlSerializer(typeof(Stats));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(characterStatDerivationFilePath, FileMode.Open))
             {
                 var result = (Stats)serializer.Deserialize(fs);
                 return result ?? new Stats();
@@ -229,16 +237,16 @@ namespace EssenceValueCalculator
 
             return result;
         }
-        public static void SaveSettings(Settings settings, string filePath)
+        public static void SaveSettings(Settings settings)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            using (FileStream fs = new FileStream(settingsFilePath, FileMode.Create))
             {
                 serializer.Serialize(fs, settings);
             }
         }
 
-        public static float GetEssenceStatValue(StatEnum stat, int itemlevel, string essenceFilePath, Settings settings)
+        public static float GetEssenceStatValue(StatEnum stat, int itemlevel, Settings settings)
         {
             if (settings.setting.supValuesUsed == true && (stat == StatEnum.Vitality || stat == StatEnum.Fate))
             {
@@ -255,7 +263,7 @@ namespace EssenceValueCalculator
             }
             else
             {
-                EssenceValues essenceValues = Utility.LoadEssenceValues(essenceFilePath);
+                EssenceValues essenceValues = LoadEssenceValues();
                 Essence essence = essenceValues.Essences.Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
 
                 if (essence != null)
@@ -266,9 +274,9 @@ namespace EssenceValueCalculator
 
             return 0;
         }
-        public static float GetBaseEssenceValue(StatEnum stat, int itemlevel, string essenceFilePath)
+        public static float GetBaseEssenceValue(StatEnum stat, int itemlevel)
         {
-            EssenceValues essenceValues = Utility.LoadEssenceValues(essenceFilePath);
+            EssenceValues essenceValues = LoadEssenceValues();
             Essence essence = essenceValues.Essences
                 .Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
 

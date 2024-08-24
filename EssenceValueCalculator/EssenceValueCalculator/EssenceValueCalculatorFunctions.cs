@@ -8,7 +8,7 @@ namespace EssenceValueCalculator
 {
     internal static class EssenceValueCalculatorFunctions
     {
-        public static float ReturnEssenceValueFromDictionary(Dictionary<StatEnum, float> stats, int essenceItemLevel, Classes playerClass, Settings settings, StatConfigs statConfig, string essenceFilePath)
+        public static float ReturnEssenceValueFromDictionary(Dictionary<StatEnum, float> stats, int essenceItemLevel, Classes playerClass, Settings settings, StatConfigs statConfig)
         {
             float essenceValue = 0;
             string usedConfigName = settings?.setting?.usedConfigName;
@@ -26,8 +26,8 @@ namespace EssenceValueCalculator
                 {
                     if (kvp.Key == StatEnum.Armour)
                     {
-                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
-                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Physical_Mitigation, essenceItemLevel, settings) * valueMultiplier;
+                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Tactical_Mitigation, essenceItemLevel, settings) * valueMultiplier;
                     }
                     else if (kvp.Key == StatEnum.Basic_EssenceSlot)
                     {
@@ -51,19 +51,19 @@ namespace EssenceValueCalculator
                         }
                         else
                         {
-                            essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                            essenceValue += kvp.Value / Utility.GetEssenceStatValue(StatEnum.Fate, essenceItemLevel, settings) * valueMultiplier;
                         }
                     }
                     else if (kvp.Key == StatEnum.Morale)
                     {
-                        essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                        essenceValue += (kvp.Value / 4.5f) / Utility.GetEssenceStatValue(StatEnum.Vitality, essenceItemLevel, settings) * valueMultiplier;
                     }
                 }
                 else
                 {
                     if (!Utility.isMainStat(kvp.Key))
                     {
-                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(kvp.Key, essenceItemLevel, essenceFilePath, settings) * valueMultiplier;
+                        essenceValue += kvp.Value / Utility.GetEssenceStatValue(kvp.Key, essenceItemLevel, settings) * valueMultiplier;
                     }
                 }
             }

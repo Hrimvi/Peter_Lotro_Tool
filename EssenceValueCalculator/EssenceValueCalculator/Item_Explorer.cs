@@ -6,18 +6,18 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace EssenceValueCalculator
 {
     public partial class Item_Explorer : Form
     {
-        private const string progressionFilePath = "xmls/progressions.xml";
-        private const string itemsFilePath = "xmls/items.xml";
-        private const string iconFolder = "items";
+       
 
         private Items itemDb;
         private Progressions itemProgressions;
@@ -40,8 +40,8 @@ namespace EssenceValueCalculator
         }
         private async void InitializeAsync()
         {
-            itemDb = await Utility.LoadItemsAsync(itemsFilePath);
-            itemProgressions = await Utility.LoadProgressionsAsync(progressionFilePath);
+            itemDb = await Utility.LoadItemsAsync();
+            itemProgressions = await Utility.LoadProgressionsAsync();
 
             searchTextBox = new TextBox();
             searchTextBox.Width = 200;
@@ -51,6 +51,7 @@ namespace EssenceValueCalculator
             levelInputTextBox = null;
             scaleButton = null;
             await LoadItems();
+
         }
         private async void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -109,7 +110,7 @@ namespace EssenceValueCalculator
                 {
                     if (id != 0)
                     {
-                        string path = $"{iconFolder}/{id}.png";
+                        string path = $"{Utility.iconFolder}/{id}.png";
                         imageTasks.Add(LoadImageAsync(path, id));
                     }
                 }
@@ -155,7 +156,7 @@ namespace EssenceValueCalculator
             {
                 var selectedName = itemDatabaseGrid.Rows[e.RowIndex].Cells["itemName"].Value.ToString();
                 var selectedItem = itemDb.ItemList.FirstOrDefault(item => item.Name == selectedName);
-                
+
                 if (selectedItem != null)
                 {
                     currentSelected = selectedItem;
@@ -251,7 +252,7 @@ namespace EssenceValueCalculator
             {
                 if (id != 0)
                 {
-                    string path = $"{iconFolder}/{id}.png";
+                    string path = $"{Utility.iconFolder}/{id}.png";
                     imageTasks.Add(LoadImageAsync(path, id));
                 }
             }
@@ -315,11 +316,11 @@ namespace EssenceValueCalculator
                     };
                     selectedItemPanel.Controls.Add(statLabel);
                     statsY += 20;
-                    
+
                 }
             }
         }
-        
+
 
         private Dictionary<StatEnum, float> ConvertStatsToDictionary(List<ItemStat> itemStats, int itemLevel)
         {
@@ -330,7 +331,7 @@ namespace EssenceValueCalculator
                 try
                 {
                     var statEnum = ParseStatEnum(stat.Name);
-                    statCalc[statEnum] = (float)Math.Round(Utility.GetStatsFromProgressions(itemProgressions, stat.Scaling, itemLevel), 2); 
+                    statCalc[statEnum] = (float)Math.Round(Utility.GetStatsFromProgressions(itemProgressions, stat.Scaling, itemLevel), 2);
                 }
                 catch (ArgumentException ex)
                 {
@@ -358,7 +359,10 @@ namespace EssenceValueCalculator
             Utility.Log($"Ungültiger Stat-String: {statString}");
             return StatEnum.TBD;
         }
-       
-       
+
+        private void Item_Explorer_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

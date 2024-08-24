@@ -14,15 +14,13 @@ namespace EssenceValueCalculator
 
     public partial class SettingsForm : Form
     {
-        private const string statConfigFilePath = "xmls/statConfigs.xml";
-        private const string settingsFilePath = "xmls/settings.xml";
         private Settings? settings;
         private StatConfigs? statConfig;
 
         public SettingsForm()
         {
             InitializeComponent();
-            settings = Utility.LoadSettings(settingsFilePath);
+            settings = Utility.LoadSettings();
 
             itemLevelDropBox.DropDownStyle = ComboBoxStyle.DropDownList;
             configEditorSelection.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -76,12 +74,12 @@ namespace EssenceValueCalculator
             var selectedConfigName = activeStatConfigSelection.SelectedItem as string;
             settings.setting.usedConfigName = selectedConfigName ?? string.Empty;
 
-            Utility.SaveSettings(settings, settingsFilePath);
+            Utility.SaveSettings(settings);
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            statConfig = Utility.LoadStatConfigs(statConfigFilePath);
+            statConfig = Utility.LoadStatConfigs();
             UpdateConfigComboBox(activeStatConfigSelection);
             UpdateConfigComboBox(configEditorSelection);
 
@@ -115,7 +113,7 @@ namespace EssenceValueCalculator
                 };
 
                 statConfig?.Configs.Add(newConfig);
-                Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+                Utility.SaveStatConfigs(statConfig);
 
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
@@ -249,7 +247,7 @@ namespace EssenceValueCalculator
             if (result == DialogResult.Yes)
             {
                 statConfig?.Configs.Remove(selectedConfig);
-                Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+                Utility.SaveStatConfigs(statConfig);
 
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
@@ -392,7 +390,7 @@ namespace EssenceValueCalculator
                     .Where(s => s != null)
                     .ToList();
 
-                Utility.SaveStatConfigs(statConfigFilePath, statConfig);
+                Utility.SaveStatConfigs(statConfig);
             }
         }
         private void LoadSelectedConfig()

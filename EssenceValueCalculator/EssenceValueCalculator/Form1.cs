@@ -8,10 +8,7 @@ namespace EssenceValueCalculator
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
 
-        private const string essenceFilePath = "xmls/essence_values.xml";
-        private const string characterStatDerivationFilePath = "xmls/classStatDerivations.xml";
-        private const string settingsFilePath = "xmls/settings.xml";
-        private const string statConfigFilePath = "xmls/statConfigs.xml";
+       
 
         private int currentYOffset = 0;
 
@@ -37,8 +34,8 @@ namespace EssenceValueCalculator
             InitializeComponent();
 
 
-            settings = Utility.LoadSettings(settingsFilePath);
-            playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
+            settings = Utility.LoadSettings();
+            playerStatsPerClass = Utility.LoadClass();
 
 
             Utility.PopulateStats(comboBoxStats);
@@ -79,9 +76,9 @@ namespace EssenceValueCalculator
 
         private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
-            settings = Utility.LoadSettings(settingsFilePath);
-            statConfig = Utility.LoadStatConfigs(statConfigFilePath);
-            playerStatsPerClass = Utility.LoadClass(characterStatDerivationFilePath);
+            settings = Utility.LoadSettings();
+            statConfig = Utility.LoadStatConfigs();
+            playerStatsPerClass = Utility.LoadClass();
             float essenceValue = GetEssenceValue();
             essenceValueText.Text = $"Essence-Value: {essenceValue:F2}";
         }
@@ -113,7 +110,7 @@ namespace EssenceValueCalculator
             }
 
 
-            return EssenceValueCalculatorFunctions.ReturnEssenceValueFromDictionary(statCalc, essenceItemlevel, classe, settings, statConfig, essenceFilePath);
+            return EssenceValueCalculatorFunctions.ReturnEssenceValueFromDictionary(statCalc, essenceItemlevel, classe, settings, statConfig);
         }
         
 
@@ -130,16 +127,16 @@ namespace EssenceValueCalculator
                     switch (stat)
                     {
                         case PrimaryEssenceSlot.Might:
-                            if (statCalc.ContainsKey(StatEnum.Might)) statCalc[StatEnum.Might] += Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(settings), essenceFilePath);
-                            else statCalc.Add(StatEnum.Might, Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            if (statCalc.ContainsKey(StatEnum.Might)) statCalc[StatEnum.Might] += Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(settings));
+                            else statCalc.Add(StatEnum.Might, Utility.GetBaseEssenceValue(StatEnum.Might, Utility.GetEssenceItemLevel(settings)));
                             break;
                         case PrimaryEssenceSlot.Agility:
-                            if (statCalc.ContainsKey(StatEnum.Agility)) statCalc[StatEnum.Agility] += Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(settings), essenceFilePath);
-                            else statCalc.Add(StatEnum.Agility, Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            if (statCalc.ContainsKey(StatEnum.Agility)) statCalc[StatEnum.Agility] += Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(settings));
+                            else statCalc.Add(StatEnum.Agility, Utility.GetBaseEssenceValue(StatEnum.Agility, Utility.GetEssenceItemLevel(settings)));
                             break;
                         case PrimaryEssenceSlot.Will:
-                            if (statCalc.ContainsKey(StatEnum.Will)) statCalc[StatEnum.Will] += Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(settings), essenceFilePath);
-                            else statCalc.Add(StatEnum.Will, Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            if (statCalc.ContainsKey(StatEnum.Will)) statCalc[StatEnum.Will] += Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(settings));
+                            else statCalc.Add(StatEnum.Will, Utility.GetBaseEssenceValue(StatEnum.Will, Utility.GetEssenceItemLevel(settings)));
                             break;
                     }
 
@@ -153,12 +150,12 @@ namespace EssenceValueCalculator
                     switch (stat)
                     {
                         case VitalEssenceSlot.Fate:
-                            if (statCalc.ContainsKey(StatEnum.Fate)) statCalc[StatEnum.Fate] += Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(settings), essenceFilePath);
-                            else statCalc.Add(StatEnum.Fate, Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            if (statCalc.ContainsKey(StatEnum.Fate)) statCalc[StatEnum.Fate] += Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(settings));
+                            else statCalc.Add(StatEnum.Fate, Utility.GetBaseEssenceValue(StatEnum.Fate, Utility.GetEssenceItemLevel(settings)));
                             break;
                         case VitalEssenceSlot.Vitality:
-                            if (statCalc.ContainsKey(StatEnum.Vitality)) statCalc[StatEnum.Vitality] += Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(settings), essenceFilePath);
-                            else statCalc.Add(StatEnum.Vitality, Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(settings), essenceFilePath));
+                            if (statCalc.ContainsKey(StatEnum.Vitality)) statCalc[StatEnum.Vitality] += Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(settings));
+                            else statCalc.Add(StatEnum.Vitality, Utility.GetBaseEssenceValue(StatEnum.Vitality, Utility.GetEssenceItemLevel(settings)));
                             break;
 
                     }

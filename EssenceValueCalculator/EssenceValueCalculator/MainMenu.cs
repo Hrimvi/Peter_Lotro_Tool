@@ -21,11 +21,35 @@ namespace EssenceValueCalculator
 
         public MainMenu()
         {
+            InitializeLogFile();
             InitializeComponent();
             InitializeTabs();
             AddInitialTab();
         }
+        private void InitializeLogFile()
+        {
+            try
+            {
+                FileInfo logFile = new FileInfo(Utility.logFilePath);
 
+                if (logFile.Exists)
+                {
+                    File.WriteAllText(Utility.logFilePath, $"Log-File created: " + DateTime.Now + Environment.NewLine);
+                }
+                else
+                {
+                    using (FileStream fs = logFile.Create())
+                    {
+                        byte[] info = new UTF8Encoding(true).GetBytes("Log-File created: " + DateTime.Now + Environment.NewLine);
+                        fs.Write(info, 0, info.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Initialisieren der Log-Datei: {ex.Message}");
+            }
+        }
         private void InitializeTabs()
         {
             tabControl = new TabControl { Dock = DockStyle.Fill };
