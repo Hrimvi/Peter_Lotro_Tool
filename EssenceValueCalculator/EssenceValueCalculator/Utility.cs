@@ -9,21 +9,14 @@ namespace EssenceValueCalculator
 {
     public static class Utility
     {
-        public const string logFilePath = "log.txt";
-        public const string essenceFilePath = "xmls/essence_values.xml";
-        public const string characterStatDerivationFilePath = "xmls/classStatDerivations.xml";
-        public const string settingsFilePath = "xmls/settings.xml";
-        public const string statConfigFilePath = "xmls/statConfigs.xml";
-        public const string progressionFilePath = "xmls/progressions.xml";
-        public const string itemsFilePath = "xmls/items.xml";
-        public const string iconFolder = "items";
+        
 
         public static void Log(string message)
         {
             try
             {
                 // Überprüfen, ob die Log-Datei existiert und gegebenenfalls erstellen
-                FileInfo logFile = new FileInfo(logFilePath);
+                FileInfo logFile = new FileInfo(ApplicationData.logFilePath);
                 if (!logFile.Exists)
                 {
                     // Erstellen der Datei, wenn sie nicht existiert
@@ -36,7 +29,7 @@ namespace EssenceValueCalculator
                 }
 
                 // Hinzufügen der Log-Nachricht zur Datei
-                File.AppendAllText(logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
+                File.AppendAllText(ApplicationData.logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
             }
             catch (Exception ex)
             {
@@ -46,14 +39,14 @@ namespace EssenceValueCalculator
         }
         public static StatConfigs LoadStatConfigs()
         {
-            if (!File.Exists(statConfigFilePath))
+            if (!File.Exists(ApplicationData.statConfigFilePath))
             {
                 StatConfigs defaultConfig = new StatConfigs();
                 SaveStatConfigs(defaultConfig);
                 return defaultConfig;
             }
             XmlSerializer serializer = new XmlSerializer(typeof(StatConfigs));
-            using (FileStream fs = new FileStream(statConfigFilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(ApplicationData.statConfigFilePath, FileMode.Open))
             {
                 var result = serializer.Deserialize(fs) as StatConfigs;
                 return result ?? new StatConfigs();
@@ -61,12 +54,12 @@ namespace EssenceValueCalculator
         }
         public static async Task<Progressions> LoadProgressionsAsync()
         {
-            if (!File.Exists(progressionFilePath))
+            if (!File.Exists(ApplicationData.progressionFilePath))
             {
                 return new Progressions();
             }
             XmlSerializer serializer = new XmlSerializer(typeof(Progressions));
-            using (FileStream fs = new FileStream(progressionFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+            using (FileStream fs = new FileStream(ApplicationData.progressionFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
             {
                 var result = await Task.Run(() => serializer.Deserialize(fs) as Progressions);
                 return result ?? new Progressions();
@@ -75,12 +68,12 @@ namespace EssenceValueCalculator
 
         public static async Task<Items> LoadItemsAsync()
         {
-            if (!File.Exists(itemsFilePath))
+            if (!File.Exists(ApplicationData.itemsFilePath))
             {
                 return new Items();
             }
             XmlSerializer serializer = new XmlSerializer(typeof(Items));
-            using (FileStream fs = new FileStream(itemsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+            using (FileStream fs = new FileStream(ApplicationData.itemsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
             {
                 var result = await Task.Run(() => serializer.Deserialize(fs) as Items);
 
@@ -99,7 +92,7 @@ namespace EssenceValueCalculator
         public static void SaveStatConfigs(StatConfigs statConfigs)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(StatConfigs));
-            using (FileStream fs = new FileStream(statConfigFilePath, FileMode.Create))
+            using (FileStream fs = new FileStream(ApplicationData.statConfigFilePath, FileMode.Create))
             {
                 serializer.Serialize(fs, statConfigs);
             }
@@ -107,7 +100,7 @@ namespace EssenceValueCalculator
         public static EssenceValues LoadEssenceValues()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(EssenceValues));
-            using (FileStream fs = new FileStream(essenceFilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(ApplicationData.essenceFilePath, FileMode.Open))
             {
                 var result = (EssenceValues)serializer.Deserialize(fs);
                 return result ?? new EssenceValues();
@@ -116,13 +109,13 @@ namespace EssenceValueCalculator
 
         public static Settings LoadSettings()
         {
-            if (!File.Exists(settingsFilePath))
+            if (!File.Exists(ApplicationData.settingsFilePath))
             {
                 return new Settings();
             }
 
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(settingsFilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(ApplicationData.settingsFilePath, FileMode.Open))
             {
                 var result = (Settings)serializer.Deserialize(fs);
                 return result ?? new Settings();
@@ -131,13 +124,13 @@ namespace EssenceValueCalculator
 
         public static Stats LoadClass()
         {
-            if (!File.Exists(characterStatDerivationFilePath))
+            if (!File.Exists(ApplicationData.characterStatDerivationFilePath))
             {
                 return new Stats();
             }
 
             XmlSerializer serializer = new XmlSerializer(typeof(Stats));
-            using (FileStream fs = new FileStream(characterStatDerivationFilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(ApplicationData.characterStatDerivationFilePath, FileMode.Open))
             {
                 var result = (Stats)serializer.Deserialize(fs);
                 return result ?? new Stats();
@@ -240,7 +233,7 @@ namespace EssenceValueCalculator
         public static void SaveSettings(Settings settings)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-            using (FileStream fs = new FileStream(settingsFilePath, FileMode.Create))
+            using (FileStream fs = new FileStream(ApplicationData.settingsFilePath, FileMode.Create))
             {
                 serializer.Serialize(fs, settings);
             }
@@ -263,8 +256,7 @@ namespace EssenceValueCalculator
             }
             else
             {
-                EssenceValues essenceValues = LoadEssenceValues();
-                Essence essence = essenceValues.Essences.Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
+                Essence essence = ApplicationData.Instance.essenceValues.Essences.Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
 
                 if (essence != null)
                 {
@@ -276,8 +268,7 @@ namespace EssenceValueCalculator
         }
         public static float GetBaseEssenceValue(StatEnum stat, int itemlevel)
         {
-            EssenceValues essenceValues = LoadEssenceValues();
-            Essence essence = essenceValues.Essences
+            Essence essence = ApplicationData.Instance.essenceValues.Essences
                 .Find(e => e.Stat == stat && e.ItemLevel == itemlevel);
 
             if (essence != null)
@@ -384,6 +375,18 @@ namespace EssenceValueCalculator
             if (point == null) return (float)points.First().Y;
 
             return (float)Math.Round(point.Y, 2);
+        }
+
+        public static StatEnum ParseStatEnum(string statString)
+        {
+            statString = statString.Trim().ToUpper().Replace(" ", "_");
+
+            if (Enum.TryParse<StatEnum>(statString, ignoreCase: true, out StatEnum result))
+            {
+                return result;
+            }
+            Log($"Ungültiger Stat-String: {statString}");
+            return StatEnum.TBD;
         }
     }
 }

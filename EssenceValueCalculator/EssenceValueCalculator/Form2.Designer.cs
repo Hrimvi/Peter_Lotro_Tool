@@ -59,6 +59,7 @@
             itemLevelDropBox.Name = "itemLevelDropBox";
             itemLevelDropBox.Size = new Size(121, 23);
             itemLevelDropBox.TabIndex = 1;
+            itemLevelDropBox.SelectedIndexChanged += itemLevelDropBox_SelectedIndexChanged;
             // 
             // EssenceItemlevelLabel
             // 
@@ -108,7 +109,6 @@
             configEditorSelection.Name = "configEditorSelection";
             configEditorSelection.Size = new Size(198, 23);
             configEditorSelection.TabIndex = 7;
-            configEditorSelection.SelectedIndexChanged += configEditorSelection_SelectedIndexChanged_1;
             // 
             // createConfig
             // 

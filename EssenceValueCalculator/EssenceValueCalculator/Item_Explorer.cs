@@ -19,9 +19,6 @@ namespace EssenceValueCalculator
     {
        
 
-        private Items itemDb;
-        private Progressions itemProgressions;
-
         private List<int> iconIdSaves = new List<int>();
         private List<Image> iconImages = new List<Image>();
 
@@ -40,9 +37,6 @@ namespace EssenceValueCalculator
         }
         private async void InitializeAsync()
         {
-            itemDb = await Utility.LoadItemsAsync();
-            itemProgressions = await Utility.LoadProgressionsAsync();
-
             searchTextBox = new TextBox();
             searchTextBox.Width = 200;
             searchTextBox.Location = new Point(10, 10);
@@ -96,7 +90,7 @@ namespace EssenceValueCalculator
         private async Task LoadItems()
         {
             var allTasks = new List<Task>();
-            foreach (Item item in itemDb.ItemList)
+            foreach (Item item in ApplicationData.Instance.itemDb.ItemList)
             {
                 if (item.minLevel != null) if (item.minLevel < 120) continue;
 
@@ -110,7 +104,7 @@ namespace EssenceValueCalculator
                 {
                     if (id != 0)
                     {
-                        string path = $"{Utility.iconFolder}/{id}.png";
+                        string path = $"{ApplicationData.iconFolder}/{id}.png";
                         imageTasks.Add(LoadImageAsync(path, id));
                     }
                 }
@@ -155,7 +149,7 @@ namespace EssenceValueCalculator
             if (e.RowIndex >= 0)
             {
                 var selectedName = itemDatabaseGrid.Rows[e.RowIndex].Cells["itemName"].Value.ToString();
-                var selectedItem = itemDb.ItemList.FirstOrDefault(item => item.Name == selectedName);
+                var selectedItem = ApplicationData.Instance.itemDb.ItemList.FirstOrDefault(item => item.Name == selectedName);
 
                 if (selectedItem != null)
                 {
@@ -252,7 +246,7 @@ namespace EssenceValueCalculator
             {
                 if (id != 0)
                 {
-                    string path = $"{Utility.iconFolder}/{id}.png";
+                    string path = $"{ApplicationData.iconFolder}/{id}.png";
                     imageTasks.Add(LoadImageAsync(path, id));
                 }
             }
@@ -296,15 +290,7 @@ namespace EssenceValueCalculator
 
             if (item.Stats != null && item.Stats.StatList != null && item.Stats.StatList.Any())
             {
-                Label statsLabel = new Label
-                {
-                    Text = "Stats:",
-                    Location = new Point(10, (selectedItemPanel.Controls.OfType<Label>().LastOrDefault()?.Bottom ?? (selectedItemPanel.Controls.OfType<PictureBox>().LastOrDefault()?.Bottom ?? nameAndIconPanel.Bottom)) + 10),
-                    AutoSize = true
-                };
-                selectedItemPanel.Controls.Add(statsLabel);
-
-                int statsY = statsLabel.Bottom + 10;
+                int statsY = (selectedItemPanel.Controls.OfType<Label>().LastOrDefault()?.Bottom ?? nameAndIconPanel.Bottom) + 10;
                 var Stats = ConvertStatsToDictionary(item.Stats.StatList, item.itemLevel);
                 foreach (var stat in Stats)
                 {
@@ -330,8 +316,8 @@ namespace EssenceValueCalculator
             {
                 try
                 {
-                    var statEnum = ParseStatEnum(stat.Name);
-                    statCalc[statEnum] = (float)Math.Round(Utility.GetStatsFromProgressions(itemProgressions, stat.Scaling, itemLevel), 2);
+                    var statEnum = Utility.ParseStatEnum(stat.Name);
+                    statCalc[statEnum] = (float)Utility.GetStatsFromProgressions(ApplicationData.Instance.itemProgressions, stat.Scaling, itemLevel);
                 }
                 catch (ArgumentException ex)
                 {
@@ -348,17 +334,7 @@ namespace EssenceValueCalculator
                 e.Handled = true;
             }
         }
-        private StatEnum ParseStatEnum(string statString)
-        {
-            statString = statString.Trim().ToUpper().Replace(" ", "_");
-
-            if (Enum.TryParse<StatEnum>(statString, ignoreCase: true, out StatEnum result))
-            {
-                return result;
-            }
-            Utility.Log($"Ungültiger Stat-String: {statString}");
-            return StatEnum.TBD;
-        }
+       
 
         private void Item_Explorer_Load(object sender, EventArgs e)
         {

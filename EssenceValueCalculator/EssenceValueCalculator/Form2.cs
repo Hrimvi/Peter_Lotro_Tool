@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,41 +15,15 @@ namespace EssenceValueCalculator
 
     public partial class SettingsForm : Form
     {
-        private Settings? settings;
-        private StatConfigs? statConfig;
-
+        private bool loading = true;
         public SettingsForm()
         {
             InitializeComponent();
-            settings = Utility.LoadSettings();
-
+            ApplicationData.Instance.Settings = Utility.LoadSettings();
             itemLevelDropBox.DropDownStyle = ComboBoxStyle.DropDownList;
             configEditorSelection.DropDownStyle = ComboBoxStyle.DropDownList;
             activeStatConfigSelection.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            if (settings != null && settings.setting != null)
-            {
-                subEssencesCheckbox.Checked = settings.setting.supValuesUsed;
-
-                foreach (EssenceItemLevel itemLevel in Enum.GetValues(typeof(EssenceItemLevel)))
-                {
-                    itemLevelDropBox.Items.Add(itemLevel.ToString().Replace("_", " "));
-                }
-                itemLevelDropBox.SelectedIndex = 0;
-                if (Enum.TryParse(settings.setting.essenceItemLevel, out EssenceItemLevel level))
-                {
-                    itemLevelDropBox.SelectedIndex = (int)level;
-                }
-
-            }
-            else
-            {
-                foreach (EssenceItemLevel itemLevel in Enum.GetValues(typeof(EssenceItemLevel)))
-                {
-                    itemLevelDropBox.Items.Add(itemLevel.ToString().Replace("_", " "));
-                }
-                itemLevelDropBox.SelectedIndex = 0;
-            }
+            configEditorSelection.SelectedIndexChanged += configEditorSelection_SelectedIndexChanged_12;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -58,31 +33,30 @@ namespace EssenceValueCalculator
 
         private void SaveSettings()
         {
-            if (settings == null)
-                settings = new Settings();
+            if (loading) return;
+            if (ApplicationData.Instance.Settings == null) return;
 
-            if (settings.setting == null)
-                settings.setting = new Setting();
-
-            settings.setting.supValuesUsed = subEssencesCheckbox.Checked;
+            ApplicationData.Instance.Settings.setting.supValuesUsed = subEssencesCheckbox.Checked;
 
             if (Enum.TryParse(itemLevelDropBox.SelectedItem?.ToString()?.Replace(" ", "_"), out EssenceItemLevel level))
             {
-                settings.setting.SetEssenceItemLevel(level);
+                ApplicationData.Instance.Settings.setting.SetEssenceItemLevel(level);
             }
 
             var selectedConfigName = activeStatConfigSelection.SelectedItem as string;
-            settings.setting.usedConfigName = selectedConfigName ?? string.Empty;
+            ApplicationData.Instance.Settings.setting.usedConfigName = selectedConfigName ?? string.Empty;
 
-            Utility.SaveSettings(settings);
+            Utility.SaveSettings(ApplicationData.Instance.Settings);
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            statConfig = Utility.LoadStatConfigs();
+            
+
             UpdateConfigComboBox(activeStatConfigSelection);
             UpdateConfigComboBox(configEditorSelection);
 
+            var settings = ApplicationData.Instance.Settings;
             if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
             {
                 var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
@@ -92,12 +66,45 @@ namespace EssenceValueCalculator
                     configEditorSelection.SelectedIndex = selectedConfigIndex;
                 }
             }
-            var selectedConfig = statConfig?.Configs.FirstOrDefault(c => c.Name.Equals(settings?.setting.usedConfigName, StringComparison.OrdinalIgnoreCase));
+
+            var selectedConfig = ApplicationData.Instance.StatConfig.Configs
+                .FirstOrDefault(c => c.Name.Equals(settings.setting.usedConfigName, StringComparison.OrdinalIgnoreCase));
 
             if (selectedConfig != null)
             {
                 CreateConfigEditorControls(selectedConfig.Stats);
             }
+
+           
+            subEssencesCheckbox.Checked = settings.setting.supValuesUsed;
+
+            if (settings != null && settings.setting != null)
+            { 
+
+
+                foreach (EssenceItemLevel itemLevel in Enum.GetValues(typeof(EssenceItemLevel)))
+               {
+                    itemLevelDropBox.Items.Add(itemLevel.ToString().Replace("_", " "));
+              }
+               itemLevelDropBox.SelectedIndex = 0;
+              if (Enum.TryParse(settings.setting.essenceItemLevel, out EssenceItemLevel level))
+               {
+                 itemLevelDropBox.SelectedIndex = (int)level;
+               }
+
+            }
+            else
+            {
+                 foreach (EssenceItemLevel itemLevel in Enum.GetValues(typeof(EssenceItemLevel)))
+                 {
+                     itemLevelDropBox.Items.Add(itemLevel.ToString().Replace("_", " "));
+                 }
+               itemLevelDropBox.SelectedIndex = 0;
+            }
+            Utility.Log($"Settings loaded with {settings.setting.supValuesUsed}");
+            Utility.Log($"Settings loaded with {settings.setting.essenceItemLevel}");
+            Utility.Log($"Settings loaded with {settings.setting.usedConfigName}");
+            loading = false;
         }
 
         private void createConfig_Click(object sender, EventArgs e)
@@ -112,8 +119,8 @@ namespace EssenceValueCalculator
                     Stats = defaultStats
                 };
 
-                statConfig?.Configs.Add(newConfig);
-                Utility.SaveStatConfigs(statConfig);
+                ApplicationData.Instance.StatConfig.Configs.Add(newConfig);
+                Utility.SaveStatConfigs(ApplicationData.Instance.StatConfig);
 
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
@@ -123,9 +130,9 @@ namespace EssenceValueCalculator
                 {
                     configEditorSelection.SelectedIndex = selectedIndex;
                 }
-                if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
+                if (ApplicationData.Instance.Settings != null && !string.IsNullOrEmpty(ApplicationData.Instance.Settings.setting.usedConfigName))
                 {
-                    var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
+                    var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(ApplicationData.Instance.Settings.setting.usedConfigName);
                     if (selectedConfigIndex != -1)
                     {
                         activeStatConfigSelection.SelectedIndex = selectedConfigIndex;
@@ -136,7 +143,8 @@ namespace EssenceValueCalculator
         private void UpdateConfigComboBox(ComboBox comboBox)
         {
             comboBox.Items.Clear();
-            comboBox.Items.AddRange(statConfig?.Configs?.Select(c => c.Name).ToArray());
+            comboBox.Items.AddRange(ApplicationData.Instance.StatConfig.Configs?.Select(c => c.Name).ToArray());
+            
 
         }
         private List<StatElement> GetDefaultStats()
@@ -230,7 +238,7 @@ namespace EssenceValueCalculator
                 return;
             }
 
-            var selectedConfig = statConfig?.Configs
+            var selectedConfig = ApplicationData.Instance.StatConfig.Configs
                 .FirstOrDefault(c => c.Name.Equals(selectedConfigName, StringComparison.OrdinalIgnoreCase));
             if (selectedConfig == null)
             {
@@ -246,8 +254,8 @@ namespace EssenceValueCalculator
 
             if (result == DialogResult.Yes)
             {
-                statConfig?.Configs.Remove(selectedConfig);
-                Utility.SaveStatConfigs(statConfig);
+                ApplicationData.Instance.StatConfig.Configs.Remove(selectedConfig);
+                Utility.SaveStatConfigs(ApplicationData.Instance.StatConfig);
 
                 UpdateConfigComboBox(activeStatConfigSelection);
                 UpdateConfigComboBox(configEditorSelection);
@@ -266,15 +274,15 @@ namespace EssenceValueCalculator
 
                 configPanel.Controls.Clear();
 
-                if (settings != null && !string.IsNullOrEmpty(settings.setting.usedConfigName))
+                if (ApplicationData.Instance.Settings != null && !string.IsNullOrEmpty(ApplicationData.Instance.Settings.setting.usedConfigName))
                 {
-                    var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(settings.setting.usedConfigName);
+                    var selectedConfigIndex = activeStatConfigSelection.Items.IndexOf(ApplicationData.Instance.Settings.setting.usedConfigName);
                     if (selectedConfigIndex != -1)
                     {
                         activeStatConfigSelection.SelectedIndex = selectedConfigIndex;
                     }
                 }
-                var newSelectedConfig = statConfig?.Configs.FirstOrDefault(c => c.Name.Equals(settings?.setting.usedConfigName, StringComparison.OrdinalIgnoreCase));
+                var newSelectedConfig = ApplicationData.Instance.StatConfig.Configs.FirstOrDefault(c => c.Name.Equals(ApplicationData.Instance.Settings?.setting.usedConfigName, StringComparison.OrdinalIgnoreCase));
 
                 if (newSelectedConfig != null)
                 {
@@ -359,7 +367,7 @@ namespace EssenceValueCalculator
             var selectedConfigName = configEditorSelection.SelectedItem as string;
             if (string.IsNullOrEmpty(selectedConfigName)) return;
 
-            var selectedConfig = statConfig?.Configs
+            var selectedConfig = ApplicationData.Instance.StatConfig.Configs
                 .FirstOrDefault(c => c.Name.Equals(selectedConfigName, StringComparison.OrdinalIgnoreCase));
 
             if (selectedConfig != null)
@@ -390,7 +398,7 @@ namespace EssenceValueCalculator
                     .Where(s => s != null)
                     .ToList();
 
-                Utility.SaveStatConfigs(statConfig);
+                Utility.SaveStatConfigs(ApplicationData.Instance.StatConfig);
             }
         }
         private void LoadSelectedConfig()
@@ -398,7 +406,7 @@ namespace EssenceValueCalculator
             var selectedConfigName = configEditorSelection.SelectedItem as string;
             if (string.IsNullOrEmpty(selectedConfigName)) return;
 
-            var selectedConfig = statConfig?.Configs
+            var selectedConfig = ApplicationData.Instance.StatConfig.Configs
                 .FirstOrDefault(c => c.Name.Equals(selectedConfigName, StringComparison.OrdinalIgnoreCase));
 
             if (selectedConfig != null)
@@ -407,7 +415,7 @@ namespace EssenceValueCalculator
             }
         }
 
-        private void configEditorSelection_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void configEditorSelection_SelectedIndexChanged_12(object sender, EventArgs e)
         {
             LoadSelectedConfig();
         }
@@ -420,6 +428,11 @@ namespace EssenceValueCalculator
         private void configPanel_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void itemLevelDropBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SaveSettings();
         }
     }
 

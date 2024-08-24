@@ -8,15 +8,10 @@ namespace EssenceValueCalculator
     {
         private Dictionary<ComboBox, TextBox> dynamicControls = new Dictionary<ComboBox, TextBox>();
 
-       
-
         private int currentYOffset = 0;
 
         private System.Windows.Forms.Timer updateTimer;
-        private SettingsForm? form2;
-
       
-
 
         private Dictionary<StatEnum, float> statCalc = new Dictionary<StatEnum, float>();
 

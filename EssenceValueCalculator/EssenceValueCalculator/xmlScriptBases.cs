@@ -221,6 +221,9 @@ namespace EssenceValueCalculator
 
         [XmlAttribute("scaling")]
         public long Scaling { get; set; }
+
+        [XmlAttribute("ranged")]
+        public string rangedScaling { get; set; }
     }
     #endregion
 

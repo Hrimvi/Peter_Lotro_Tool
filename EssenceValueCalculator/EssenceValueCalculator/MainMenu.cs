@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
+using System.Windows.Forms;
 
 namespace EssenceValueCalculator
 {
@@ -21,38 +21,34 @@ namespace EssenceValueCalculator
         private ToolStrip toolStrip;
         private ToolStripDropDownButton optionsDropDown;
 
-        
-        //Data
-
-
-
 
         public MainMenu()
         {
             InitializeLogFile();
-            
+            LoadDataAsync();
             InitializeComponent();
-
-
+        }
+       
+        private async Task LoadDataAsync()
+        {
             ApplicationData.Instance.Settings = Utility.LoadSettings();
             ApplicationData.Instance.StatConfig = Utility.LoadStatConfigs();
             ApplicationData.Instance.PlayerStatsPerClass = Utility.LoadClass();
-
-
+            ApplicationData.Instance.itemDb = await Utility.LoadItemsAsync();
+            ApplicationData.Instance.itemProgressions = await Utility.LoadProgressionsAsync();
+            ApplicationData.Instance.essenceValues = Utility.LoadEssenceValues();
             InitializeTabs();
             AddInitialTab();
-
-           
         }
         private void InitializeLogFile()
         {
             try
             {
-                FileInfo logFile = new FileInfo(Utility.logFilePath);
+                FileInfo logFile = new FileInfo(ApplicationData.logFilePath);
 
                 if (logFile.Exists)
                 {
-                    File.WriteAllText(Utility.logFilePath, $"Log-File created: " + DateTime.Now + Environment.NewLine);
+                    File.WriteAllText(ApplicationData.logFilePath, $"Log-File created: " + DateTime.Now + Environment.NewLine);
                 }
                 else
                 {
@@ -185,6 +181,21 @@ namespace EssenceValueCalculator
         public Stats PlayerStatsPerClass { get; set; }
         public StatConfigs StatConfig { get; set; }
 
+        public Items itemDb { get; set; }
+
+        public Progressions itemProgressions { get; set; }
+
+        public EssenceValues essenceValues { get; set; }
+
+
+        public const string logFilePath = "log.txt";
+        public const string essenceFilePath = "xmls/essence_values.xml";
+        public const string characterStatDerivationFilePath = "xmls/classStatDerivations.xml";
+        public const string settingsFilePath = "xmls/settings.xml";
+        public const string statConfigFilePath = "xmls/statConfigs.xml";
+        public const string progressionFilePath = "xmls/progressions.xml";
+        public const string itemsFilePath = "xmls/items.xml";
+        public const string iconFolder = "items";
         private ApplicationData() { }
     }
 }
