@@ -53,7 +53,7 @@ namespace EssenceValueCalculator
         Tactical_Mastery,
         Physical_Mitigation,
         Tactical_Mitigation,
-        Critical_Defense,
+        Critical_Defence,
         Finesse,
         Block,
         Parry,

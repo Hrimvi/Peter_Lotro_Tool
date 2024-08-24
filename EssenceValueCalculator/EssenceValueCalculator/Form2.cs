@@ -142,15 +142,15 @@ namespace EssenceValueCalculator
         private List<StatElement> GetDefaultStats()
         {
             var excludedStats = new HashSet<StatEnum>
-    {
-        StatEnum.Might,
-        StatEnum.Agility,
-        StatEnum.Vitality,
-        StatEnum.Will,
-        StatEnum.Fate,
-        StatEnum.Armour,
-        StatEnum.Basic_EssenceSlot
-    };
+            {
+                StatEnum.Might,
+                StatEnum.Agility,
+                StatEnum.Vitality,
+                StatEnum.Will,
+                StatEnum.Fate,
+                StatEnum.Armour,
+                StatEnum.Basic_EssenceSlot
+            };
 
             return Enum.GetValues(typeof(StatEnum))
                         .Cast<StatEnum>()

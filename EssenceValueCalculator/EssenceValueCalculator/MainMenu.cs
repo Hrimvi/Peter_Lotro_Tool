@@ -11,6 +11,8 @@ using static System.Windows.Forms.DataFormats;
 
 namespace EssenceValueCalculator
 {
+   
+
     public partial class MainMenu : Form
     {
         private TabControl tabControl;
@@ -19,12 +21,28 @@ namespace EssenceValueCalculator
         private ToolStrip toolStrip;
         private ToolStripDropDownButton optionsDropDown;
 
+        
+        //Data
+
+
+
+
         public MainMenu()
         {
             InitializeLogFile();
+            
             InitializeComponent();
+
+
+            ApplicationData.Instance.Settings = Utility.LoadSettings();
+            ApplicationData.Instance.StatConfig = Utility.LoadStatConfigs();
+            ApplicationData.Instance.PlayerStatsPerClass = Utility.LoadClass();
+
+
             InitializeTabs();
             AddInitialTab();
+
+           
         }
         private void InitializeLogFile()
         {
@@ -157,5 +175,16 @@ namespace EssenceValueCalculator
         {
             this.Close();
         }
+    }
+    public class ApplicationData
+    {
+        private static readonly Lazy<ApplicationData> _instance = new Lazy<ApplicationData>(() => new ApplicationData());
+
+        public static ApplicationData Instance => _instance.Value;
+        public Settings Settings { get; set; }
+        public Stats PlayerStatsPerClass { get; set; }
+        public StatConfigs StatConfig { get; set; }
+
+        private ApplicationData() { }
     }
 }
