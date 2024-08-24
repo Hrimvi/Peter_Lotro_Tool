@@ -196,9 +196,8 @@ namespace EssenceValueCalculator
         }
         public static void PopulateStats(ComboBox comboBox)
         {
-            foreach (StatEnum stat in Enum.GetValues(typeof(StatEnum)))
+            foreach (StatEnum stat in ApplicationData.viableStats)
             {
-                if (stat == StatEnum.TBD) continue;
                 comboBox.Items.Add(stat.ToString().Replace("_", " "));
             }
             comboBox.SelectedIndex = 0;

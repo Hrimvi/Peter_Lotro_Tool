@@ -1,6 +1,8 @@
 using System.IO;
 using System.Xml.Serialization;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Reflection;
 namespace EssenceValueCalculator
 {
 
@@ -21,7 +23,7 @@ namespace EssenceValueCalculator
         public List<ComboBox> vitalBoxes = new List<ComboBox>();
 
 
-
+       
         public Peter_Lotro_Tool()
         {
             InitializeComponent();

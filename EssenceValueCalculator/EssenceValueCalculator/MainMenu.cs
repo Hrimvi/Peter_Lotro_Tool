@@ -196,6 +196,34 @@ namespace EssenceValueCalculator
         public const string progressionFilePath = "xmls/progressions.xml";
         public const string itemsFilePath = "xmls/items.xml";
         public const string iconFolder = "items";
+
+
+        public static HashSet<StatEnum> viableStats = new HashSet<StatEnum> {
+
+            StatEnum.Might,
+            StatEnum.Agility,
+            StatEnum.Vitality,
+            StatEnum.Will,
+            StatEnum.Fate,
+            StatEnum.Critical_Rating,
+            StatEnum.Physical_Mastery,
+            StatEnum.Tactical_Mastery,
+            StatEnum.Physical_Mitigation,
+            StatEnum.Tactical_Mitigation,
+            StatEnum.Critical_Defence,
+            StatEnum.Finesse,
+            StatEnum.Block,
+            StatEnum.Parry,
+            StatEnum.Evade,
+            StatEnum.Outgoing_Healing,
+            StatEnum.Incoming_Healing,
+            StatEnum.Resistance,
+            StatEnum.Morale,
+            StatEnum.Power,
+            StatEnum.Armour,
+            StatEnum.Basic_EssenceSlot
+
+        };
         private ApplicationData() { }
     }
 }

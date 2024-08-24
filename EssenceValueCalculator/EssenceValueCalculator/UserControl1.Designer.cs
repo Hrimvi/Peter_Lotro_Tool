@@ -30,11 +30,12 @@
         {
             SuspendLayout();
             // 
-            // UserControl1
+            // StartScreen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "UserControl1";
+            Name = "StartScreen";
+            Load += StartScreen_Load;
             ResumeLayout(false);
         }
 
