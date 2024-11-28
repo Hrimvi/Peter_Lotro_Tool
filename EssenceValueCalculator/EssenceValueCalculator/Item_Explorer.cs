@@ -17,7 +17,7 @@ namespace EssenceValueCalculator
 {
     public partial class Item_Explorer : Form
     {
-       
+
 
         private List<int> iconIdSaves = new List<int>();
         private List<Image> iconImages = new List<Image>();
@@ -29,6 +29,13 @@ namespace EssenceValueCalculator
         private Button scaleButton;
 
         private Item currentSelected;
+
+        private TextBox minLevelTextBox;
+        private TextBox maxLevelTextBox;
+        private Button applyFilterButton;
+        private int? minLevelFilter = null;
+        private int? maxLevelFilter = null;
+        private string currentSearchText = "";
         public Item_Explorer()
         {
             InitializeComponent();
@@ -37,62 +44,67 @@ namespace EssenceValueCalculator
         }
         private async void InitializeAsync()
         {
-            searchTextBox = new TextBox();
-            searchTextBox.Width = 200;
-            searchTextBox.Location = new Point(10, 10);
+            searchTextBox = new TextBox
+            {
+                Width = 200,
+                Location = new Point(10, 10)
+            };
             searchTextBox.TextChanged += SearchTextBox_TextChanged;
             this.Controls.Add(searchTextBox);
+
+            minLevelTextBox = new TextBox
+            {
+                Width = 100,
+                Location = new Point(searchTextBox.Right + 20, 10),
+                PlaceholderText = "Min Level"
+            };
+            this.Controls.Add(minLevelTextBox);
+
+            maxLevelTextBox = new TextBox
+            {
+                Width = 100,
+                Location = new Point(minLevelTextBox.Right + 10, 10),
+                PlaceholderText = "Max Level"
+            };
+            this.Controls.Add(maxLevelTextBox);
+
+            applyFilterButton = new Button
+            {
+                Text = "Apply Filter",
+                Location = new Point(maxLevelTextBox.Right + 10, 10)
+            };
+            applyFilterButton.Click += ApplyFilterButton_Click;
+            this.Controls.Add(applyFilterButton);
+
             levelInputTextBox = null;
             scaleButton = null;
             await LoadItems();
 
         }
-        private async void SearchTextBox_TextChanged(object sender, EventArgs e)
+        private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
             string searchText = searchTextBox.Text.ToLower();
-            int batchSize = 10;
-
-            var visibilityResults = new ConcurrentDictionary<int, bool>();
-            var rows = itemDatabaseGrid.Rows.Cast<DataGridViewRow>().ToList();
-            var batches = rows.Select((row, index) => new { row, index })
-                              .GroupBy(x => x.index / batchSize)
-                              .Select(g => g.Select(x => x.row).ToList())
-                              .ToList();
-
-            await Task.Run(() =>
+            if (searchText.Length < 3)
             {
-                Parallel.ForEach(batches, batch =>
-                {
-                    foreach (var row in batch)
-                    {
-                        if (row.Cells["itemName"].Value != null)
-                        {
-                            string itemName = row.Cells["itemName"].Value.ToString().ToLower();
-                            bool isVisible = itemName.Contains(searchText);
-                            visibilityResults[row.Index] = isVisible;
-                        }
-                    }
-                });
-            });
+                return;
+            }
 
-            itemDatabaseGrid.SuspendLayout();
+            currentSearchText = searchText;
+        }
+        private async void ApplyFilterButton_Click(object sender, EventArgs e)
+        {
+            string searchText = searchTextBox.Text;
+            int? minLevel = string.IsNullOrEmpty(minLevelTextBox.Text) ? null : int.Parse(minLevelTextBox.Text);
+            int? maxLevel = string.IsNullOrEmpty(maxLevelTextBox.Text) ? null : int.Parse(maxLevelTextBox.Text);
 
-            itemDatabaseGrid.Invoke(new Action(() =>
-            {
-                foreach (var result in visibilityResults)
-                {
-                    itemDatabaseGrid.Rows[result.Key].Visible = result.Value;
-                }
-
-                itemDatabaseGrid.ResumeLayout();
-            }));
+            await ApplyFiltersAsync(searchText, minLevel, maxLevel);
         }
         private async Task LoadItems()
         {
             var allTasks = new List<Task>();
             foreach (Item item in ApplicationData.Instance.itemDb.ItemList)
             {
-                if (item.minLevel != null) if (item.minLevel < 120) continue;
+                if (item.minLevel != null) if (item.minLevel < 150) continue;
 
                 iconImages.Clear();
                 iconIdSaves = Utility.GetIconIDsFromString(iconIdSaves, item.itemIcon, "-");
@@ -329,16 +341,82 @@ namespace EssenceValueCalculator
         }
         private void LevelInputTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
             }
         }
-       
+
 
         private void Item_Explorer_Load(object sender, EventArgs e)
         {
 
+        }
+        private async Task ApplyFiltersAsync(string searchText, int? minLevel = null, int? maxLevel = null)
+        {
+            // Maximale Anzahl anzuzeigender Items
+            const int maxItems = 3000;
+
+            // Filterbedingungen festlegen
+            Func<Item, bool> filterCondition = item =>
+            {
+                bool matchesSearchText = string.IsNullOrEmpty(searchText) || item.itemName.ToLower().Contains(searchText.ToLower());
+                bool matchesLevel = (!minLevel.HasValue || item.itemLevel >= minLevel) &&
+                                    (!maxLevel.HasValue || item.itemLevel <= maxLevel);
+
+                return matchesSearchText && matchesLevel;
+            };
+
+            // Items filtern und begrenzen
+            var filteredItems = ApplicationData.Instance.itemDb.ItemList
+                .Where(filterCondition)
+                .Take(maxItems)
+                .ToList();
+
+            // UI-Update auf dem Hauptthread ausführen
+            await UpdateGridAsync(filteredItems);
+        }
+
+        private async Task UpdateGridAsync(List<Item> items)
+        {
+            // Grid leeren
+            itemDatabaseGrid.Invoke(new Action(() => itemDatabaseGrid.Rows.Clear()));
+
+            // Asynchron die Items in Batches hinzufügen
+            int batchSize = 100;
+            int currentIndex = 0;
+
+            while (currentIndex < items.Count)
+            {
+                var batch = items.Skip(currentIndex).Take(batchSize);
+
+                // Items im aktuellen Batch verarbeiten
+                foreach (var item in batch)
+                {
+                    // Icon laden
+                    List<int> iconIdSaves = Utility.GetIconIDsFromString(new List<int>(), item.itemIcon, "-");
+                    iconIdSaves.Reverse();
+                    var imageTasks = iconIdSaves
+                        .Where(id => id != 0)
+                        .Select(id => LoadImageAsync($"{ApplicationData.iconFolder}/{id}.png", id))
+                        .ToList();
+
+                    // Bilder laden
+                    var loadedImages = await Task.WhenAll(imageTasks);
+
+                    // Icons kombinieren
+                    var fullIcon = await Utility.OverlayIconsAsync(loadedImages.ToList());
+
+                    // UI-Update auf Hauptthread
+                    itemDatabaseGrid.Invoke(new Action(() =>
+                    {
+                        itemDatabaseGrid.Rows.Add(fullIcon, item.itemName, item.ArmourType, item.itemLevel);
+                    }));
+                }
+
+                currentIndex += batchSize;
+            }
         }
     }
 }

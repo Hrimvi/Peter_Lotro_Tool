@@ -76,12 +76,13 @@ namespace EssenceValueCalculator
                 if (result != null)
                 {
                     result.ItemList = result.ItemList
+                        .AsParallel()
                         .Where(item => ((!string.IsNullOrEmpty(item.equipSlot) ||item.Category == "ESSENCE")&& item.equipSlot != "MAIN_HAND_AURA")
                                        && item.EquipmentCategory != 32
                                        && (item.Category != "LEGENDARY_WEAPON" && item.Category != "BRIDLE"))
                         .ToList();
 
-                    foreach (var item in result.ItemList)
+                    Parallel.ForEach(result.ItemList, item =>
                     {
                         if (item.Stats != null && item.Stats.StatList != null)
                         {
@@ -90,7 +91,7 @@ namespace EssenceValueCalculator
                                 stat.stat = ParseStatEnum(stat.Name);
                             }
                         }
-                    }
+                    });
                 }
 
                 return result ?? new Items();
@@ -340,6 +341,7 @@ namespace EssenceValueCalculator
         public static async Task<Image> OverlayIconsAsync(List<Image> icons)
         {
             return await Task.Run(() => OverlayIcons(icons));
+            
         }
         public static float GetStatsFromProgressions(Progressions itemProgressions,long progressionID, int itemLevel)
         {

@@ -21,8 +21,8 @@
     <Stat name="Critical Rating" value="1" active="true" />
     <Stat name="Physical Mastery" value="1" active="false" />
     <Stat name="Tactical Mastery" value="1" active="true" />
-    <Stat name="Physical Mitigation" value="0.5" active="true" />
-    <Stat name="Tactical Mitigation" value="0.5" active="true" />
+    <Stat name="Physical Mitigation" value="0.5" active="false" />
+    <Stat name="Tactical Mitigation" value="0.5" active="false" />
     <Stat name="Critical Defense" value="1" active="false" />
     <Stat name="Finesse" value="0.5" active="true" />
     <Stat name="Block" value="1" active="false" />
@@ -31,7 +31,7 @@
     <Stat name="Outgoing Healing" value="1" active="false" />
     <Stat name="Incoming Healing" value="1" active="false" />
     <Stat name="Resistance" value="1" active="false" />
-    <Stat name="Max Morale" value="0.5" active="true" />
+    <Stat name="Max Morale" value="1" active="true" />
     <Stat name="Max Power" value="1" active="false" />
   </StatConfig>
   <StatConfig Name="Tank">
